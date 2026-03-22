@@ -9,6 +9,7 @@ bak
 *.md
 docker-compose.yml
 Dockerfile
+fly.toml
 *.log
 ssl
 node_modules

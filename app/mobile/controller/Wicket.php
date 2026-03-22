@@ -123,41 +123,53 @@ class Wicket extends MobileController
     public function login()
     {
         $this->check_member();
-        $web_name = lang('public_memu.login').'-'.$this->web_name;
-        $this->assign(['web_name'=>$web_name]);
-        if(request()->isPost()){
-            $data=request()->post();
+        $web_name = lang('public_memu.login') . '-' . $this->web_name;
+        $this->assign(['web_name' => $web_name]);
+
+        if (request()->isPost()) {
+            $data = request()->post();
             try {
-                $this->validate($data,'Wicket.login');
+                $this->validate($data, 'Wicket.login');
             } catch (\Exception $e) {
                 return $this->error($e->getMessage());
             }
+
             $username = $data['username'];
             $password = $data['password'];
-            $users = \app\admin\model\MemberUser::where(['username'=>$username])->find();
-            if(empty($users)){
+            $users = \app\admin\model\MemberUser::where(['username' => $username])->find();
+
+            if (empty($users)) {
                 return $this->error(lang('wicket_page.Validate_member_nouser'));
             }
+
             if (password($password) != $users->password) {
-                $this->error(lang('wicket_page.Validate_login_passerr'));
+                return $this->error(lang('wicket_page.Validate_login_passerr'));
             }
+
             if ($users->status == 0) {
                 return $this->error(lang('wicket_page.Validate_member_statusno'));
             }
-            
+
             $check = request()->checkToken('__token__');
-            if(false === $check) {
+            if (false === $check) {
                 return $this->error(lang('public.do_fail'));
             }
+
             $users->login_num += 1;
             $users->save();
+
             $users = $users->toArray();
             FoxCommon::check_member_wallet($users['id']);
             unset($users['password']);
-            $users['expire_time'] = time() + 7200;
+
+            // 30天过期
+            $users['expire_time'] = time() + 30 * 24 * 60 * 60;
+
             session('member', $users);
-            return $this->success(lang('wicket_page.login_member_ok'),[],(string)url('index/index'));
+
+            return $this->success(lang('wicket_page.login_member_ok'), [], (string)url('index/index'));
         }
+
         return $this->fetch();
     }
 

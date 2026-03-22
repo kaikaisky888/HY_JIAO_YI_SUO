@@ -26,22 +26,11 @@ if(!extension_loaded('posix'))
 // 标记是全局启动
 define('GLOBAL_START', 1);
 
-echo "[GatewayWorker] start.php loading...\n";
-
 require_once __DIR__ .'/vendor/autoload.php';
-
-// 设置 Workerman 运行时路径，避免权限问题
-\Workerman\Worker::$pidFile = '/tmp/workerman.pid';
-\Workerman\Worker::$logFile = '/tmp/workerman.log';
-\Workerman\Worker::$stdoutFile = '/dev/stdout';
-
-echo "[GatewayWorker] Initializing ThinkPHP app...\n";
 
 // 初始化 ThinkPHP 应用，使 app() 等助手函数可用
 $app = new \think\App();
 $app->initialize();
-
-echo "[GatewayWorker] ThinkPHP initialized OK\n";
 
 $ws_worke = new Worker();
 $ws_server = new Server(); 
@@ -61,9 +50,7 @@ $gatWay = new GatewayWorker();
 
 // 获取 gateway_worker 配置
 $gatewayOption = require __DIR__ . '/config/gateway_worker.php';
-echo "[GatewayWorker] Starting on 0.0.0.0:2348...\n";
 $gatWay->start('0.0.0.0', 2348, $gatewayOption);
-echo "[GatewayWorker] Worker::runAll() finished\n";
 
 // 注意：GatewayWorker::start() 内部已调用 Worker::runAll()
 // 所以下面的代码不会执行，需要分开启动或注释掉 gateway

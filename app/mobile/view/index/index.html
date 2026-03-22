@@ -5,206 +5,212 @@
  * @Description: Forward, no stop
 -->
 
-	<!-- header -->
-	{include file="./block/mobile_heada"}
-	
-	<!--主体-->
-	<div class="main padding-l-r">
-		<div class="center-banner layui-row">
-			<div class="layui-col-xs3">
-				<a href="{:url('coinwin/index')}" class="text-center">
-				<p><img src="__STATIC__/mobile/imgn/coinwin_ico.png" alt="Coin Win" ></p>
-					<p>{:lang('mobile_home.list_a_title')}</p>
-				</a>
-			</div>
-			<div class="layui-col-xs3">
-				<a href="{:url('seconds/index')}" class="text-center">
-				<p><img src="__STATIC__/mobile/imgn/seconds_ico.png" alt="Seconds" ></p>
-					<p>{:lang('mobile_home.list_b_title')}</p>
-				</a>
-			</div>
-			<div class="layui-col-xs3">
-				<a href="{:url('leverdeal/index')}" class="text-center">
-				<p><img src="__STATIC__/mobile/imgn/lever_ico_HL.png" alt="Lever Deal" ></p>
-					<p>{:lang('mobile_home.list_c_title')}</p>
-				</a>
-			</div>
-			<div class="layui-col-xs3">
-				<a  data="{:sysconfig('base','site_kefu')}"  href="javascript:void(0)" target="_parent" class="text-center kefu_btn">
-				<p><img src="__STATIC__/mobile/imgn/chat_ico.png" alt="Customer Service" ></p>
-					<p>{:lang('mobile_home.list_d_title')}</p>
-				</a>
-			</div>
-			<div class="layui-col-xs3">
-				<a href="{:url('loan/index')}" class="text-center">
-				<p><img src="__STATIC__/mobile/imgn/ieo_ico.png" alt="LOAN" ></p>
-					<p>{:lang('mobile_home.list_dk_title')}</p>
-				</a>
-			</div>
-			<div class="layui-col-xs3">
-				<a href="{:url('winer/index')}" class="text-center">
-				<p><img src="__STATIC__/mobile/imgn/winer_ico.png" alt="Winner" ></p>
-					<p>{:lang('mobile_home.list_f_title')}</p>
-				</a>
-			</div>
-			<div class="layui-col-xs3">
-				<a href="{:url('show/lists',['id'=>16])}" class="text-center">
-				<p><img src="__STATIC__/mobile/imgn/help_ico.png" alt="Help" ></p>
-					<p>{:lang('mobile_home.list_g_title')}</p>
-				</a>
-			</div>
-			<div class="layui-col-xs3">
-				<a href="{:url('member/team',['cando'=>1])}" class="text-center">
-				<p><img src="__STATIC__/mobile/imgn/invite_ico.png" alt="Invite" ></p>
-					<p>{:lang('mobile_home.list_h_title')}</p>
-				</a>
-			</div>
+<!-- header -->
+{include file="./block/mobile_heada"}
+
+<!--主体-->
+<div class="main padding-l-r">
+	<div class="center-banner layui-row">
+		<div class="layui-col-xs3">
+			<a href="{:url('coinwin/index')}" class="text-center">
+				<p><img src="__STATIC__/mobile/imgn/coinwin_ico.png" alt="Coin Win"></p>
+				<p>{:lang('mobile_home.list_a_title')}</p>
+			</a>
 		</div>
-		<!--轮播-->
-		<div class="box-banners box-shadow-a">
-			<div class="layui-carousel" id="banner">
-				<div carousel-item>
-					{if $banners}
-					{volist name="banners" id="v"}
-					<div class="banner-item"><img src="{$v.logo}" alt="Banner" ></div>
-					{/volist}
-					{else}
-					<div class="banner-item"><img src="__STATIC__/ZYT/23.jpg" alt="Banner" ></div>
-					<div class="banner-item"><img src="__STATIC__/ZYT/24.jpg" alt="Banner" ></div>
-					<div class="banner-item"><img src="__STATIC__/ZYT/25.jpg" alt="Banner" ></div>
-					<div class="banner-item"><img src="__STATIC__/ZYT/26.jpg" alt="Banner" ></div>
-					{/if}
-				</div>
-			</div>
+		<div class="layui-col-xs3">
+			<a href="{:url('seconds/index')}" class="text-center">
+				<p><img src="__STATIC__/mobile/imgn/seconds_ico.png" alt="Seconds"></p>
+				<p>{:lang('mobile_home.list_b_title')}</p>
+			</a>
 		</div>
-		<div class="notice box-shadow-a">
-			<div class="layui-row i5scroll-con layui-col-space10">
-				<div class="layui-col-xs1">
-				<img style="width:24px;margin-top: 8px;" src="__STATIC__/mobile/imgn/notice.png" alt="Notice">
-				</div>
-				<div class="layui-col-xs10">
-					<div class="content" id="notice_con" style="display: block;">
-						<ul class="scroll">
-							{:get_bottom(19,$lang)}
-						</ul>
-					</div>
-				</div>
-				<div class="layui-col-xs1 text-right">
-					<a class="link-b" href="{:url('show/lists',['id'=>19])}" style="font-size: 18px;line-height: 36px;"><i class="fa fa-bars" aria-hidden="true"></i></a>
-				</div>
-			</div>
+		<div class="layui-col-xs3">
+			<a href="{:url('leverdeal/index')}" class="text-center">
+				<p><img src="__STATIC__/mobile/imgn/lever_ico_HL.png" alt="Lever Deal"></p>
+				<p>{:lang('mobile_home.list_c_title')}</p>
+			</a>
 		</div>
-		<div class="layui-clear"></div>
-		<div class="a-box box-shadow-a">  
-			<div class="a-box-left position-re float-left">
-				<a class="link-b" href="{:url('dealings/recharge')}">
-					<span>{:lang('mobile_home.recharge_title')}</span>
-					<p class="link-c">{:lang('mobile_home.recharge_con')}</p>
-					<img src="__STATIC__/mobile/imgn/recharg_2x.png" class="legal-card" alt="Recharge Card">
-				</a>
-			</div>						
+		<div class="layui-col-xs3">
+			<a data="{:sysconfig('base','site_kefu')}" href="javascript:void(0)" target="_parent" class="text-center kefu_btn">
+				<p><img src="__STATIC__/mobile/imgn/chat_ico.png" alt="Customer Service"></p>
+				<p>{:lang('mobile_home.list_d_title')}</p>
+			</a>
 		</div>
-		<div class="a-table a-table-bg">
-			<h5 class="layui-row">
-				<div class="layui-col-xs4">
-					<div class="left ex_title_bar"></div>
-				</div>
-				<div class="layui-col-xs4 link-b">{:lang('mobile_home.list_kline')}</div>
-				<div class="layui-col-xs4">
-					<div class="right ex_title_bar"></div>
-				</div>
-			</h5>
-			<table class="layui-table" lay-skin="nob" style="margin-top: 0;">
-				<thead>
-					<tr>
-						<th><span class="table-span">{:lang('home_page.coin_title')}</span></th>
-						<th><span class="table-span">{:lang('home_page.coin_price')}</span></th>
-						<th class="text-right"><span class="table-span">{:lang('home_page.coin_updown')}</span></th>
-					</tr> 
-				</thead>
-				<tbody>
-					{volist name="product" id="vo"}
-					<tr onclick='go_kline("{$vo.code}");' data-value="{$vo.code}" style="cursor:pointer;">
-						<td><span class="link-b">{$vo.title}</span><span class="font-14 link-c">/{:lang('market.USDT')}</span>
-						</td>
-						<td class="text-center"><span id="price_{$vo.code}">{$vo.last_price|floatVal}</span></td>
-						<td class="text-right"><span id="change_{$vo.code}" {if $vo.change>0}class="layui-btn layui-btn-sm btn-green"{else}class="layui-btn layui-btn-sm btn-red"{/if}>{$vo.change|floatVal|fox_nums}%</span></td>
-					</tr>
-					{/volist}
-				</tbody>
-			</table>
+		<div class="layui-col-xs3">
+			<a href="{:url('loan/index')}" class="text-center">
+				<p><img src="__STATIC__/mobile/imgn/ieo_ico.png" alt="LOAN"></p>
+				<p>{:lang('mobile_home.list_dk_title')}</p>
+			</a>
+		</div>
+		<div class="layui-col-xs3">
+			<a href="{:url('winer/index')}" class="text-center">
+				<p><img src="__STATIC__/mobile/imgn/winer_ico.png" alt="Winner"></p>
+				<p>{:lang('mobile_home.list_f_title')}</p>
+			</a>
+		</div>
+		<div class="layui-col-xs3">
+			<a href="{:url('show/help')}" class="text-center">
+				<p><img src="__STATIC__/mobile/imgn/help_ico.png" alt="Help"></p>
+				<p>{:lang('mobile_home.list_g_title')}</p>
+			</a>
+		</div>
+		<div class="layui-col-xs3">
+			<a href="{:url('member/team',['cando'=>1])}" class="text-center">
+				<p><img src="__STATIC__/mobile/imgn/invite_ico.png" alt="Invite"></p>
+				<p>{:lang('mobile_home.list_h_title')}</p>
+			</a>
 		</div>
 	</div>
-	
-	<!--footer-->
-	{include file="./block/mobile_footmenu"}
-	{include file="./block/foot_script"}
-	<script src="__STATIC__/mobile/js/index/d3.v4.min.js?v={$version}"></script>
-	<script src="__STATIC__/mobile/js/index/index.js?v={$version}"></script>
-	<script src="__STATIC__/mobile/js/jquery.cookies.js?v={$version}"></script>
-	<script>var page_out="home";</script>
-	<script src="__STATIC__/mobile/js/websocket.js?v={$version}"></script>
-	<script src="__STATIC__/mobile/js/i5scroll.js"></script>
 
-	<script>
-		$(function(){
-			var scrtime;
+	<!--轮播-->
+	<div class="box-banners box-shadow-a">
+		<div class="layui-carousel" id="banner">
+			<div carousel-item>
+				{if $banners}
+				{volist name="banners" id="v"}
+				<div class="banner-item"><img src="{$v.logo}" alt="Banner"></div>
+				{/volist}
+				{else}
+				<div class="banner-item"><img src="__STATIC__/ZYT/23.jpg" alt="Banner"></div>
+				<div class="banner-item"><img src="__STATIC__/ZYT/24.jpg" alt="Banner"></div>
+				<div class="banner-item"><img src="__STATIC__/ZYT/25.jpg" alt="Banner"></div>
+				<div class="banner-item"><img src="__STATIC__/ZYT/26.jpg" alt="Banner"></div>
+				{/if}
+			</div>
+		</div>
+	</div>
 
-			var $ul = $("#notice_con ul");
-			var liFirstHeight = $ul.find("li:first").height();//第一个li的高度
-			$ul.css({ top: "-" + liFirstHeight - 20 + "px" });//利用css的top属性将第一个li隐藏在列表上方	 因li的上下padding:10px所以要-20
+	<div class="notice box-shadow-a">
+		<div class="layui-row i5scroll-con layui-col-space10">
+			<div class="layui-col-xs1">
+				<img style="width:24px;margin-top: 8px;" src="__STATIC__/mobile/imgn/notice.png" alt="Notice">
+			</div>
+			<div class="layui-col-xs10">
+				<div class="content" id="notice_con" style="display: block;">
+					<ul class="scroll">
+						{:get_bottom(19,$lang)}
+					</ul>
+				</div>
+			</div>
+			<div class="layui-col-xs1 text-right">
+				<a class="link-b" href="{:url('show/notice')}" style="font-size: 18px;line-height: 36px;"><i class="fa fa-bars" aria-hidden="true"></i></a>
+			</div>
+		</div>
+	</div>
 
-			$("#notice_con").hover(function () {
-				$ul.pause();//暂停动画
-				clearInterval(scrtime);
-			}, function () {
-				$ul.resume();//恢复播放动画	
-				scrtime = setInterval(function scrolllist() {
-					//动画形式展现第一个li
-					$ul.animate({ top: 0 + "px" }, 1500, function () {
-						//动画完成时
-						$ul.find("li:last").prependTo($ul);//将ul的最后一个剪切li插入为ul的第一个li
-						liFirstHeight = $ul.find("li:first").height();//刚插入的li的高度
-						$ul.css({ top: "+" + liFirstHeight - 30 + "px" });//利用css的top属性将刚插入的li隐藏在列表上方  因li的上下padding:10px所以要-20					
-					});
-				}, 3000);
+	<div class="layui-clear"></div>
 
-			}).trigger("mouseleave");//通过trigger("mouseleave")函数来触发hover事件的第2个函数
-			socket.sendData({
-				type: 'kline',
-				find: 'home',
-			},null,null)
-		})
-		function go_kline(a){
-			storage.setItem("tobol",a);
-			location.href="{:url('deal/index')}";
-		}
-		$(document).ready(function(){
-			if($.cookie("cmpHome") !== 'yes'){
-				$.post("{:url('ajax/findcpm')}",{type:2,site:'home'},function(res){
-					if(res.code > 0){
-						layer.open({
-							type: 1
-							,title: '' //不显示标题栏
-							,area: ['85%', '85%']
-							,shade: 0.8
-							,id: 'LAY_layuipro' //设定一个id，防止重复弹出
-							,skin: 'layui-layer-rim'
-							,content: '<div class="outbox" style="padding:20px">'+html_decode(res.data)+'</div>'
-						});
-						//以天为单位
-						// $.cookie("cmpHome",'yes',{ expires:1/8640});	//测试十秒
-						var expiresDate= new Date();
-						expiresDate.setTime(expiresDate.getTime() + (60*60*1000));
-						$.cookie("cmpHome",'yes',{ expires: expiresDate }); //1小时
-						// $.cookie("cmpHome",'yes',{ expires:1});		一天
-					}
+	<div class="a-box box-shadow-a">
+		<div class="a-box-left position-re float-left">
+			<a class="link-b" href="{:url('dealings/recharge')}">
+				<span>{:lang('mobile_home.recharge_title')}</span>
+				<p class="link-c">{:lang('mobile_home.recharge_con')}</p>
+				<img src="__STATIC__/mobile/imgn/recharg_2x.png" class="legal-card" alt="Recharge Card">
+			</a>
+		</div>
+	</div>
+
+	<div class="a-table a-table-bg">
+		<h5 class="layui-row">
+			<div class="layui-col-xs4">
+				<div class="left ex_title_bar"></div>
+			</div>
+			<div class="layui-col-xs4 link-b">{:lang('mobile_home.list_kline')}</div>
+			<div class="layui-col-xs4">
+				<div class="right ex_title_bar"></div>
+			</div>
+		</h5>
+		<table class="layui-table" lay-skin="nob" style="margin-top: 0;">
+			<thead>
+			<tr>
+				<th><span class="table-span">{:lang('home_page.coin_title')}</span></th>
+				<th><span class="table-span">{:lang('home_page.coin_price')}</span></th>
+				<th class="text-right"><span class="table-span">{:lang('home_page.coin_updown')}</span></th>
+			</tr>
+			</thead>
+			<tbody>
+			{volist name="product" id="vo"}
+			<tr onclick='go_kline("{$vo.code}");' data-value="{$vo.code}" style="cursor:pointer;">
+				<td><span class="link-b">{$vo.title}</span><span class="font-14 link-c">/{:lang('market.USDT')}</span></td>
+				<td class="text-center"><span id="price_{$vo.code}">{$vo.last_price|floatVal}</span></td>
+				<td class="text-right"><span id="change_{$vo.code}" {if $vo.change>0}class="layui-btn layui-btn-sm btn-green"{else}class="layui-btn layui-btn-sm btn-red"{/if}>{$vo.change|floatVal|fox_nums}%</span></td>
+			</tr>
+			{/volist}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!--footer-->
+{include file="./block/mobile_footmenu"}
+{include file="./block/foot_script"}
+<script src="__STATIC__/mobile/js/index/d3.v4.min.js?v={$version}"></script>
+<script src="__STATIC__/mobile/js/index/index.js?v={$version}"></script>
+<script src="__STATIC__/mobile/js/jquery.cookies.js?v={$version}"></script>
+<script>var page_out="home";</script>
+<script src="__STATIC__/mobile/js/websocket.js?v={$version}"></script>
+<script src="__STATIC__/mobile/js/i5scroll.js"></script>
+
+<script>
+	$(function(){
+		var scrtime;
+
+		var $ul = $("#notice_con ul");
+		var liFirstHeight = $ul.find("li:first").height();//第一个li的高度
+		$ul.css({ top: "-" + liFirstHeight - 20 + "px" });//利用css的top属性将第一个li隐藏在列表上方 因li的上下padding:10px所以要-20
+
+		$("#notice_con").hover(function () {
+			$ul.pause();//暂停动画
+			clearInterval(scrtime);
+		}, function () {
+			$ul.resume();//恢复播放动画
+			scrtime = setInterval(function scrolllist() {
+				//动画形式展现第一个li
+				$ul.animate({ top: 0 + "px" }, 1500, function () {
+					//动画完成时
+					$ul.find("li:last").prependTo($ul);//将ul的最后一个剪切li插入为ul的第一个li
+					liFirstHeight = $ul.find("li:first").height();//刚插入的li的高度
+					$ul.css({ top: "+" + liFirstHeight - 30 + "px" });//利用css的top属性将刚插入的li隐藏在列表上方 因li的上下padding:10px所以要-20
 				});
-			};
-			$(".kefu_btn").on('click', function(e){
-                e.preventDefault();
-                var url = $(this).attr("data");
-                if(url) self.location.href = url;
-            });
+			}, 3000);
+
+		}).trigger("mouseleave");//通过trigger("mouseleave")函数来触发hover事件的第2个函数
+		socket.sendData({
+			type: 'kline',
+			find: 'home',
+		},null,null)
+	})
+
+	function go_kline(a){
+		storage.setItem("tobol",a);
+		location.href="{:url('deal/index')}";
+	}
+
+	$(document).ready(function(){
+		if($.cookie("cmpHome") !== 'yes'){
+			$.post("{:url('ajax/findcpm')}",{type:2,site:'home'},function(res){
+				if(res.code > 0){
+					layer.open({
+						type: 1
+						,title: '' //不显示标题栏
+						,area: ['85%', '85%']
+						,shade: 0.8
+						,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+						,skin: 'layui-layer-rim'
+						,content: '<div class="outbox" style="padding:20px">'+html_decode(res.data)+'</div>'
+					});
+					//以天为单位
+					// $.cookie("cmpHome",'yes',{ expires:1/8640}); //测试十秒
+					var expiresDate= new Date();
+					expiresDate.setTime(expiresDate.getTime() + (60*60*1000));
+					$.cookie("cmpHome",'yes',{ expires: expiresDate }); //1小时
+					// $.cookie("cmpHome",'yes',{ expires:1});     一天
+				}
+			});
+		};
+		$(".kefu_btn").on('click', function(e){
+			e.preventDefault();
+			var url = $(this).attr("data");
+			if(url) self.location.href = url;
 		});
-	</script>
+	});
+</script>

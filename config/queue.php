@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
+use think\facade\Env;
 
 return [
     'default'     => 'sync',
@@ -24,9 +25,9 @@ return [
         'redis'    => [
             'type'       => 'redis',
             'queue'      => 'default',
-            'host'       => getenv('REDIS_HOST') ?: '127.0.0.1',
-            'port'       => intval(getenv('REDIS_PORT') ?: 6379),
-            'password'   => getenv('REDIS_PASSWORD') ?: '',
+            'host'       => Env::get('redis.host', '127.0.0.1'),
+            'port'       => Env::get('redis.port', 6379),
+            'password'   => Env::get('redis.password', ''),
             'select'     => 0,
             'timeout'    => 0,
             'persistent' => false,

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * @Author: Fox Blue
  * @Date: 2021-06-28 14:41:28
@@ -13,33 +13,52 @@ use think\facade\Env;
 
 class Show extends MobileController
 {
-    
     public function news()
     {
-        $id = request()->param('id/d','','intval');
-        if($id){
-            $cate_id = \app\admin\model\NewsLists::where('id',$id)->where('status',1)->value('cate_id');
-            $info = \app\admin\model\LangLists::where('item','news')->where('item_id', $id)->where('lang', $this->lang)->find();
-            if(!$info){
+        $id = request()->param('id/d', '', 'intval');
+        if ($id) {
+            $cate_id = \app\admin\model\NewsLists::where('id', $id)->where('status', 1)->value('cate_id');
+            $info = \app\admin\model\LangLists::where('item', 'news')->where('item_id', $id)->where('lang', $this->lang)->find();
+            if (!$info) {
                 $this->redirect(server_url());
             }
             $info['cate_id'] = $cate_id;
-            $web_name = $info['title'].'-'.$this->web_name;
-            $this->assign(['web_name'=>$web_name,'info'=>$info]);
+            $web_name = $info['title'] . '-' . $this->web_name;
+            $this->assign(['web_name' => $web_name, 'info' => $info]);
             return $this->fetch();
         }
     }
 
     public function lists()
     {
-        $id = request()->param('id/d','','intval');
-        if($id){
+        $id = request()->param('id/d', '', 'intval');
+        if ($id) {
             $info['cate_id'] = $id;
             $web_name = $this->web_name;
-            $this->assign(['web_name'=>$web_name,'info'=>$info]);
+            $this->assign(['web_name' => $web_name, 'info' => $info]);
             return $this->fetch();
         }
     }
-    
-}
 
+    /**
+     * 公告列表页，固定分类ID=19
+     */
+    public function notice()
+    {
+        $info['cate_id'] = 19;
+        $web_name = $this->web_name;
+        $this->assign(['web_name' => $web_name, 'info' => $info]);
+        return $this->fetch();
+    }
+
+    /**
+     * 帮助列表页，固定分类ID=16
+     */
+    public function help()
+    {
+        $info['cate_id'] = 16;
+        $web_name = $this->web_name;
+        $this->assign(['web_name' => $web_name, 'info' => $info]);
+        return $this->fetch();
+    }
+}

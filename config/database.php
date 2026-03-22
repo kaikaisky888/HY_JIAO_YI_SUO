@@ -86,7 +86,7 @@ return [
             // 密码
             'password'          => Env::get('kline_db.pass', '6Xnm633r84zP8paX'),
             // 端口
-            'hostport'          => '3306',
+            'hostport'          => Env::get('kline_db.port', '3306'),
             // 数据库连接参数
             'params'            => [],
             // 数据库编码默认采用utf8

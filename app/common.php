@@ -81,6 +81,7 @@ if (!function_exists('sysconfig')) {
             'api' => [
                 'api_socket'   => 'API_SOCKET',
                 'local_socket' => 'LOCAL_SOCKET',
+                'huobi_api'    => 'HUOBI_API',
             ],
         ];
         if (!empty($name) && isset($envOverrides[$group][$name])) {

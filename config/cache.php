@@ -47,7 +47,7 @@ return [
         // 更多的缓存连接
     ],
     'elasticsearch' => [
-        'host'     => Env::get('elasticsearch.host', '127.0.0.1'),
+        'host'     => '127.0.0.1',
         'port'     => '9200',
     ],
 ];

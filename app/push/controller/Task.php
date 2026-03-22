@@ -54,9 +54,9 @@ class Task extends PushController
      * */
     public function task_5()
     {
-        try { Doing::do_deal_order(); } catch (\Throwable $e) {}
-        try { Doing::do_good_order(); } catch (\Throwable $e) {}
-        try { Doing::do_winer_order(); } catch (\Throwable $e) {}
+        Doing::do_deal_order();
+        Doing::do_good_order();
+        Doing::do_winer_order();
         // var_dump('每隔5秒执行');
     }
     /*

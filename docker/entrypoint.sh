@@ -54,6 +54,7 @@ REDIS_PASSWORD = ${REDIS_PASSWORD:-}
 
 API_SOCKET = ${API_SOCKET:-}
 LOCAL_SOCKET = ${LOCAL_SOCKET:-}
+HUOBI_API = ${HUOBI_API:-wss://api-aws.huobi.pro/ws}
 EOF
 
 chown www-data:www-data /var/www/html/.env

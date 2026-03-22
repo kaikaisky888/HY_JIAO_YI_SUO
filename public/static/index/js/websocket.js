@@ -109,9 +109,9 @@ var socket = {
 		console.log(err, 'depth-socket::error')
 	},
 	close() {
-		// 如果websocket关闭的话，延迟3秒重新打开
-		var _this = this;
-		setTimeout(function(){ _this.initWs(); }, 3000);
+		// 如果websocket关闭的话，就从新打开一下。
+		this.initWs()
+		// console.log('depth-socket::close')
 	},
 	message(resp) {
 		let this_ = this

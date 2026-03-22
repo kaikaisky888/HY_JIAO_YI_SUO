@@ -84,9 +84,7 @@ class Lists extends AdminController
             $data['sort'] = $post['sort'];
             
             foreach($this->lang_list as $k => $v){
-                if(empty($title[$v])){
-                    $this->error($v.'标题不能为空');
-                }
+
                 // if(empty($logo[$v])){
                 //     $this->error($v.'图片不能为空');
                 // }
@@ -94,6 +92,9 @@ class Lists extends AdminController
                 //     $this->error($v.'内容不能为空');
                 // }
                 if($v == sysconfig('base','base_lang')){
+                    if(empty($title[$v])){
+                        $this->error($v.'标题不能为空');
+                    }
                     $data['lang'] = $v;
                     $data['title'] = $title[$v];
                     $data['logo'] = $logo[$v];
@@ -161,9 +162,7 @@ class Lists extends AdminController
             $data['sort'] = $post['sort'];
             
             foreach($this->lang_list as $k => $v){
-                if(empty($title[$v])){
-                    $this->error($v.'标题不能为空');
-                }
+
                 // if(empty($logo[$v])){
                 //     $this->error($v.'图片不能为空');
                 // }
@@ -171,6 +170,9 @@ class Lists extends AdminController
                 //     $this->error($v.'内容不能为空');
                 // }
                 if($v == sysconfig('base','base_lang')){
+                    if(empty($title[$v])){
+                        $this->error($v.'标题不能为空');
+                    }
                     $data['lang'] = $v;
                     $data['title'] = $title[$v];
                     $data['logo'] = $logo[$v];

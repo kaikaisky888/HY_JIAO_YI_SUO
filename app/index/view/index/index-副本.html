@@ -1,0 +1,215 @@
+<!-- header -->
+<div class="header">
+	{include file="./block/block_head"}
+</div>
+
+<div class="index-header" style="display:flex; align-items:center; justify-content:center; min-height:400px;">
+	<div class="layui-container" style="position:relative; z-index:10;">
+		<div style="display:flex; align-items:center; justify-content:center; gap:80px; flex-wrap:wrap;">
+			<!-- 左侧：卡片+文字（垂直排列） -->
+			<div style="max-width:450px; text-align:left; padding:0; margin:0;">
+				{if cookie('think_lang') == 'zh-cn' || cookie('think_lang') == 'hk-cn'}
+				<img src="__STATIC__/index/img/3.jpg"
+					style="width:100%; border-radius:10px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); display:block; margin:0; padding:0;">
+				{else/}
+				<img src="__STATIC__/index/img/6.jpg"
+					style="width:100%; border-radius:10px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); display:block; margin:0; padding:0;">
+				{/if}
+				<h1 style="font-size:15px !important; font-weight:bold; margin:15px 0 8px 0 !important; padding:0 !important; text-align:left !important;">{:lang('home_page.bannera')}</h1>
+				<p style="color:#999; font-size:13px !important; line-height:1.5; margin:0 !important; padding:0 !important; text-align:left !important;">{:lang('home_page.bannerb')}</p>
+			</div>
+			<!-- 右侧：图标 -->
+			<div style="text-align:center;">
+				<img src="__STATIC__/index/img/12.png"
+					style="width:200px; height:200px; border-radius:20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 公告条 -->
+<div class="layui-container" style="margin-top:30px;">
+	<div
+		style="display:flex; justify-content:space-between; align-items:center; background:#1a2332; border:1px solid #2a3a4a; border-radius:8px; padding:12px 20px;">
+		<div style="display:flex; align-items:center;">
+			<i class="layui-icon layui-icon-release" style="color:#3c74eb; font-size:20px; margin-right:10px;"></i>
+			<span style="color:#999;">{$notice}</span>
+		</div>
+		<a href="{:url('show/news',['id'=>27])}" style="color:#3c74eb; font-size:14px;">{:lang('home_page.more_notice')} <i
+				class="layui-icon layui-icon-right"></i></a>
+	</div>
+</div>
+
+<!-- 行情卡片 -->
+<div style="background-color:#0d1421; padding:30px 0;">
+	<div class="layui-container">
+	<div class="layui-row layui-col-space15" style="display:flex; flex-wrap:nowrap; overflow-x:auto;">
+		{volist name="product" id="vo" length="5"}
+		{if $vo.change>0}
+		<div style="flex:0 0 19%; min-width:200px; background:#1a2332 url('__STATIC__/index/img/zoushi1.png') right bottom no-repeat; background-size:60% auto; border:1px solid #2a3a4a; border-radius:8px; padding:20px; cursor:pointer;"
+			onclick='go_kline("{$vo.code}");'>
+		{else/}
+		<div style="flex:0 0 19%; min-width:200px; background:#1a2332 url('__STATIC__/index/img/zoushi2.png') right bottom no-repeat; background-size:60% auto; border:1px solid #2a3a4a; border-radius:8px; padding:20px; cursor:pointer;"
+			onclick='go_kline("{$vo.code}");'>
+		{/if}
+			<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+				<span style="color:#fff; font-size:16px; font-weight:bold;">{$vo.title}</span>
+				{if $vo.change>0}
+				<span id="change_card_{$vo.code}"
+					style="font-size:12px; padding:2px 8px; border-radius:3px; background:#00d4aa; color:#fff;">{$vo.change|floatVal|fox_nums}%</span>
+				{else/}
+				<span id="change_card_{$vo.code}"
+					style="font-size:12px; padding:2px 8px; border-radius:3px; background:#c41e3a; color:#fff;">{$vo.change|floatVal|fox_nums}%</span>
+				{/if}
+			</div>
+			<div style="margin-bottom:5px;">
+				{if $vo.change>0}
+				<span id="price_card_{$vo.code}"
+					style="color:#00d4aa; font-size:28px; font-weight:bold;">{$vo.last_price|floatVal}</span>
+				{else/}
+				<span id="price_card_{$vo.code}"
+					style="color:#ff4d4d; font-size:28px; font-weight:bold;">{$vo.last_price|floatVal}</span>
+				{/if}
+			</div>
+			<div>
+				<span style="color:#666; font-size:12px;">≈{$vo.last_price|floatVal} USD</span>
+			</div>
+		</div>
+		{/volist}
+	</div>
+	</div>
+</div>
+<!--安全稳定可靠-->
+<div style="background: url('__STATIC__/index/img/header-bg.jpg') center center / cover; padding:60px 0;">
+	<div class="layui-container">
+		<h2 style="text-align:center; color:#fff; font-size:36px; font-weight:bold; margin-bottom:50px;">{:lang('home_page.safe_title')}</h2>
+		<div class="layui-row">
+			<div class="layui-col-xs4" style="text-align:center;">
+				<i class="layui-icon layui-icon-rmb"
+					style="font-size:60px; color:#fff; margin-bottom:20px; display:block;"></i>
+				<h4 style="color:#fff; font-size:20px; margin-bottom:10px;">{:lang('home_page.safe_1_title')}</h4>
+				<p style="color:#999; font-size:14px;">{:lang('home_page.safe_1_desc')}</p>
+			</div>
+			<div class="layui-col-xs4" style="text-align:center;">
+				<i class="layui-icon layui-icon-template"
+					style="font-size:60px; color:#fff; margin-bottom:20px; display:block;"></i>
+				<h4 style="color:#fff; font-size:20px; margin-bottom:10px;">{:lang('home_page.safe_2_title')}</h4>
+				<p style="color:#999; font-size:14px;">{:lang('home_page.safe_2_desc')}</p>
+			</div>
+			<div class="layui-col-xs4" style="text-align:center;">
+				<i class="layui-icon layui-icon-website"
+					style="font-size:60px; color:#fff; margin-bottom:20px; display:block;"></i>
+				<h4 style="color:#fff; font-size:20px; margin-bottom:10px;">{:lang('home_page.safe_3_title')}</h4>
+				<p style="color:#999; font-size:14px;">{:lang('home_page.safe_3_desc')}</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--APP下载-->
+<div style="background:url('__STATIC__/index/img/shan.png') no-repeat center center; background-size:cover; padding:80px 0;">
+	<div class="layui-container">
+		<div class="layui-row">
+			<div class="layui-col-xs6">
+				<img src="__STATIC__/index/img/down_left.png" style="width:100%; max-width:600px;">
+			</div>
+			<div class="layui-col-xs6" style="padding-left:50px;">
+				<p style="color:#fff; font-size:14px; margin-bottom:10px;">{:lang('home_page.app_subtitle')}</p>
+				<h2 style="color:#fff; font-size:42px; font-weight:bold; margin-bottom:30px;">{:lang('home_page.app_title')}</h2>
+					<div class="layui-row" style="margin-bottom:30px;">
+						<div class="layui-col-xs6" style="margin-bottom:15px;">
+							<i class="layui-icon layui-icon-location" style="color:#fff; margin-right:8px;"></i>
+							<span style="color:#fff;">{:lang('home_page.app_feature_1')}</span>
+						</div>
+						<div class="layui-col-xs6" style="margin-bottom:15px;">
+							<i class="layui-icon layui-icon-chart" style="color:#fff; margin-right:8px;"></i>
+							<span style="color:#fff;">{:lang('home_page.app_feature_2')}</span>
+						</div>
+						<div class="layui-col-xs6" style="margin-bottom:15px;">
+							<i class="layui-icon layui-icon-app" style="color:#fff; margin-right:8px;"></i>
+							<span style="color:#fff;">{:lang('home_page.app_feature_3')}</span>
+						</div>
+						<div class="layui-col-xs6" style="margin-bottom:15px;">
+							<i class="layui-icon layui-icon-refresh" style="color:#fff; margin-right:8px;"></i>
+							<span style="color:#fff;">{:lang('home_page.app_feature_4')}</span>
+						</div>
+					</div>
+					<div style="margin-bottom:30px;">
+						<a onclick="showQrcode('ios')" id="btn-ios" class="layui-btn"
+							style="border-radius:20px; margin-right:10px; cursor:pointer; background:#3c74eb; border-color:#3c74eb;">
+							<i class="layui-icon layui-icon-cellphone"></i> iPhone
+						</a>
+						<a onclick="showQrcode('android')" id="btn-android" class="layui-btn layui-btn-primary"
+							style="border-radius:20px; cursor:pointer;">
+							<i class="layui-icon layui-icon-cellphone"></i> Android
+						</a>
+					</div>
+					<div id="qrcode-box" style="display:flex; align-items:center; background:transparent; padding:20px; border-radius:10px; max-width:400px;">
+						<img id="qrcode-img" src="{$down_ipa}" style="width:120px; height:120px; margin-right:20px;">
+						<a id="qrcode-btn" href="{$down_ipa_url}" target="_blank"
+							style="background:#333; color:#fff; padding:15px 25px; border-radius:8px; text-align:center; cursor:pointer; text-decoration:none;">
+							<i class="layui-icon layui-icon-download-circle"
+								style="font-size:30px; display:block; margin-bottom:5px;"></i>
+							<span id="qrcode-text" style="font-size:12px;">{:lang('home_page.app_download_ios')}</span>
+						</a>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var down_ipa_url = "{$down_ipa_url}";
+var down_apk_url = "{$down_apk_url}";
+var down_ipa_qr = "{$down_ipa}";
+var down_apk_qr = "{$down_apk}";
+var ios_text = "{:lang('home_page.app_download_ios')}";
+var android_text = "{:lang('home_page.app_download_android')}";
+function showQrcode(type) {
+	var img = document.getElementById('qrcode-img');
+	var btn = document.getElementById('qrcode-btn');
+	var text = document.getElementById('qrcode-text');
+	var btnIos = document.getElementById('btn-ios');
+	var btnAndroid = document.getElementById('btn-android');
+	if(type == 'ios') {
+		img.src = down_ipa_qr;
+		btn.href = down_ipa_url;
+		text.innerText = ios_text;
+		btnIos.style.background = '#3c74eb';
+		btnIos.style.color = '#fff';
+		btnIos.style.borderColor = '#3c74eb';
+		btnAndroid.style.background = '#fff';
+		btnAndroid.style.color = '#333';
+		btnAndroid.style.borderColor = '#e6e6e6';
+	} else {
+		img.src = down_apk_qr;
+		btn.href = down_apk_url;
+		text.innerText = android_text;
+		btnAndroid.style.background = '#3c74eb';
+		btnAndroid.style.color = '#fff';
+		btnAndroid.style.borderColor = '#3c74eb';
+		btnIos.style.background = '#fff';
+		btnIos.style.color = '#333';
+		btnIos.style.borderColor = '#e6e6e6';
+	}
+}
+</script>
+
+<!--footer-->
+{include file="./block/block_bottom"}
+{include file="./block/foot_script"}
+<script src="__STATIC__/index/js/index/d3.v4.min.js?v={$version}"></script>
+<script src="__STATIC__/index/js/index/index.js?v={$version}"></script>
+<script>var page_out = "home";</script>
+<script src="__STATIC__/index/js/websocket.js?v={$version}"></script>
+<script>
+	$(function () {
+		socket.sendData({
+			type: 'kline',
+			find: 'home',
+		}, null, null)
+	})
+	function go_kline(a) {
+		storage.setItem("tobol", a);
+		location.href = "{:url('deal/index')}";
+	}
+</script>
