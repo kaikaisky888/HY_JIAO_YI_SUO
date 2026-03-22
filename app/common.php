@@ -76,6 +76,20 @@ if (!function_exists('sysconfig')) {
      */
     function sysconfig($group, $name = null)
     {
+        // 环境变量覆盖，不修改数据库，不影响其他平台
+        $envOverrides = [
+            'api' => [
+                'api_socket'   => 'API_SOCKET',
+                'local_socket' => 'LOCAL_SOCKET',
+            ],
+        ];
+        if (!empty($name) && isset($envOverrides[$group][$name])) {
+            $envVal = \think\facade\Env::get($envOverrides[$group][$name]);
+            if (!empty($envVal)) {
+                return $envVal;
+            }
+        }
+
         $where = ['group' => $group];
         $value = empty($name) ? Cache::get("sysconfig_{$group}") : Cache::get("sysconfig_{$group}_{$name}");
         if (empty($value)) {
