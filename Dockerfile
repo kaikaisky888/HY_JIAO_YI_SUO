@@ -71,7 +71,7 @@ COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # 创建必要目录并设置权限
-RUN mkdir -p runtime/admin runtime/cache runtime/index runtime/log runtime/mobile runtime/session \
+RUN mkdir -p runtime/admin runtime/cache runtime/index runtime/log runtime/mobile runtime/session public/upload \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
     && chmod -R 777 runtime public/upload
