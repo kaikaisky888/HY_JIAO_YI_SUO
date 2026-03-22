@@ -206,19 +206,19 @@ var page_out="deal",
 									<div class="font-14">{:lang('deal_trade.form_can_use')}<span class="can-usdt-box"></span><span class="can-usdt-box-tit"></span></div>
 									<form class="layui-form" action="">
 										<div class="layui-form-item">
-											<label class="layui-form-label">{:lang('deal_trade.form_buy_price')}</label>
+											<label class="layui-form-label" for="buy_account3">{:lang('deal_trade.form_buy_price')}</label>
 											<div class="layui-input-block deal-price-input">
 												{:lang('deal_trade.form_one_price')}
 											</div>
 										</div>
 										<div class="layui-form-item">
-											<label class="layui-form-label">{:lang('deal_trade.form_buy_account')}</label>
+											<label class="layui-form-label" for="buy_account3">{:lang('deal_trade.form_buy_account')}</label>
 											<div class="layui-input-block position-re">
-												<input type="number" name="buy_account3" value="0" lay-verify="required|buy_account" lay-verType="tips" autocomplete="off" class="layui-input buy-account3">
+												<input type="number" id="buy_account3" name="buy_account3" value="0" lay-verify="required|buy_account" lay-verType="tips" autocomplete="off" class="layui-input buy-account3">
 												<span class="input-span can-product-box-tit"></span>
 											</div>
 										</div>
-										<input type="hidden" name="price_usdt3">
+										<input type="hidden" id="price_usdt3" name="price_usdt3">
 										<div class="layui-form-item hidebox mt-30" id="slideNum3"></div>
 										<div class="layui-form-item mt-30">{:lang('deal_trade.form_trade_account')}<span class="buy-account-volume3">0.00000000</span><span class="can-usdt-box-tit"></span></div>
 										<div class="layui-form-item">
@@ -230,19 +230,19 @@ var page_out="deal",
 									<div class="font-14">{:lang('deal_trade.form_can_use')}<span class="can-product-box"></span><span class="can-product-box-tit"></span></div>
 									<form class="layui-form" action="">
 										<div class="layui-form-item">
-											<label class="layui-form-label">{:lang('deal_trade.form_sell_price')}</label>
+											<label class="layui-form-label" for="buy_account4">{:lang('deal_trade.form_sell_price')}</label>
 											<div class="layui-input-block deal-price-input">
 												{:lang('deal_trade.form_one_price')}
 											</div>
 										</div>
 										<div class="layui-form-item">
-											<label class="layui-form-label">{:lang('deal_trade.form_sell_account')}</label>
+											<label class="layui-form-label" for="buy_account4">{:lang('deal_trade.form_sell_account')}</label>
 											<div class="layui-input-block position-re">
-												<input type="number" name="buy_account4" value="0" lay-verify="required|sell_account" lay-verType="tips" autocomplete="off" class="layui-input buy-account4">
+												<input type="number" id="buy_account4" name="buy_account4" value="0" lay-verify="required|sell_account" lay-verType="tips" autocomplete="off" class="layui-input buy-account4">
 												<span class="input-span can-product-box-tit"></span>
 											</div>
 										</div>
-										<input type="hidden" name="price_usdt4">
+										<input type="hidden" id="price_usdt4" name="price_usdt4">
 										<div class="layui-form-item hidebox mt-30" id="slideNum4"></div>
 										<div class="layui-form-item mt-30">{:lang('deal_trade.form_trade_account')}<span class="buy-account-volume4">0.00000000</span> <span class="can-usdt-box-tit"></span></div>
 										<div class="layui-form-item">
@@ -259,20 +259,20 @@ var page_out="deal",
 									<div class="font-14">{:lang('deal_trade.form_can_use')}<span class="can-usdt-box"></span><span class="can-usdt-box-tit"></span></div>
 									<form class="layui-form" action="">
 										<div class="layui-form-item">
-											<label class="layui-form-label">{:lang('deal_trade.form_buy_price')}</label>
+											<label class="layui-form-label" for="deal_price_buy">{:lang('deal_trade.form_buy_price')}</label>
 											<div class="layui-input-block position-re">
-												<input type="number" name="deal_price" value="0"  autocomplete="off" class="layui-input deal-price">
+												<input type="number" id="deal_price_buy" name="deal_price" value="0"  autocomplete="off" class="layui-input deal-price">
 												<span class="input-span can-usdt-box-tit"></span>
 											</div>
 										</div>
 										<div class="layui-form-item">
-											<label class="layui-form-label">{:lang('deal_trade.form_buy_account')}</label>
+											<label class="layui-form-label" for="buy_account1">{:lang('deal_trade.form_buy_account')}</label>
 											<div class="layui-input-block position-re">
-												<input type="number" name="buy_account1" value="0" lay-verify="required|buy_account" lay-verType="tips" autocomplete="off" class="layui-input buy-account1">
+												<input type="number" id="buy_account1" name="buy_account1" value="0" lay-verify="required|buy_account" lay-verType="tips" autocomplete="off" class="layui-input buy-account1">
 												<span class="input-span can-product-box-tit"></span>
 											</div>
 										</div>
-										<input type="hidden" name="price_usdt1">
+										<input type="hidden" id="price_usdt1" name="price_usdt1">
 										<div class="layui-form-item hidebox mt-30" id="slideNum1"></div>
 										<div class="layui-form-item mt-30">{:lang('deal_trade.form_trade_account')}<span class="buy-account-volume1">0.00000000</span><span class="can-usdt-box-tit"></span></div>
 										<div class="layui-form-item">
@@ -284,20 +284,20 @@ var page_out="deal",
 									<div class="font-14">{:lang('deal_trade.form_can_use')}<span class="can-product-box"></span><span class="can-product-box-tit"></span></div>
 									<form class="layui-form" action="">
 										<div class="layui-form-item">
-											<label class="layui-form-label">{:lang('deal_trade.form_sell_price')}</label>
+											<label class="layui-form-label" for="deal_price_sell">{:lang('deal_trade.form_sell_price')}</label>
 											<div class="layui-input-block position-re">
-												<input type="number" name="deal_price" value="0" autocomplete="off" class="layui-input deal-price">
+												<input type="number" id="deal_price_sell" name="deal_price" value="0" autocomplete="off" class="layui-input deal-price">
 												<span class="input-span can-usdt-box-tit"></span>
 											</div>
 										</div>
 										<div class="layui-form-item">
-											<label class="layui-form-label">{:lang('deal_trade.form_sell_account')}</label>
+											<label class="layui-form-label" for="buy_account2">{:lang('deal_trade.form_sell_account')}</label>
 											<div class="layui-input-block position-re">
-												<input type="number" name="buy_account2" value="0" lay-verify="required|sell_account" lay-verType="tips" autocomplete="off" class="layui-input buy-account2">
+												<input type="number" id="buy_account2" name="buy_account2" value="0" lay-verify="required|sell_account" lay-verType="tips" autocomplete="off" class="layui-input buy-account2">
 												<span class="input-span can-product-box-tit"></span>
 											</div>
 										</div>
-										<input type="hidden" name="price_usdt2">
+										<input type="hidden" id="price_usdt2" name="price_usdt2">
 										<div class="layui-form-item hidebox mt-30" id="slideNum2"></div>
 										<div class="layui-form-item mt-30">{:lang('deal_trade.form_trade_account')}<span class="buy-account-volume2">0.00000000</span> <span class="can-usdt-box-tit"></span></div>
 										<div class="layui-form-item">
