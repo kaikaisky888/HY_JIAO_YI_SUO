@@ -46,9 +46,13 @@ RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS libevent-dev openssl-d
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 COPY docker/php.ini /usr/local/etc/php/conf.d/custom.ini
 
-# 让 PHP-FPM 保留环境变量
+# 让 PHP-FPM 保留环境变量 + 增加进程数
 RUN sed -i 's/;clear_env = no/clear_env = no/' /usr/local/etc/php-fpm.d/www.conf \
-    && echo 'clear_env = no' >> /usr/local/etc/php-fpm.d/www.conf
+    && echo 'clear_env = no' >> /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/pm.max_children = 5/pm.max_children = 20/' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/pm.start_servers = 2/pm.start_servers = 4/' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/pm.min_spare_servers = 1/pm.min_spare_servers = 2/' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/pm.max_spare_servers = 3/pm.max_spare_servers = 8/' /usr/local/etc/php-fpm.d/www.conf
 
 # 安装 envsubst (gettext)
 RUN apk add --no-cache gettext
