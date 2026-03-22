@@ -4,6 +4,7 @@ FROM php:7.4-fpm-alpine
 RUN apk add --no-cache \
     nginx \
     supervisor \
+    ca-certificates \
     freetype-dev \
     libjpeg-turbo-dev \
     libpng-dev \
@@ -78,7 +79,9 @@ RUN chmod +x /entrypoint.sh
 RUN mkdir -p runtime/admin runtime/cache runtime/index runtime/log runtime/mobile runtime/session public/upload \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
-    && chmod -R 777 runtime public/upload
+    && chmod -R 777 runtime public/upload \
+    && touch /tmp/workerman.pid /tmp/workerman.log \
+    && chown www-data:www-data /tmp/workerman.pid /tmp/workerman.log
 
 # 暴露端口: 80(HTTP), 2348(WebSocket)
 EXPOSE 80 2348
