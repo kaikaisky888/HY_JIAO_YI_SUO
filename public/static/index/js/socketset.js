@@ -65,9 +65,6 @@ window.TradingView.onready(function () {
     // 这是k线图 展示的 7日均线和30日均线。
     widget.chart().createStudy('Moving Average', false, false, [7], null, {'Plot.linewidth': 2, 'Plot.color': '#2ba7d6'})
     widget.chart().createStudy('Moving Average', false, false, [30], null, {'Plot.linewidth': 2, 'Plot.color': '#de9f66'})
-		setTimeout(function() {
-			widget.chart().resetData()
-		}, 2000)
 	})
 })
 var marketDom = document.getElementById('symbol')
