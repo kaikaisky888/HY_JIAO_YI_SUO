@@ -72,6 +72,7 @@ var socket = {
 		var _this = this
 		console.log(SOCKET_URL);
 		if(this._subInterval){ clearInterval(this._subInterval); this._subInterval = null; }
+		if(this.socket){ try{ this.socket.onclose = null; this.socket.onerror = null; this.socket.close(); }catch(e){} }
 		this.socket = new WebSocket(SOCKET_URL)
 		this.socket.onopen = () => {
 			this.sendWsRequest(this.historyData)
@@ -102,9 +103,10 @@ var socket = {
 		console.log(err, 'depth-socket::error')
 	},
 	close() {
-		// 如果websocket关闭的话，就从新打开一下。
-		this.initWs()
-		// console.log('depth-socket::close')
+		// 如果websocket关闭的话，延迟重连避免重复连接
+		var _this = this
+		if(this._reconnectTimer){ clearTimeout(this._reconnectTimer); }
+		this._reconnectTimer = setTimeout(function(){ _this.initWs() }, 2000)
 	},
 	message(resp) {
 		let this_ = this
