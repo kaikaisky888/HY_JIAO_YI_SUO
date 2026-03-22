@@ -143,9 +143,12 @@ class Doing extends PushController
         $sinfo = self::hbrds()->read($stable);
         $dtable = 'depthlist_' . $code;
         $dinfo = self::hbrds()->read($dtable);
-        $msg['bid'] = json_decode($dinfo['bid'], true);
-        $msg['ask'] = json_decode($dinfo['ask'], true);
-        $msgs['tradelog'] = json_decode($sinfo['data'], true);
+        if (!$dinfo || !$sinfo) {
+            return;
+        }
+        $msg['bid'] = json_decode($dinfo['bid'] ?? '[]', true);
+        $msg['ask'] = json_decode($dinfo['ask'] ?? '[]', true);
+        $msgs['tradelog'] = json_decode($sinfo['data'] ?? '[]', true);
         $msgs['market'] = $code;
         $msgs['depthlist'] = $msg;
         if (Gateway::isOnline($client_id)) {
