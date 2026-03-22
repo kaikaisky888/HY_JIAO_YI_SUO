@@ -57,13 +57,22 @@ class Huobi extends PushController
         $batchSize = 5;
         $chunks = array_chunk($subs, $batchSize);
         foreach ($chunks as $i => $chunk) {
-            \Workerman\Lib\Timer::add(0.5 * $i, function () use ($con, $chunk, $i) {
+            if ($i === 0) {
+                // 第一批立即发送
                 foreach ($chunk as $sub) {
                     if ($con->getStatus() === \Workerman\Connection\TcpConnection::STATUS_ESTABLISHED) {
                         $con->send(json_encode($sub));
                     }
                 }
-            }, [], false); // false = 只执行一次
+            } else {
+                \Workerman\Lib\Timer::add(0.5 * $i, function () use ($con, $chunk) {
+                    foreach ($chunk as $sub) {
+                        if ($con->getStatus() === \Workerman\Connection\TcpConnection::STATUS_ESTABLISHED) {
+                            $con->send(json_encode($sub));
+                        }
+                    }
+                }, [], false); // false = 只执行一次
+            }
         }
 
         self::debugLog("Scheduled " . count($chunks) . " batches, total " . count($subs) . " subscriptions");
