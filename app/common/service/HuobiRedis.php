@@ -22,10 +22,14 @@ class HuobiRedis
     {
         $this->host = $host;
         $this->port = $port;
+        $this->pass = $pass;
         //连接redis
         if (class_exists('Redis')) {
             $this->redis = new \Redis();
-            if ($this->redis->pconnect($this->host, $this->port, $this->pass)) {
+            if ($this->redis->pconnect($this->host, $this->port, 5)) {
+                if ($this->pass) {
+                    $this->redis->auth($this->pass);
+                }
                 $this->connect = true;
             }
         } else {
