@@ -1,0 +1,31 @@
+# MySQL on Fly.io
+app = "kvi-mysql"
+primary_region = "nrt"
+
+[build]
+  image = "mysql:5.7"
+
+[env]
+  # MYSQL_ROOT_PASSWORD and MYSQL_DATABASE set via fly secrets
+
+[processes]
+  app = "mysqld --ignore-db-dir=lost+found"
+
+[mounts]
+  source = "mysql_data"
+  destination = "/var/lib/mysql"
+
+[[services]]
+  internal_port = 3306
+  protocol = "tcp"
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 3306
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

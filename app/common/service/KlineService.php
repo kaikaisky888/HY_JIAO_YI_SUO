@@ -128,14 +128,14 @@ class KlineService
                 foreach ($data as $k => $v) {
                     $datas[$k]['id'] = (int) $v['time'];
                     $datas[$k]['amount'] = (double) $v['amount'];
-                    $datas[$k]['open'] = (double) $v['close'];
-                    $datas[$k]['close'] = (double) $v['open'];
+                    $datas[$k]['open'] = (double) $v['open'];
+                    $datas[$k]['close'] = (double) $v['close'];
                     $datas[$k]['high'] = (double) $v['high'];
                     $datas[$k]['low'] = (double) $v['low'];
                     $datas[$k]['vol'] = (double) $v['vol'];
                     $datas[$k]['volume'] = (double) $v['vol'];
                     $datas[$k]['count'] = (int) $v['count'];
-                    $datas[$k]['time'] = (int) $v['time'] * 1000;
+                    $datas[$k]['time'] = (int) $v['time'];
                     $datas[$k]['isBarClosed'] = true;
                     $datas[$k]['isLastBar'] = false;
                 }

@@ -61,19 +61,12 @@ var socket = {
 	},
 	initWs() {
 		var _this = this
+		if(this._subInterval){ clearInterval(this._subInterval); this._subInterval = null; }
 		this.socket = new WebSocket(SOCKET_URL)
 		this.socket.onopen = () => {
 			this.sendWsRequest(this.historyData)
-			var interval = null
 			if(page_out=="deal" || page_out=="leverdeal" || page_out=="seconds"){
-				_this.sendWsRequest({
-					"req": _this.historyData.req,
-					"type": totype,
-					"find": tofind,
-					"uid": uid,
-					"id": "id10"
-				})
-				interval = setInterval(function(){
+				_this._subInterval = setInterval(function(){
 					_this.sendWsRequest({
 						"sub": _this.historyData.req,
 						"type": totype,
@@ -81,7 +74,7 @@ var socket = {
 						"uid": uid,
 						"id": "id12"
 					})
-				}, 1000);
+				}, 3000);
 			}
 			this.pingMe()
 		}

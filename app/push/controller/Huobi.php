@@ -37,25 +37,36 @@ class Huobi extends PushController
     }
 
     /**
-     * 连接成功后订阅所有频道
+     * 连接成功后分批订阅频道，避免一次性发送过多导致HTX断连
      */
     public static function onAsyncConnect($con)
     {
-        self::debugLog("onAsyncConnect - subscribing to " . count(self::$symbols) . " symbols...");
+        self::debugLog("onAsyncConnect - subscribing to " . count(self::$symbols) . " symbols (batched)...");
 
+        // 构建所有订阅消息
+        $subs = [];
         foreach (self::$symbols as $symbol) {
             $symbol = strtolower(trim($symbol));
-            // 订阅 ticker
-            $con->send(json_encode(['sub' => "market.{$symbol}.ticker", 'id' => $symbol]));
-            // 订阅 1分钟K线
-            $con->send(json_encode(['sub' => "market.{$symbol}.kline.1min", 'id' => $symbol]));
-            // 订阅深度
-            $con->send(json_encode(['sub' => "market.{$symbol}.depth.step0", 'id' => $symbol]));
-            // 订阅成交
-            $con->send(json_encode(['sub' => "market.{$symbol}.trade.detail", 'id' => $symbol]));
+            $subs[] = ['sub' => "market.{$symbol}.ticker", 'id' => $symbol];
+            $subs[] = ['sub' => "market.{$symbol}.kline.1min", 'id' => $symbol];
+            $subs[] = ['sub' => "market.{$symbol}.depth.step0", 'id' => $symbol];
+            $subs[] = ['sub' => "market.{$symbol}.trade.detail", 'id' => $symbol];
         }
 
-        self::debugLog("All subscriptions sent");
+        // 每批发5个，间隔0.5秒
+        $batchSize = 5;
+        $chunks = array_chunk($subs, $batchSize);
+        foreach ($chunks as $i => $chunk) {
+            \Workerman\Lib\Timer::add(0.5 * $i, function () use ($con, $chunk, $i) {
+                foreach ($chunk as $sub) {
+                    if ($con->getStatus() === \Workerman\Connection\TcpConnection::STATUS_ESTABLISHED) {
+                        $con->send(json_encode($sub));
+                    }
+                }
+            }, [], false); // false = 只执行一次
+        }
+
+        self::debugLog("Scheduled " . count($chunks) . " batches, total " . count($subs) . " subscriptions");
     }
 
     /**

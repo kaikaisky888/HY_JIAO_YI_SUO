@@ -2,7 +2,7 @@
 # 部署前请先运行: fly apps create <你的app名>
 
 app = "kvi-app"
-primary_region = "hkg"
+primary_region = "nrt"
 
 [build]
 
