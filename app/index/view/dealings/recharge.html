@@ -1,0 +1,420 @@
+<div class="header">
+    {include file="./block/block_head"}
+</div>
+
+<div class="new-bg">
+	<!--主体-->
+	<!--主体-->
+	<div class="main">
+		<div class="layui-container">
+			<div class="layui-row layui-col-space30 white-box">
+				<div class="layui-col-xs3">
+					{include file="./block/member_left"}
+				</div>
+				<div class="layui-col-xs9">
+					<div class="dealings-top-left mt-30 dealings-bg" id="kline_lists_box">
+						<div>
+							{volist name="pro" id="vo"}
+							<a class="layui-btn layui-btn-sm {if $coin_id ==$vo.id}layui-btn-normal{else}layui-btn-primary{/if}" href="{:url('dealings/recharge',['coin_id'=>$vo.id])}">{$vo.title}</a>
+							{/volist}
+						</div>
+					</div>
+					{if $found_keys == 0}
+					<div class="v-charge-head kline_coin_left">
+						<div class="head-item bg-theme mt-30 color-red">
+							{:lang('dealings.no_recharge_title')}
+						</div>
+					</div>
+					{/if}
+					<div class="layui-row white-box">
+						<div class="layui-col-xs12">
+							<div class="a-form">
+								<form class="layui-form" action="">
+									<input type="hidden" name="wallet_id" value="{$wlist.id}">
+									<input type="hidden" name="product_id" value="{$plist.id}">
+									<div class="layui-tab usdt-tab layui-tab-brief" lay-filter="tabRecharge" id="tabRecharge">
+										<ul class="layui-tab-title mobile-layui-tab-titles">
+											{if !empty($plist.erc_address)}<li lay-id="3">{:lang('dealings.erc_title')}</li>{/if}
+											{if !empty($plist.trc_address)}<li lay-id="2">{:lang('dealings.trc_title')}</li>{/if}
+											{if !empty($plist.omni_address)}<li lay-id="1">{:lang('dealings.omni_title')}</li>{/if}
+											{if !empty($plist.bsc_address)}<li lay-id="5">BSC</li>{/if}
+											{if !empty($plist.pol_address)}<li lay-id="6">POL</li>{/if}
+											{if !empty($plist.base_address)}<li lay-id="7">Base</li>{/if}
+											{if !empty($plist.pay_address)}<li lay-id="4">{:lang('dealings.other_title')}</li>{/if}
+										</ul>
+										<div class="layui-tab-content layui-tab-contents">
+											{if !empty($plist.erc_address)}
+											<div class="layui-tab-item">
+												<div class="layui-form-item">
+													<div class="text-center">
+														<img src='{:phpqrcode($plist.erc_address,$plist.title."_address")}' title="QR Code" alt="QR Code">
+													</div>
+													<div class="text-center">
+														{:lang('dealings.recharge_ma_txt')}
+													</div>
+													<div class="text-center">
+														<a href="javascript:void(0)" class="color-green" onclick="savepic(this)">{:lang('dealings.recharge_ma_save')}</a>
+													</div>
+												</div>
+												<hr>
+												<div class="layui-form-item">
+													<div class="layui-row">
+														<div class="layui-col-xs3">
+															{:lang('dealings.recharge_addr_title')}
+														</div>
+														<div class="layui-col-xs7">
+															<input type="text" name="erc_address" placeholder="{$plist.title}{:lang('dealings.recharge_addr_title')}" autocomplete="off" class="layui-input" value="{$plist.erc_address}">
+														</div>
+														<div class="layui-col-xs2 text-right">
+															<button type="button" onclick='copy("{$plist.erc_address}");' class="layui-btn layui-btn-sm layui-btn-normal">{:lang('public.copy')}</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											{/if}
+											{if !empty($plist.trc_address)}
+											<div class="layui-tab-item">
+												<div class="layui-form-item">
+													<div class="text-center">
+														<img src='{:phpqrcode($plist.trc_address,$plist.title."_address")}' title="QR Code" alt="QR Code">
+													</div>
+													<div class="text-center">
+														{:lang('dealings.recharge_ma_txt')}
+													</div>
+													<div class="text-center">
+														<a href="javascript:void(0)" class="color-green" onclick="savepic(this)">{:lang('dealings.recharge_ma_save')}</a>
+													</div>
+												</div>
+												<hr>
+												<div class="layui-form-item">
+													<div class="layui-row">
+														<div class="layui-col-xs3">
+															{:lang('dealings.recharge_addr_title')}
+														</div>
+														<div class="layui-col-xs7">
+															<input type="text" name="trc_address" placeholder="{$plist.title}{:lang('dealings.recharge_addr_title')}" autocomplete="off" class="layui-input" value="{$plist.trc_address}">
+														</div>
+														<div class="layui-col-xs2 text-right">
+															<button type="button" onclick='copy("{$plist.trc_address}");' class="layui-btn layui-btn-sm layui-btn-normal">{:lang('public.copy')}</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											{/if}
+											{if !empty($plist.omni_address)}
+											<div class="layui-tab-item">
+												<div class="layui-form-item">
+													<div class="text-center">
+														<img src='{:phpqrcode($plist.omni_address,$plist.title."_address")}' title="QR Code" alt="QR Code">
+													</div>
+													<div class="text-center">
+														{:lang('dealings.recharge_ma_txt')}
+													</div>
+													<div class="text-center">
+														<a href="javascript:void(0)" class="color-green" onclick="savepic(this)">{:lang('dealings.recharge_ma_save')}</a>
+													</div>
+												</div>
+												<hr>
+												<div class="layui-form-item">
+													<div class="layui-row">
+														<div class="layui-col-xs3">
+															{:lang('dealings.recharge_addr_title')}
+														</div>
+														<div class="layui-col-xs7">
+															<input type="text" name="omni_address" placeholder="{$plist.title}{:lang('dealings.recharge_addr_title')}" autocomplete="off" class="layui-input" value="{$plist.omni_address}">
+														</div>
+														<div class="layui-col-xs2 text-right">
+															<button type="button" onclick='copy("{$plist.omni_address}");' class="layui-btn layui-btn-sm layui-btn-normal">{:lang('public.copy')}</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											{/if}
+											{if !empty($plist.bsc_address)}
+											<div class="layui-tab-item">
+												<div class="layui-form-item">
+													<div class="text-center">
+														<img src='{:phpqrcode($plist.bsc_address,$plist.title."_bsc_address")}' title="QR Code" alt="QR Code">
+													</div>
+													<div class="text-center">{:lang('dealings.recharge_ma_txt')}</div>
+													<div class="text-center"><a href="javascript:void(0)" class="color-green" onclick="savepic(this)">{:lang('dealings.recharge_ma_save')}</a></div>
+												</div>
+												<hr>
+												<div class="layui-form-item">
+													<div class="layui-row">
+														<div class="layui-col-xs3">{:lang('dealings.recharge_addr_title')}</div>
+														<div class="layui-col-xs7">
+															<input type="text" name="bsc_address" placeholder="{$plist.title}{:lang('dealings.recharge_addr_title')}" autocomplete="off" class="layui-input" value="{$plist.bsc_address}">
+														</div>
+														<div class="layui-col-xs2 text-right">
+															<button type="button" onclick='copy("{$plist.bsc_address}");' class="layui-btn layui-btn-sm layui-btn-normal">{:lang('public.copy')}</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											{/if}
+											{if !empty($plist.pol_address)}
+											<div class="layui-tab-item">
+												<div class="layui-form-item">
+													<div class="text-center">
+														<img src='{:phpqrcode($plist.pol_address,$plist.title."_pol_address")}' title="QR Code" alt="QR Code">
+													</div>
+													<div class="text-center">{:lang('dealings.recharge_ma_txt')}</div>
+													<div class="text-center"><a href="javascript:void(0)" class="color-green" onclick="savepic(this)">{:lang('dealings.recharge_ma_save')}</a></div>
+												</div>
+												<hr>
+												<div class="layui-form-item">
+													<div class="layui-row">
+														<div class="layui-col-xs3">{:lang('dealings.recharge_addr_title')}</div>
+														<div class="layui-col-xs7">
+															<input type="text" name="pol_address" placeholder="{$plist.title}{:lang('dealings.recharge_addr_title')}" autocomplete="off" class="layui-input" value="{$plist.pol_address}">
+														</div>
+														<div class="layui-col-xs2 text-right">
+															<button type="button" onclick='copy("{$plist.pol_address}");' class="layui-btn layui-btn-sm layui-btn-normal">{:lang('public.copy')}</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											{/if}
+											{if !empty($plist.base_address)}
+											<div class="layui-tab-item">
+												<div class="layui-form-item">
+													<div class="text-center">
+														<img src='{:phpqrcode($plist.base_address,$plist.title."_base_address")}' title="QR Code" alt="QR Code">
+													</div>
+													<div class="text-center">{:lang('dealings.recharge_ma_txt')}</div>
+													<div class="text-center"><a href="javascript:void(0)" class="color-green" onclick="savepic(this)">{:lang('dealings.recharge_ma_save')}</a></div>
+												</div>
+												<hr>
+												<div class="layui-form-item">
+													<div class="layui-row">
+														<div class="layui-col-xs3">{:lang('dealings.recharge_addr_title')}</div>
+														<div class="layui-col-xs7">
+															<input type="text" name="base_address" placeholder="{$plist.title}{:lang('dealings.recharge_addr_title')}" autocomplete="off" class="layui-input" value="{$plist.base_address}">
+														</div>
+														<div class="layui-col-xs2 text-right">
+															<button type="button" onclick='copy("{$plist.base_address}");' class="layui-btn layui-btn-sm layui-btn-normal">{:lang('public.copy')}</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											{/if}
+											{if !empty($plist.pay_address)}
+											<div class="layui-tab-item">
+												<div class="layui-form-item">
+													<div class="text-center">
+														<img src='{:phpqrcode($plist.pay_address,$plist.title."_address")}' title="QR Code" alt="QR Code">
+													</div>
+													<div class="text-center">
+														{:lang('dealings.recharge_ma_txt')}
+													</div>
+													<div class="text-center">
+														<a href="javascript:void(0)" class="color-green" onclick="savepic(this)">{:lang('dealings.recharge_ma_save')}</a>
+													</div>
+												</div>
+												<hr>
+												<div class="layui-form-item">
+													<div class="layui-row">
+														<div class="layui-col-xs3">
+															{:lang('dealings.recharge_addr_title')}
+														</div>
+														<div class="layui-col-xs7">
+															<input type="text" name="pay_address" placeholder="{$plist.title}{:lang('dealings.recharge_addr_title')}" autocomplete="off" class="layui-input" value="{$plist.pay_address}">
+														</div>
+														<div class="layui-col-xs2 text-right">
+															<button type="button" onclick='copy("{$plist.pay_address}");' class="layui-btn layui-btn-sm layui-btn-normal">{:lang('public.copy')}</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											{/if}
+										</div>
+									</div>
+									<input type="hidden" id="usdt_recharge_type" name="usdt_recharge_type" value="3">
+									<div class="layui-form-item">
+										<div class="layui-row">
+											<div class="layui-col-xs3">{$plist.title}{:lang('finance.recharge_num')}</div>
+											<div class="layui-col-xs7">
+												<input type="text" name="recharge_account" lay-verify="required|recharge" lay-verType="tips" lay-reqText="{:lang('finance.recharge_num_must')}" placeholder="{$plist.title}{:lang('finance.recharge_num')}" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-row">
+											<div class="layui-col-xs3">{$plist.title}{:lang('finance.recharge_pic')}</div>
+											<div class="layui-col-xs7 up-pic-box">
+											<input type="text" name="recharge_pic" readonly lay-verify="required" lay-verType="tips" lay-reqText="{:lang('finance.recharge_pic_must')}" placeholder="{$plist.title}{:lang('finance.recharge_pic')}" autocomplete="off" class="layui-input">
+										</div>
+										<div class="layui-col-xs2">
+										<button type="button" class="layui-btn layui-btn-fluid layui-btn-warm up-pic" >
+											<i class="layui-icon">&#xe67c;</i>{:lang('finance.recharge_uppic')}
+											</button>
+										</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<button type="submit" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-lg" lay-submit lay-filter="okRecharge">{:lang('dealings.recharge_btn_title')}</button>
+									</div>
+								</form>
+							</div>
+							<div class="site-memo">
+								{:lang('dealings.recharge_memo_title')}
+								{:lang('dealings.recharge_memo_content')}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{if !empty($wlist.id)}
+<div class="layui-container mt-10">
+	<div class="layui-row white-box">
+		<div class="layui-col-xs12">
+			<table class="layui-table" lay-skin="nob">
+				<thead><tr><th colspan="3" class="text-center">近期充值记录</th></tr><tr><th>时间/币种</th><th>金额</th><th>状态</th></tr></thead>
+				<tbody id="recharge_log_tbody"></tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{/if}
+</div>
+<!--footer-->
+{include file="./block/foot_script"}
+<style>
+#tabRecharge .layui-tab-title {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    white-space: nowrap !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+}
+#tabRecharge .layui-tab-title::-webkit-scrollbar { display: none; }
+#tabRecharge .layui-tab-title li {
+    display: inline-block !important;
+    float: none !important;
+    flex-shrink: 0;
+}
+#tabRecharge .layui-tab-more { display: none !important; }
+#tabRecharge .layui-tab-item .layui-form-item:last-child { margin-bottom: 0; }
+.a-form .layui-row { line-height: 36px; }
+</style>
+<script>
+	layui.use(['layer', 'jquery', 'form', 'element', 'upload'], function(){
+		var layer = layui.layer
+		,$ = layui.jquery
+		,form = layui.form;
+		var element = layui.element;
+		var upload = layui.upload;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		var currentUploadButton = null;
+		upload.render({
+			elem: '.up-pic'
+			,url: "{:url('finance/upload_pic')}"
+			,exts: 'jpg|png|jpeg'
+			,choose: function(obj){
+				currentUploadButton = this.item;
+			}
+			,done: function(res){
+				if(res.code !== 0){
+                    return layer.msg(res.msg);
+                }
+                //上传成功
+                if(res.data.url){
+                    $(currentUploadButton).closest('.layui-form-item').find('input[name="recharge_pic"]').val(res.data.src);
+                    layer.msg(res.msg);
+                }
+			}
+		});
+
+		form.verify({
+			recharge: [
+				/^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/,
+				"{:lang('finance.recharge_num_check')}"
+			]
+		})
+
+		element.on('tab(tabRecharge)', function(data){
+			var type = this.getAttribute('lay-id');
+			$("#usdt_recharge_type").val(type);
+		});
+
+		form.on('submit(okRecharge)', function(data){
+			loading =layer.load(1, {shade: [0.1,'#fff']});
+			$.post("{:url('finance/recharge')}", data.field, function (res) {
+				layer.close(loading);
+				if (res.code > 0) {
+					layer.msg(res.msg, {time: 1800}, function () {
+						location.href = res.url;
+					});
+				} else {
+					if(res.url){
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					}else{
+						layer.msg(res.msg, {time: 1800});
+					}
+				}
+			});
+			return false;
+		})
+	})
+	$(function(){
+		$("#tabRecharge .layui-tab-title").find("li").eq(0).addClass("layui-this");
+		$("#tabRecharge .layui-tab-content").find(".layui-tab-item").eq(0).addClass("layui-show");
+		var type = $("#tabRecharge .layui-tab-title").find("li").eq(0).attr("lay-id");
+		$("#usdt_recharge_type").val(type);
+		{if !empty($wlist.id)}
+		$.post("{:url('finance/findlog')}", {id:{$wlist.id},page:1,type:1}, function(res){
+			if(res.data && res.data.length > 0){
+				var html = '';
+				$.each(res.data, function(i, item){
+					html += '<tr><td>'+ item.create_time +'<br>'+ item.title +'</td><td>'+ item.all_account +'</td><td>'+ item.status +'</td></tr>';
+				});
+				$('#recharge_log_tbody').html(html);
+			}
+		});
+		{/if}
+	})
+	function savepic(_this){
+		var picurl= $(_this).parent().parent().find("img").attr("src");
+		savePicture(picurl);
+	}
+	var triggerEvent = "touchstart";
+	function savePicture(Url){
+		var blob=new Blob([''], {type:'application/octet-stream'});
+		var url = URL.createObjectURL(blob);
+		var a = document.createElement('a');
+		a.href = Url;
+		a.download = Url.replace(/(.*\/)*([^.]+.*)/ig,"$2").split("?")[0];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+		URL.revokeObjectURL(url);
+	}
+	function clipBoard(text) {
+		const body = document.body;
+		const input = document.createElement("input");
+		body.append(input);
+		input.style.opacity = 0;
+		input.value = text;
+		input.select();
+		input.setSelectionRange(0, input.value.length);
+		document.execCommand("Copy");
+		input.blur();
+		input.remove();
+	}
+	function copy(t) {
+		var codeurl = t;
+		clipBoard(codeurl);
+		layer.msg("{:lang('public.copyok')}");
+	}
+</script>

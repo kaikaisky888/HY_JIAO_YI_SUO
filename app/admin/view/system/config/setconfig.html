@@ -1,0 +1,75 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-05-31 13:44:29
+ * @LastEditTime: 2021-07-01 18:17:57
+ * @Description: Forward, no stop
+-->
+<style>
+.layui-form-label {
+    width: 150px;
+}
+.layui-input-block {
+    margin-left: 190px;
+}
+</style>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form id="app-form" class="layui-form layuimini-form">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="fa fa-warning icon"></i>调取方式</div>
+                <div class="layui-card-body">
+                    <div class="welcome-module">
+                        <input class="layui-input" style="margin:10px;border:0;color:#FF6600;" value="sysconfig('{$row.group}','{$row.name}')">
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$row.id|default=''}">
+            {if $row.type=='radio'}
+            <div class="layui-form-item">
+                <label class="layui-form-label required">{$row.remark}</label>
+                <div class="layui-input-block">
+                    {foreach $row.sets as $key => $val}
+                    <input type="radio" name="value" value="{$val}" title="{$val}" {if $val==$row.value}checked{/if}>
+                    {/foreach}
+                    <tip>选择{$row.remark}。{$row.content}</tip>
+                </div>
+            </div>
+            {/if}
+            {if $row.type=='image'}
+            <div class="layui-form-item">
+                <label class="layui-form-label required">{$row.remark}</label>
+                <div class="layui-input-block layuimini-upload">
+                    <input name="value" class="layui-input layui-col-xs6" placeholder="请上传{$row.remark}" value="{:sysconfig($row.group,$row.name)}">
+                    <div class="layuimini-upload-btn">
+                        <span><a class="layui-btn" data-upload="value" data-upload-number="one" data-upload-exts="ico|png|jpg|jpeg"><i class="fa fa-upload"></i> 上传</a></span>
+                        <span><a class="layui-btn layui-btn-normal" id="select_value" data-upload-select="value" data-upload-number="one"><i class="fa fa-list"></i> 选择</a></span>
+                    </div>
+                </div>
+            </div>
+            {/if}
+            {if $row.type=='text'}
+            <div class="layui-form-item">
+                <label class="layui-form-label required">{$row.remark}</label>
+                <div class="layui-input-block">
+                    <input type="text" name="value" class="layui-input" placeholder="请输入{$row.remark}" value="{:sysconfig($row.group,$row.name)}">
+                    <tip>填写{$row.remark}。{$row.content}</tip>
+                </div>
+            </div>
+            {/if}
+            {if $row.type=='textarea'}
+            <div class="layui-form-item">
+                <label class="layui-form-label required">{$row.remark}</label>
+                <div class="layui-input-block">
+                    <textarea name="value" class="layui-textarea"  placeholder="请输入{$row.remark}">{:sysconfig($row.group,$row.name)}</textarea>
+                    <tip>填写{$row.remark}。{$row.content}</tip>
+                </div>
+            </div>
+            {/if}
+            <div class="hr-line"></div>
+            <div class="layui-form-item text-center">
+                <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="system.config/setconfig" data-refresh="false">确认</button>
+                <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+            </div>
+        </form>
+    </div>
+</div>

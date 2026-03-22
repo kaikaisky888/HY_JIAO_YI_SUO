@@ -1,0 +1,14 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-22 14:56:12
+ * @LastEditTime: 2021-08-08 10:38:44
+ * @Description: Forward, no stop
+-->
+<ul>
+    <li {if $leftmenu=='ex'} class="layui-this"{/if}><a href="{:url('finance/index')}"><i class="fa fa-money" aria-hidden="true"></i>{:lang('finance.ex_title')}</a></li>
+    <li {if $leftmenu=='le'} class="layui-this"{/if}><a href="{:url('finance/lefinance')}"><i class="fa fa-money" aria-hidden="true"></i>{:lang('finance.le_title')}</a></li>
+    <li {if $leftmenu=='op'} class="layui-this"{/if}><a href="{:url('finance/opfinance')}"><i class="fa fa-money" aria-hidden="true"></i>{:lang('finance.op_title')}</a></li>
+    <li {if $leftmenu=='up'} class="layui-this"{/if}><a href="{:url('finance/upfinance')}"><i class="fa fa-money" aria-hidden="true"></i>{:lang('finance.up_title')}</a></li>
+    <li {if $leftmenu=='cm'} class="layui-this"{/if}><a href="{:url('finance/cmfinance')}"><i class="fa fa-money" aria-hidden="true"></i>{:lang('finance.cm_title')}</a></li>
+    <li {if $leftmenu=='tf'} class="layui-this"{/if}><a href="{:url('finance/transfer')}"><i class="fa fa-exchange" aria-hidden="true"></i>{:lang('finance.tf_title')}</a></li>
+</ul>

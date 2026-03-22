@@ -1,0 +1,398 @@
+<style>
+    body,
+    html {
+        background: #242424;
+    }
+
+    .coinwin-dark-header {
+        background: #242424;
+        color: #fff;
+        padding: 14px 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .coinwin-dark-nav-btn {
+        color: #fff;
+        display: inline-block;
+        font-size: 20px;
+        line-height: 24px;
+        padding: 2px 4px;
+    }
+
+    .coinwin-dark-header-title {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .coinwin-detail-page {
+        background: #242424;
+        min-height: calc(100vh - 52px);
+        padding: 14px 12px 28px;
+    }
+
+    .coinwin-detail-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #2d2d2d;
+        border-radius: 14px;
+        padding: 14px 12px;
+        margin-bottom: 12px;
+        border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .coinwin-detail-top-left {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+    }
+
+    .coinwin-detail-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: rgba(255,255,255,0.06);
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+
+    .coinwin-detail-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .coinwin-detail-title-box {
+        min-width: 0;
+    }
+
+    .coinwin-detail-title {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.3;
+        margin-bottom: 4px;
+        word-break: break-all;
+    }
+
+    .coinwin-detail-sub {
+        color: #b8b8b8;
+        font-size: 12px;
+    }
+
+    .coinwin-detail-card {
+        background: #2d2d2d;
+        border-radius: 14px;
+        padding: 14px 12px;
+        margin-bottom: 12px;
+        border: 1px solid rgba(255,255,255,0.04);
+        box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    }
+
+    .coinwin-detail-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        gap: 12px;
+    }
+
+    .coinwin-detail-row:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .coinwin-detail-row:first-child {
+        padding-top: 0;
+    }
+
+    .coinwin-detail-label {
+        color: #b8b8b8;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    .coinwin-detail-value {
+        color: #fff;
+        font-size: 14px;
+        text-align: right;
+        word-break: break-all;
+    }
+
+    .coinwin-detail-block-title {
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+
+    .coinwin-input-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: #252525;
+        border-radius: 10px;
+        padding-right: 92px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .coinwin-dark-input {
+        width: 100%;
+        height: 48px;
+        line-height: 48px;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 15px;
+        padding: 0 12px;
+    }
+
+    .coinwin-dark-input::placeholder {
+        color: #8e8e8e;
+    }
+
+    .coinwin-input-unit {
+        position: absolute;
+        right: 54px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #b8b8b8;
+        font-size: 13px;
+    }
+
+    .coinwin-input-max {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #ffd37a;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .coinwin-balance-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 12px;
+    }
+
+    .coinwin-balance-label {
+        color: #9a9a9a;
+        font-size: 13px;
+    }
+
+    .coinwin-balance-value {
+        color: #fff;
+        font-size: 13px;
+    }
+
+    .coinwin-desc-box {
+        color: #d8d8d8;
+        font-size: 13px;
+        line-height: 1.8;
+        word-break: break-all;
+    }
+
+    .coinwin-desc-text {
+        color: #d8d8d8;
+    }
+
+    .coinwin-desc-content {
+        margin-top: 8px;
+    }
+
+    .coinwin-desc-empty {
+        color: #9a9a9a;
+        font-size: 13px;
+    }
+
+    .coinwin-submit-wrap {
+        margin-top: 18px;
+    }
+
+    .coinwin-submit-btn {
+        width: 100%;
+        height: 46px;
+        line-height: 46px;
+        text-align: center;
+        background: #ffd37a !important;
+        color: #2a2a2a !important;
+        border: none;
+        border-radius: 24px;
+        font-size: 16px;
+        font-weight: 600;
+        box-shadow: 0 4px 10px rgba(255, 211, 122, 0.18);
+    }
+</style>
+
+<div class="a-header position-re layui-rows coinwin-dark-header">
+    <div class="layui-col-xs4">
+        <a href="javascript:window.history.go(-1);" class="coinwin-dark-nav-btn">
+            <i class="layui-icon layui-icon-left"></i>
+        </a>
+    </div>
+    <div class="layui-col-xs4 text-center coinwin-dark-header-title">
+        {:lang('coinwin.subscribe_title',['coin'=>$coin_title])}
+    </div>
+    <div class="layui-col-xs4 text-right">
+        <a href="{:url('/mobile')}" class="coinwin-dark-nav-btn">
+            <i class="layui-icon layui-icon-home"></i>
+        </a>
+    </div>
+</div>
+
+<div class="coinwin-detail-page">
+    <div class="coinwin-detail-top">
+        <div class="coinwin-detail-top-left">
+            <div class="coinwin-detail-logo">
+                <img src="{$good.show_logo}" alt="{$good.show_title}">
+            </div>
+            <div class="coinwin-detail-title-box">
+                <div class="coinwin-detail-title">{$good.show_title}</div>
+                <div class="coinwin-detail-sub">{$coin_title}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="coinwin-detail-card">
+        <div class="coinwin-detail-row">
+            <div class="coinwin-detail-label">{:lang('coinwin.term')}</div>
+            <div class="coinwin-detail-value">{$good.play_time_text}{:lang('coinwin.day_unit')}</div>
+        </div>
+        <div class="coinwin-detail-row">
+            <div class="coinwin-detail-label">{:lang('coinwin.yield_rate')}</div>
+            <div class="coinwin-detail-value">{:lang('coinwin.annual_rate')} {$good.annual_rate_text}</div>
+        </div>
+        <div class="coinwin-detail-row">
+            <div class="coinwin-detail-label">{:lang('coinwin.min_buy')}</div>
+            <div class="coinwin-detail-value">{$good.play_price_text} {$coin_title}</div>
+        </div>
+        {if $good.max_price > 0}
+        <div class="coinwin-detail-row">
+            <div class="coinwin-detail-label">{:lang('coinwin.max_buy')}</div>
+            <div class="coinwin-detail-value">{$good.max_price_text} {$coin_title}</div>
+        </div>
+        {/if}
+        <div class="coinwin-detail-row">
+            <div class="coinwin-detail-label">{:lang('coinwin.buy_limit')}</div>
+            <div class="coinwin-detail-value">
+                {if $good.can_buy > 0}
+                {:lang('coinwin.buy_limit_times',['num'=>$good.can_buy])}
+                {else /}
+                {:lang('coinwin.buy_limit_unlimited')}
+                {/if}
+            </div>
+        </div>
+    </div>
+
+    <form class="layui-form" id="coinwinBuyForm" action="">
+        <div class="coinwin-detail-card">
+            <div class="coinwin-detail-block-title">{:lang('coinwin.buy_amount')}</div>
+
+            <input type="hidden" name="good_id" value="{$good.id}">
+            <input type="hidden" name="product_id" value="{$product_id}">
+
+            <div class="coinwin-input-wrap">
+                <input type="text"
+                       name="buy_account"
+                       id="buy_account"
+                       value=""
+                       lay-verify="required|account"
+                       lay-verType="tips"
+                       placeholder="{:lang('coinwin.buy_placeholder',['amount'=>$good.play_price_text,'coin'=>$coin_title])}"
+                       class="coinwin-dark-input" />
+                <span class="coinwin-input-unit">{$coin_title}</span>
+                <span class="coinwin-input-max" id="fillAllBtn">{:lang('coinwin.max_btn')}</span>
+            </div>
+
+            <div class="coinwin-balance-row">
+                <span class="coinwin-balance-label">{:lang('coinwin.available_balance')}</span>
+                <span class="coinwin-balance-value">{$good.wallet_money_text} {$coin_title}</span>
+            </div>
+        </div>
+
+        <div class="coinwin-detail-card">
+            <div class="coinwin-detail-block-title">{:lang('coinwin.product_desc')}</div>
+            <div class="coinwin-desc-box">
+                {notempty name="good.show_remark"}
+                <div class="coinwin-desc-text">{$good.show_remark|raw}</div>
+                {/notempty}
+
+                {notempty name="good.show_content"}
+                <div class="coinwin-desc-text coinwin-desc-content">{$good.show_content|htmlspecialchars_decode|html_entity_decode|raw}</div>
+                {else /}
+                <div class="coinwin-desc-empty">{:lang('coinwin.no_desc')}</div>
+                {/notempty}
+            </div>
+        </div>
+
+        <div class="coinwin-submit-wrap">
+            <button class="coinwin-submit-btn" lay-submit lay-filter="formCoinBuy">{:lang('coinwin.submit_buy')}</button>
+        </div>
+    </form>
+</div>
+
+{include file="./block/foot_script"}
+
+<script>
+    layui.use(['layer','jquery', 'form'], function(){
+        var layer = layui.layer,
+            $ = layui.jquery,
+            form = layui.form;
+
+        var maxMoney = "{$good.wallet_money_text}";
+
+        form.verify({
+            account: [
+                /^(?!(0[0-9]{0,}$))[0-9]{1,}[.]?[0-9]{0,}$/,
+                "{:lang('coinwin.check_buy_number')}"
+            ]
+        });
+
+        $('#fillAllBtn').on('click', function () {
+            $('#buy_account').val(maxMoney);
+        });
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        form.on('submit(formCoinBuy)', function(data){
+            var loading = layer.load(1, {shade: [0.1,'#fff']});
+
+            $.post("{:url('coinwin/dobuy')}", data.field, function (res) {
+                layer.close(loading);
+                if (res.code > 0) {
+                    if(res.url){
+                        layer.msg(res.msg, {time: 1800}, function () {
+                            location.href = res.url;
+                        });
+                    }else{
+                        layer.msg(res.msg, {time: 1800}, function () {
+                            window.location.reload();
+                        });
+                    }
+                } else {
+                    if(res.url){
+                        layer.msg(res.msg, {time: 1800}, function () {
+                            location.href = res.url;
+                        });
+                    }else{
+                        layer.msg(res.msg, {time: 1800});
+                    }
+                }
+            });
+
+            return false;
+        });
+    });
+</script>

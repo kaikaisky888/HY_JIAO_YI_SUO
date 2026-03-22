@@ -1,0 +1,394 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-08 21:39:08
+ * @LastEditTime: 2021-08-05 19:14:51
+ * @Description: Forward, no stop
+-->
+<div class="header">
+    {include file="./block/block_head"}
+</div>
+<div class="new-bg">
+	<!--主体-->
+	<div class="main">
+		<div class="layui-container">
+			<div class="layui-row layui-col-space30 white-box">
+				<div class="layui-col-xs3">
+					{include file="./block/member_left"}
+				</div>
+				<div class="layui-col-xs9">
+					<div class="account-main">
+						<div class="account-safe">
+							<img src="__STATIC__/index/img/safe_ico.png" >
+							<div class="layui-inline">
+								<p>{:fox_all_replace(lang('member.member_safe_txt'),$safe_x,5)}</p>
+								<div class="layui-progress">
+								  <div class="layui-progress-bar layui-bg-blue" lay-percent="{$safe}%"></div>
+								</div>
+								<p class="font-14">{:fox_all_replace(lang('member.member_safe_txt'),$safe_x,5)}{:lang('member.member_safe_after')}</p>
+							</div>
+						</div>
+						<hr >
+						<ul class="account-body">
+							<li class="layui-row">
+								<span class="layui-col-xs3"><i class="layui-icon layui-icon-ok-circle"></i>{:lang('member.member_invite_code')}</span>
+								<span class="layui-col-xs7">{$member.invite_code}</span>
+								<span class="layui-col-xs2 text-right"><i class="fa fa-qrcode" aria-hidden="true"></i> <a href="javascript:void(0);" onclick="copy();" class="color-blue">{:lang('member.member_invite_copy')}</a></span>
+							</li>
+							<li class="layui-row hidebox text-center" id="invite">
+								<img src="{$invite_code_img}" width="150">
+							</li>
+							{if $phone}
+							<li class="layui-row">
+								<span class="layui-col-xs3"><i class="layui-icon layui-icon-ok-circle"></i>{:lang('member.member_phone')}</span>
+								<span class="layui-col-xs7">{$member.phone}</span>
+								<span class="layui-col-xs2 text-right"></span>
+							</li>
+							{else}
+							<li class="layui-row">
+								<span class="layui-col-xs3"><i class="layui-icon layui-icon-close-fill color-red"></i>{:lang('member.member_phone')}</span>
+								<span class="layui-col-xs7">{:lang('member.member_phone_txt')}</span>
+								<span class="layui-col-xs2 text-right"><a href="javascript:void(0);" class="color-blue phoneset">{:lang('member.member_phone_set')}</a></span>
+							</li>
+							<li class="layui-row text-center hidebox form-bg" id="phoneset">
+								<form class="layui-form" action="">
+									<div class="layui-inline">
+										<div class="layui-input-inline" style="width: 160px;">
+											<select lay-filter="selectPrefix" lay-search=""  lay-verify="required" lay-verType="tips" lay-reqText="{:lang('wicket_page.register_prefix')}">
+												<option value="">{:lang('wicket_page.register_prefix')}</option>
+												{volist name="prefix_code" id="vo"}
+												<option value="{$vo.prefix}">{if strstr($lang, 'cn')}{$vo.cn}{else}{$vo.en}{/if}</option>
+												{/volist}
+											  </select>
+										</div>
+									</div>
+									<div class="layui-inline">
+										<div class="layui-input-inline text-right" style="width: 60px;">{:lang('wicket_page.register_phone_input')}</div>
+										<div class="layui-input-inline" style="width: 130px;">
+										  <input type="text" name="username" lay-verify="required" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('wicket_page.register_phone_input'))}" placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('wicket_page.register_phone_input'))}" autocomplete="off" class="layui-input">
+										</div>
+									<input type="hidden" id="prefix" name="prefix" value="">
+										<div class="layui-input-inline text-right" style="width: 60px;">{:lang('wicket_page.login_code')}</div>
+										<div class="layui-input-inline" style="width: 80px;">
+											<input type="text" name="code" lay-verify="required" lay-verType="tips" lay-reqText="{:lang('wicket_page.login_code')}" placeholder="{:lang('wicket_page.login_code')}" value="" class="layui-input"/>
+										</div>
+										<button class="layui-inline layui-btn btn-red" id="btnSendCode">{:fox_all_replace(lang('wicket_page.please_get'),lang('wicket_page.login_code'))}</button>
+									</div>
+									<div class="layui-inline">
+										<button class="layui-btn layui-btn-normal" lay-submit lay-filter="phoneSet">{:lang('member.phone_btn')}</button>
+									</div>
+								</form>
+							</li>
+							{/if}
+							<li class="layui-row">
+								<span class="layui-col-xs3"><i class="layui-icon layui-icon-ok-circle"></i>{:lang('member.member_pwd')}</span>
+								<span class="layui-col-xs7">{:lang('member.member_pwd_txt')}</span>
+								<span class="layui-col-xs2 text-right"><a href="javascript:void(0);" class="color-blue setpass">{:lang('member.member_pwd_set')}</a></span>
+							</li>
+							<li class="layui-row hidebox form-bg" id="setpass">
+								<form class="layui-form" action="">
+									<div class="layui-inline">
+										<label class="layui-form-label">{:lang('member.sepass_opass_txt')}</label>
+										<div class="layui-input-inline" style="width: 100px;">
+										  <input type="password" name="opass" lay-verify="required|pwd" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('member.sepass_opass_txt'))}" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+									<div class="layui-inline">
+										<label class="layui-form-label">{:lang('member.sepass_npass_txt')}</label>
+										<div class="layui-input-inline" style="width: 100px;">
+										  <input type="password" name="npass" lay-verify="required|pwd" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('member.sepass_npass_txt'))}" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+									<div class="layui-inline">
+										<label class="layui-form-label">{:lang('member.sepass_cpass_txt')}</label>
+										<div class="layui-input-inline" style="width: 100px;">
+										  <input type="password" name="cpass" lay-verify="required|cpwd" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('member.sepass_cpass_txt'))}" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+									<div class="layui-inline">
+										<button class="layui-btn layui-btn-normal" lay-submit lay-filter="setPass">{:lang('member.sepass_btn')}</button>
+									</div>
+								</form>
+							</li>
+							<li class="layui-row">
+								<span class="layui-col-xs3">{if $paypwd}<i class="layui-icon layui-icon-ok-circle"></i>{else}<i class="layui-icon layui-icon-close-fill color-red"></i>{/if}{:lang('member.member_paypwd')}</span>
+								<span class="layui-col-xs7">{:lang('member.member_paypwd_txt')}</span>
+								{if $paypwd}
+								<span class="layui-col-xs2 text-right"><a href="javascript:void(0);" class="color-blue paypwdedit">{:lang('member.member_paypwd_edit')}</a></span>
+								{else}
+								<span class="layui-col-xs2 text-right"><a href="javascript:void(0);" class="color-blue paypwdset">{:lang('member.member_paypwd_set')}</a></span>
+								{/if}
+							</li>
+							<li class="layui-row hidebox form-bg" id="paypwdset">
+								<form class="layui-form" action="">
+									<div class="layui-inline">
+										<label class="layui-form-label">{:lang('member.paypwd_npass_txt')}</label>
+										<div class="layui-input-inline" style="width: 100px;">
+										  <input type="password" name="paypass" lay-verify="required|pwd" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('member.paypwd_npass_txt'))}" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+									<div class="layui-inline">
+										<label class="layui-form-label">{:lang('member.paypwd_cpass_txt')}</label>
+										<div class="layui-input-inline" style="width: 100px;">
+										  <input type="password" name="cpaypass" lay-verify="required|paypwd" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('member.paypwd_cpass_txt'))}" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+									<div class="layui-inline">
+										<button class="layui-btn layui-btn-normal" lay-submit lay-filter="paypwdSet">{:lang('member.paypwd_btn')}</button>
+									</div>
+								</form>
+							</li>
+							<li class="layui-row hidebox form-bg" id="paypwdedit">
+								<form class="layui-form" action="">
+									<div class="layui-inline">
+										<label class="layui-form-label">{:lang('member.paypwd_opass_txt')}</label>
+										<div class="layui-input-inline" style="width: 100px;">
+										  <input type="password" name="opaypass" lay-verify="required|pwd" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('member.paypwd_opass_txt'))}" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+									<div class="layui-inline">
+										<label class="layui-form-label">{:lang('member.paypwd_npass_txt')}</label>
+										<div class="layui-input-inline" style="width: 100px;">
+										  <input type="password" name="epaypass" lay-verify="required|pwd" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('member.paypwd_npass_txt'))}" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+									<div class="layui-inline">
+										<label class="layui-form-label">{:lang('member.paypwd_cpass_txt')}</label>
+										<div class="layui-input-inline" style="width: 100px;">
+										  <input type="password" name="ecpaypass" lay-verify="required|epaypwd" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('member.paypwd_cpass_txt'))}" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+									<div class="layui-inline">
+										<button class="layui-btn layui-btn-normal" lay-submit lay-filter="paypwdEdit">{:lang('member.paypwd_ebtn')}</button>
+									</div>
+								</form>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/block_bottom"}
+{include file="./block/foot_script"}
+<script src="__STATIC__/index/js/clipboard.min.js?v={$version}"></script>
+<script>
+	var codeurl = "{$invite_code_url}";
+
+	function clipBoard(text) {
+		const body = document.body;
+		const input = document.createElement("input");
+		body.append(input);
+		input.style.opacity = 0;
+		input.value = text;
+		input.select();
+		input.setSelectionRange(0, input.value.length);
+		document.execCommand("Copy");
+		input.blur();
+		input.remove();
+	}
+	function copy() {
+		$(".hidebox").fadeOut();
+		clipBoard(codeurl);
+		layer.msg("{:lang('public.copyok')}");
+	}
+	
+	layui.use(['layer', 'jquery', 'form'], function(){
+		var layer = layui.layer
+		,$ = layui.jquery
+		,form = layui.form;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		$(".fa-qrcode").hover(function(){
+			$("#invite").fadeIn().siblings(".hidebox").hide();
+		})
+		$(".setpass").hover(function(){
+			$("#setpass").fadeIn().siblings(".hidebox").hide();
+		})
+		$(".paypwdset").hover(function(){
+			$("#paypwdset").fadeIn().siblings(".hidebox").hide();
+		})
+		$(".paypwdedit").hover(function(){
+			$("#paypwdedit").fadeIn().siblings(".hidebox").hide();
+		})
+		$(".phoneset").hover(function(){
+			$("#phoneset").fadeIn().siblings(".hidebox").hide();
+		})
+
+		form.on('select(selectPrefix)', function(data){
+			$("#prefix").val(data.value);
+		}); 
+
+		form.verify({ 
+			pwd: [
+				/^[\S]{6,12}$/
+				, "{:lang('wicket_page.register_password_req')}"
+			],
+			cpwd: function (value) {
+				if ($('input[name=npass]').val() !== value)
+					return "{:lang('wicket_page.register_check_pass')}";
+			},
+			paypwd: function (value) {
+				if ($('input[name=paypass]').val() !== value)
+					return "{:lang('wicket_page.register_check_pass')}";
+			},
+			epaypwd: function (value) {
+				if ($('input[name=epaypass]').val() !== value)
+					return "{:lang('wicket_page.register_check_pass')}";
+			}
+		})
+
+		form.on('submit(setPass)', function(data){
+			if(data.field.opass && data.field.npass && data.field.cpass){
+				loading =layer.load(1, {shade: [0.1,'#fff']});
+				$.post("{:url('member/setpass')}", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						}else{
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		})
+
+		form.on('submit(paypwdSet)', function(data){
+			if(data.field.paypass && data.field.cpaypass){
+				loading =layer.load(1, {shade: [0.1,'#fff']});
+				$.post("{:url('member/setpaypass')}", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						}else{
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		})
+
+		form.on('submit(paypwdEdit)', function(data){
+			if(data.field.epaypass && data.field.ecpaypass){
+				loading =layer.load(1, {shade: [0.1,'#fff']});
+				$.post("{:url('member/setpaypass')}", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						}else{
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		})
+
+		form.on('submit(phoneSet)', function(data){
+			if(data.field.username && data.field.code){
+				loading =layer.load(1, {shade: [0.1,'#fff']});
+				$.post("{:url('member/setphone')}", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						}else{
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		})
+
+		var InterValObj; //timer变量，控制时间
+		var count = 60; //间隔函数，1秒执行
+		var curCount;//当前剩余秒数
+		var btnsend = $("#btnSendCode");
+		$('#btnSendCode').on('click', function() {
+			var username = $('input[name=username]').val();
+			var prefix = $('input[name=prefix]').val();
+			if(username.length <= 3){
+				var placeholder= $('input[name=username]').attr("placeholder");
+				layer.msg(placeholder, {shade: 0.1,time: 1000});
+				return false;
+			}
+			if(!prefix){
+				layer.msg("{:lang('send_email.send_prefix_no')}", {shade: 0.1,time: 1000});
+				return false;
+			}
+			if(username.length > 3){
+				$.ajax({
+					url: "{:url('member/getcodes')}",
+					data: {username: username,prefix:prefix},
+					type: "POST",
+					success: function(res) {
+						if (res.code > 0) {
+							layer.msg(res.msg, {time: 1800}, function () {
+								curCount = count;
+								btnsend.addClass('layui-btn-disabled').attr("disabled","true");//设置按钮为禁用状态
+								btnsend.text(curCount + " {:lang('wicket_page.code_after')}");
+								InterValObj = window.setInterval(SetRemainTime, 1000); // 启动计时器timer处理函数，1秒执行一次
+							});
+						} else {
+							if(res.url){
+								layer.msg(res.msg, {time: 1800}, function () {
+									location.href = res.url;
+								});
+							}else{
+								layer.msg(res.msg, {time: 1800});
+							}
+						}
+					}
+				});
+			}
+			return false;
+		});
+		window.SetRemainTime = function (){
+			if(curCount == 0){
+				btnsend.text("{:lang('wicket_page.code_resend')}");
+				window.clearInterval(InterValObj);// 停止计时器
+				btnsend.removeClass('layui-btn-disabled').attr("disabled",false);
+			} else{
+				curCount--;
+				btnsend.text(curCount + " {:lang('wicket_page.code_after')}");
+			}
+		}
+
+	})
+</script>

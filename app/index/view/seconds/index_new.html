@@ -1,0 +1,1057 @@
+<script src="__STATIC__/index/trading/pako.js?v={$version}"></script>
+<script src="__STATIC__/index/trading/event.js?v={$version}"></script>
+<script src="__STATIC__/index/trading/charting_library/charting_library.min.js?v={$version}"></script>
+<link rel="stylesheet" href="__STATIC__/index/trading/trading.css?v={$version}">
+<link rel="stylesheet" href="__STATIC__/index/css/times.css?v={$version}" media="all">
+<style>
+	/* 现代化期权交易页面样式 */
+	.option-container {
+		display: flex;
+		min-height: calc(100vh - 60px);
+		background: #0d1421;
+	}
+	/* 左侧产品列表 */
+	.option-left {
+		width: 220px;
+		background: #131b2a;
+		border-right: 1px solid #1e2a3a;
+		flex-shrink: 0;
+	}
+	.option-left-title {
+		padding: 15px;
+		color: #8a94a6;
+		font-size: 14px;
+		border-bottom: 1px solid #1e2a3a;
+	}
+	.option-product-list {
+		max-height: calc(100vh - 160px);
+		overflow-y: auto;
+	}
+	.option-product-list .option-product-item {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 12px 15px;
+		cursor: pointer;
+		transition: background 0.2s;
+		border-bottom: 1px solid #1e2a3a;
+		background: transparent !important;
+	}
+	.option-product-list .option-product-item:hover,
+	.option-product-list .option-product-item.active {
+		background: #1a2332 !important;
+	}
+	.option-product-item .option-product-name {
+		color: #fff;
+		font-weight: 500;
+		font-size: 14px;
+		background: none !important;
+	}
+	.option-product-item .option-product-price {
+		color: #8a94a6;
+		font-size: 13px;
+		text-align: right;
+		background: none !important;
+	}
+	.option-product-item .option-product-change {
+		font-size: 12px;
+		margin-top: 2px;
+		background: none !important;
+	}
+	.option-product-change.up { color: #00c087; }
+	.option-product-change.down { color: #f5465c; }
+	/* 覆盖 layui 样式 */
+	.option-product-list * {
+		background-color: transparent !important;
+	}
+	/* 中间区域 */
+	.option-center {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+	}
+	/* 顶部信息栏 */
+	.option-header {
+		display: flex;
+		align-items: center;
+		padding: 15px 20px;
+		background: #131b2a;
+		border-bottom: 1px solid #1e2a3a;
+	}
+	.option-symbol {
+		font-size: 24px;
+		font-weight: bold;
+		color: #fff;
+		margin-right: 30px;
+	}
+	.option-info-item {
+		margin-right: 30px;
+	}
+	.option-info-label {
+		color: #8a94a6;
+		font-size: 12px;
+		margin-bottom: 4px;
+	}
+	.option-info-value {
+		font-size: 14px;
+		font-weight: 500;
+	}
+	.option-info-value.up { color: #00c087; }
+	.option-info-value.down { color: #f5465c; }
+	/* K线图区域 */
+	.option-chart {
+		flex: 1;
+		min-height: 400px;
+		background: #131b2a;
+	}
+	.option-chart-header {
+		display: flex;
+		align-items: center;
+		padding: 10px 15px;
+		border-bottom: 1px solid #1e2a3a;
+	}
+	.option-chart-tabs span {
+		padding: 6px 12px;
+		color: #8a94a6;
+		cursor: pointer;
+		font-size: 13px;
+		border-radius: 4px;
+		margin-right: 5px;
+	}
+	.option-chart-tabs span:hover, .option-chart-tabs span.active {
+		background: #1e2a3a;
+		color: #fff;
+	}
+	/* 交易区域 */
+	.option-trade-area {
+		background: #131b2a;
+		padding: 20px;
+		border-top: 1px solid #1e2a3a;
+	}
+	.option-trade-title {
+		display: flex;
+		align-items: center;
+		margin-bottom: 20px;
+	}
+	.option-trade-title i {
+		width: 24px;
+		height: 24px;
+		background: #00c087;
+		border-radius: 50%;
+		margin-right: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.option-trade-title span {
+		color: #fff;
+		font-size: 16px;
+		font-weight: 500;
+	}
+	.option-section-title {
+		color: #8a94a6;
+		font-size: 13px;
+		margin-bottom: 12px;
+		display: flex;
+		align-items: center;
+	}
+	.option-section-title::before {
+		content: '';
+		width: 4px;
+		height: 4px;
+		background: #f7931a;
+		border-radius: 50%;
+		margin-right: 8px;
+	}
+	/* 期权周期卡片 */
+	.option-period-grid {
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		gap: 10px;
+		margin-bottom: 20px;
+	}
+	.option-period-card {
+		background: #1a2332;
+		border: 1px solid #2a3444;
+		border-radius: 6px;
+		padding: 12px 0;
+		cursor: pointer;
+		transition: all 0.2s;
+		text-align: center;
+	}
+	.option-period-card:hover {
+		border-color: #3a4454;
+	}
+	.option-period-card.active {
+		border-color: #f7931a;
+		background: rgba(247, 147, 26, 0.1);
+	}
+	.option-period-icon {
+		display: none;
+	}
+	.option-period-time {
+		color: #fff;
+		font-size: 14px;
+		font-weight: 500;
+	}
+	.option-period-rate {
+		font-size: 12px;
+		margin-top: 4px;
+	}
+	.option-period-rate .label { color: #8a94a6; }
+	.option-period-rate .value { color: #00c087; }
+	/* 金额选择 */
+	.option-amount-grid {
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		gap: 10px;
+		margin-bottom: 20px;
+	}
+	.option-amount-btn {
+		background: #1a2332;
+		border: 1px solid #2a3444;
+		border-radius: 6px;
+		padding: 12px 0;
+		color: #fff;
+		font-size: 14px;
+		cursor: pointer;
+		transition: all 0.2s;
+		text-align: center;
+	}
+	.option-amount-btn:hover {
+		border-color: #3a4454;
+	}
+	.option-amount-btn.active {
+		border-color: #f7931a;
+		background: rgba(247, 147, 26, 0.1);
+	}
+	.option-amount-input {
+		background: #1a2332;
+		border: 1px solid #2a3444;
+		border-radius: 6px;
+		padding: 12px 15px;
+		color: #fff;
+		font-size: 14px;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	.option-amount-input:focus {
+		border-color: #f7931a;
+		outline: none;
+	}
+	/* 底部信息和按钮 */
+	.option-trade-footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 20px;
+	}
+	.option-trade-info {
+		display: flex;
+		gap: 40px;
+	}
+	.option-trade-info-item {
+		display: flex;
+		align-items: center;
+	}
+	.option-trade-info-item .label {
+		color: #8a94a6;
+		font-size: 13px;
+		margin-right: 10px;
+	}
+	.option-trade-info-item .value {
+		color: #fff;
+		font-size: 14px;
+	}
+	.option-trade-info-item .value.green { color: #00c087; }
+	.option-trade-btns {
+		display: flex;
+		gap: 15px;
+	}
+	.option-btn-buy, .option-btn-sell {
+		padding: 15px 60px;
+		border: none;
+		border-radius: 6px;
+		font-size: 16px;
+		font-weight: bold;
+		cursor: pointer;
+		transition: opacity 0.2s;
+	}
+	.option-btn-buy {
+		background: linear-gradient(135deg, #00c087 0%, #00a070 100%);
+		color: #fff;
+	}
+	.option-btn-sell {
+		background: linear-gradient(135deg, #f5465c 0%, #d03050 100%);
+		color: #fff;
+	}
+	.option-btn-buy:hover, .option-btn-sell:hover {
+		opacity: 0.9;
+	}
+	/* 右侧持仓区域 */
+	.option-right {
+		width: 320px;
+		background: #131b2a;
+		border-left: 1px solid #1e2a3a;
+		flex-shrink: 0;
+		display: flex;
+		flex-direction: column;
+	}
+	.option-right-tabs {
+		display: flex;
+		border-bottom: 1px solid #1e2a3a;
+	}
+	.option-right-tab {
+		flex: 1;
+		padding: 15px;
+		text-align: center;
+		color: #8a94a6;
+		font-size: 14px;
+		cursor: pointer;
+		transition: all 0.2s;
+		border-bottom: 2px solid transparent;
+	}
+	.option-right-tab:hover, .option-right-tab.active {
+		color: #fff;
+		border-bottom-color: #f7931a;
+	}
+	.option-right-content {
+		flex: 1;
+		overflow-y: auto;
+		padding: 15px;
+	}
+	.option-empty {
+		text-align: center;
+		padding: 60px 20px;
+		color: #8a94a6;
+	}
+	.option-empty img {
+		width: 80px;
+		opacity: 0.5;
+		margin-bottom: 15px;
+	}
+	.option-order-item {
+		background: #1a2332;
+		border-radius: 8px;
+		padding: 15px;
+		margin-bottom: 10px;
+	}
+	.option-order-header {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 10px;
+	}
+	.option-order-type {
+		font-weight: 500;
+		font-size: 14px;
+	}
+	.option-order-type.buy { color: #00c087; }
+	.option-order-type.sell { color: #f5465c; }
+	.option-order-time {
+		color: #8a94a6;
+		font-size: 12px;
+	}
+	.option-order-info {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 8px;
+		font-size: 12px;
+	}
+	.option-order-info .label { color: #8a94a6; }
+	.option-order-info .value { color: #fff; }
+	/* 滚动条样式 */
+	.option-product-list::-webkit-scrollbar,
+	.option-right-content::-webkit-scrollbar {
+		width: 4px;
+	}
+	.option-product-list::-webkit-scrollbar-track,
+	.option-right-content::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	.option-product-list::-webkit-scrollbar-thumb,
+	.option-right-content::-webkit-scrollbar-thumb {
+		background: #2a3444;
+		border-radius: 2px;
+	}
+	/* 可用余额 */
+	.option-balance-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 15px;
+		padding: 10px 15px;
+		background: #1a2332;
+		border-radius: 6px;
+	}
+	.option-balance-label { color: #8a94a6; font-size: 13px; }
+	.option-balance-value { color: #00c087; font-size: 14px; font-weight: 500; }
+</style>
+<script>
+	var page_out="seconds",
+			lang_kline = "{:lang('kline_list.lang')}";
+	symbol_first ="{:sysconfig('api','seconds_first')}";
+	var Webtheme = "{$theme}";
+	var Productone = "{:url('ajax/get_product')}";
+	var depth_bid = "{:lang('deal.depth_bid')}";
+	var depth_ask = "{:lang('deal.depth_ask')}";
+	var play_time = "{:lang('seconds_trade.play_time')}";
+	var uid = "{:session('member.id')}";
+</script>
+<script src="__STATIC__/index/js/websocket.js?v={$version}"></script>
+<script src="__STATIC__/index/trading/datafeed.js?v={$version}"></script>
+<script src="__STATIC__/index/trading/chartConfig.js?v={$version}"></script>
+<div class="header">
+	{include file="./block/block_head"}
+</div>
+
+<div class="option-container">
+	<!-- 左侧产品列表 -->
+	<div class="option-left">
+		<div class="option-left-title">资产行情</div>
+		<div class="option-product-list" id="symbol">
+			{volist name="product" id="vo"}
+			<div class="option-product-item {if $vo.code == sysconfig('api','seconds_first')}active{/if}" data-value="{$vo.code}">
+				<div class="option-product-name">{$vo.title}</div>
+			</div>
+			{/volist}
+		</div>
+	</div>
+
+	<!-- 中间区域 -->
+	<div class="option-center">
+		<!-- 顶部信息栏 -->
+		<div class="option-header">
+			<div class="option-symbol" id="trading_top_title">{$product.0.title}</div>
+			<div class="option-info-item">
+				<div class="option-info-label">{:lang('deal.top_price')}</div>
+				<div class="option-info-value up" id="trading_top_price">{$product.0.close}</div>
+			</div>
+			<div class="option-info-item">
+				<div class="option-info-label">{:lang('deal.top_change')}</div>
+				<div class="option-info-value up" id="trading_top_change">{$product.0.change}%</div>
+			</div>
+			<div class="option-info-item">
+				<div class="option-info-label">{:lang('deal.top_high')}</div>
+				<div class="option-info-value" id="trading_top_high" style="color:#fff;">{$product.0.high}</div>
+			</div>
+			<div class="option-info-item">
+				<div class="option-info-label">{:lang('deal.top_low')}</div>
+				<div class="option-info-value" id="trading_top_low" style="color:#fff;">{$product.0.low}</div>
+			</div>
+			<div class="option-info-item">
+				<div class="option-info-label">{:lang('deal.top_volume')}</div>
+				<div class="option-info-value" id="trading_top_volume" style="color:#fff;">{$product.0.volume}</div>
+			</div>
+		</div>
+
+		<!-- K线图 -->
+		<div class="option-chart">
+			<div class="option-chart-header">
+				<div class="option-chart-tabs" id="interval">
+					<span data-value="1" data-kline="1">{:lang('kline_list.time')}</span>
+					<span class="active" data-value="1">{:lang('kline_list.1_min')}</span>
+					<span data-value="5">{:lang('kline_list.5_min')}</span>
+					<span data-value="15">{:lang('kline_list.15_min')}</span>
+					<span data-value="30">{:lang('kline_list.30_min')}</span>
+					<span data-value="60">{:lang('kline_list.60_min')}</span>
+					<span data-value="240">{:lang('kline_list.240_min')}</span>
+					<span data-value="1d">{:lang('kline_list.1_day')}</span>
+				</div>
+			</div>
+			<div class="trading-view" style="height: calc(100% - 45px);">
+				<div id="tv_chart_container"></div>
+			</div>
+		</div>
+
+		<!-- 交易区域 -->
+		<div class="option-trade-area">
+			<div class="option-trade-title">
+				<i>📈</i>
+				<span>{:lang('seconds_trade.trade_title')} <span id="trade_symbol">{$product.0.title}</span></span>
+			</div>
+
+			<!-- 期权周期 -->
+			<div class="option-section-title">{:lang('seconds_trade.right_op_time')}</div>
+			<div class="option-period-grid" id="op-period-grid">
+				<!-- JS动态填充 -->
+			</div>
+
+			<!-- 权利金额 -->
+			<div class="option-section-title">{:lang('seconds_trade.right_op_num')}</div>
+			<div class="option-amount-grid" id="op-amount-grid">
+				<!-- JS动态填充 -->
+			</div>
+
+			<!-- 自定义金额 -->
+			<div style="margin-bottom: 20px;">
+				<input type="number" class="option-amount-input" id="custom_amount" placeholder="{:lang('seconds_trade.right_op_manual')}" value="">
+			</div>
+
+			<!-- 底部信息和按钮 -->
+			<div class="option-trade-footer">
+				<div class="option-trade-info">
+					<div class="option-trade-info-item">
+						<span class="label">{:lang('seconds_trade.trade_fee')}:</span>
+						<span class="value" id="trade_fee">0.02%</span>
+					</div>
+					<div class="option-trade-info-item">
+						<span class="label">{:lang('seconds_trade.expect_profit')}:</span>
+						<span class="value green" id="expect_profit">0</span>
+					</div>
+					<div class="option-trade-info-item">
+						<span class="label">{:lang('seconds_trade.right_op_money')}:</span>
+						<span class="value green"><span class="can-use-money">0</span> <span class="can-use-money-tit">USDT</span></span>
+					</div>
+				</div>
+				<div class="option-trade-btns">
+					<button type="button" class="option-btn-buy" id="btn_buy">{:lang('seconds_trade.btn_buy')}</button>
+					<button type="button" class="option-btn-sell" id="btn_sell">{:lang('seconds_trade.btn_sell')}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 右侧持仓 -->
+	<div class="option-right">
+		<div class="option-right-tabs">
+			<div class="option-right-tab active" data-tab="holding">{:lang('seconds_trade.bottom_left_a')}</div>
+			<div class="option-right-tab" data-tab="history">{:lang('seconds_trade.bottom_left_b')}</div>
+		</div>
+		<div class="option-right-content" id="right_content">
+			<div class="option-empty" id="empty_tip">
+				<div style="font-size:40px;margin-bottom:10px;">📊</div>
+				<div>{:lang('seconds_trade.no_position')}</div>
+			</div>
+			<div id="lista"></div>
+			<div id="listb" style="display:none;"></div>
+		</div>
+	</div>
+</div>
+
+<!-- 倒计时弹窗 -->
+<div id="show-times-box" class="show-times-box hidebox">
+	<div class="times-head text-center times-tit"></div>
+	<div id="js-times-box" class="times-box">
+		<svg class="times-circle" width="200" height="200">
+			<circle cx="100" cy="100" r="97" fill="#131b2a" stroke="#f7931a" stroke-width="5"></circle>
+			<circle id="js-sec-circle" class="times-sec-circle" cx="100" cy="100" r="97" fill="transparent" stroke="#2a3444" stroke-width="7" transform="rotate(-90 100 100)"></circle>
+		</svg>
+		<div id="js-sec-text" class="times-sec-text"></div>
+		<div class="price-sec-title">{:lang('seconds_trade.now_price_title')}</div>
+		<div id="times-sec-price" class="times-sec-price"></div>
+	</div>
+	<div id="times-box-wait" class="times-box-wait hidebox">
+		<div class="head-tit-wait"><i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i></div>
+		<div class="head-content-wait">{:lang('seconds_trade.order_loading')}</div>
+	</div>
+	<div id="times-box-ok" class="times-box-ok hidebox">
+		<div class="head-tit-ok" id="ok_fee"></div>
+		<div class="head-content-ok" id="ok_tit"></div>
+	</div>
+	<div id="times-body" class="times-body">
+		<div id="time-op-style" class="hidebox"></div>
+		<div id="time-op-prop" class="hidebox"></div>
+		<div id="times-sec-change" class="hidebox"></div>
+		<div id="show_ordering" class="hidebox">
+			<div class="layui-row text-center">
+				<div class="layui-col-xs3">{:lang('seconds_trade.play_redirect')}</div>
+				<div class="layui-col-xs3">{:lang('seconds_trade.play_account')}</div>
+				<div class="layui-col-xs3">{:lang('seconds_trade.start_price')}</div>
+				<div class="layui-col-xs3" id="play_props"></div>
+			</div>
+			<div class="layui-row text-center">
+				<div class="layui-col-xs3" id="time_redirect"></div>
+				<div class="layui-col-xs3" id="time_play_price"></div>
+				<div class="layui-col-xs3" id="start_price"></div>
+				<div class="layui-col-xs3" id="end_price"></div>
+			</div>
+		</div>
+		<div id="show_orderok" class="show_orderok hidebox">
+			<div class="layui-row">
+				<div class="layui-col-xs5">{:lang('seconds_trade.play_redirect')}</div>
+				<div class="layui-col-xs7" id="time_redirecto"></div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-xs5">{:lang('seconds_trade.play_account')}</div>
+				<div class="layui-col-xs7" id="time_play_priceo"></div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-xs5">{:lang('seconds_trade.end_priceo')}</div>
+				<div class="layui-col-xs7" id="end_sepriceo"></div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-xs5">{:lang('seconds_trade.end_ordero')}</div>
+				<div class="layui-col-xs7" id="end_priceo"></div>
+			</div>
+		</div>
+	</div>
+	<div class="times-footer">
+		<a href="javascript:void(0);" onclick="orderGo();" class="layui-btn layui-btn-warm layui-btn-fluid">{:lang('seconds_trade.btn_ordergo')}</a>
+	</div>
+</div>
+<input type="hidden" name="deal_price" value="0" class="deal-price">
+<input type="hidden" id="selected_time" value="">
+<input type="hidden" id="selected_amount" value="">
+<input type="hidden" id="selected_prop" value="">
+
+{include file="./block/foot_script"}
+<script src="__STATIC__/index/js/socketset.js?v={$version}"></script>
+<script src="__STATIC__/index/js/websocket.js?v={$version}"></script>
+<script type="text/javascript">
+	var t;
+	var tasks = new Map();
+	var timer = null;
+	var currentTab = 'holding';
+
+	setInterval(function () {
+		for (var key in tasks) {
+			tasks[key]();
+		}
+	}, 1000);
+
+	function addTask(key, value) {
+		if (typeof value === "function") {
+			tasks[key] = value;
+		}
+	}
+	function delTask(task) {
+		delete tasks[task];
+	}
+
+	layui.use(['layer','element','jquery', 'form'], function(){
+		var layer = layui.layer
+				,element = layui.element
+				,$ = layui.jquery
+				,form = layui.form;
+
+		// 右侧Tab切换
+		$('.option-right-tab').click(function(){
+			$('.option-right-tab').removeClass('active');
+			$(this).addClass('active');
+			currentTab = $(this).data('tab');
+			if(currentTab == 'holding'){
+				$('#lista').show();
+				$('#listb').hide();
+				refreshLista();
+			}else{
+				$('#lista').hide();
+				$('#listb').show();
+				refreshListb();
+			}
+		});
+
+		// 产品切换
+		$('.option-product-item').click(function(){
+			$('.option-product-item').removeClass('active');
+			$(this).addClass('active');
+			var code = $(this).data('value');
+			var title = $(this).find('.option-product-name').text();
+			localsym = code;
+			storage.setItem("tobol", code);
+			$('#trading_top_title').text(title);
+			$('#trade_symbol').text(title);
+			get_product(code, page_out);
+			get_userwallet(code, page_out);
+			widget.setSymbol(code, 1);
+			widget.chart().setChartType(1);
+			refreshLista();
+			refreshListb();
+		});
+
+		// 获取期权配置
+		window.get_seconds_form = function(localsym,page_out){
+			$.post(userWallet,{code:localsym,pages:page_out},function(res){
+				if(res.code == 1){
+					var data = res.data;
+					$('.can-use-money').html(data.money);
+					$('.can-use-money-tit').html(data.pro_tit);
+
+					// 渲染期权周期
+					var op_play_time = data.op_play_time;
+					var op_play_prop = data.op_play_prop;
+					var periodHtml = '';
+					for(var i=0; i<op_play_time.length; i++){
+						var isActive = i === 0 ? 'active' : '';
+						var timeStr = getDuration(op_play_time[i]);
+						periodHtml += '<div class="option-period-card '+isActive+'" data-time="'+op_play_time[i]+'" data-prop="'+op_play_prop[i]+'">';
+						periodHtml += '<div class="option-period-icon">⏱️</div>';
+						periodHtml += '<div class="option-period-time">'+timeStr+'</div>';
+						periodHtml += '<div class="option-period-rate"><span class="label">{:lang("seconds_trade.profit_rate")}: </span><span class="value">'+op_play_prop[i]+'%</span></div>';
+						periodHtml += '</div>';
+						if(i === 0){
+							$('#selected_time').val(op_play_time[i]);
+							$('#selected_prop').val(op_play_prop[i]);
+							$('#time-op-prop').text(op_play_prop[i]);
+						}
+					}
+					$('#op-period-grid').html(periodHtml);
+
+					// 渲染金额选择
+					var op_play_price = data.op_play_price;
+					var amountHtml = '';
+					for(var i=0; i<op_play_price.length; i++){
+						var isActive = i === 0 ? 'active' : '';
+						amountHtml += '<div class="option-amount-btn '+isActive+'" data-amount="'+op_play_price[i]+'">'+op_play_price[i]+'</div>';
+						if(i === 0){
+							$('#selected_amount').val(op_play_price[i]);
+							updateExpectProfit();
+						}
+					}
+					$('#op-amount-grid').html(amountHtml);
+
+					// 绑定周期点击
+					$('.option-period-card').click(function(){
+						$('.option-period-card').removeClass('active');
+						$(this).addClass('active');
+						$('#selected_time').val($(this).data('time'));
+						$('#selected_prop').val($(this).data('prop'));
+						$('#time-op-prop').text($(this).data('prop'));
+						updateExpectProfit();
+					});
+
+					// 绑定金额点击
+					$('.option-amount-btn').click(function(){
+						$('.option-amount-btn').removeClass('active');
+						$(this).addClass('active');
+						$('#selected_amount').val($(this).data('amount'));
+						$('#custom_amount').val('');
+						updateExpectProfit();
+					});
+				}
+			});
+		}
+
+		// 自定义金额输入
+		$('#custom_amount').on('input', function(){
+			var val = $(this).val();
+			if(val > 0){
+				$('.option-amount-btn').removeClass('active');
+				$('#selected_amount').val(val);
+				updateExpectProfit();
+			}
+		});
+
+		// 更新预期收益
+		window.updateExpectProfit = function(){
+			var amount = parseFloat($('#selected_amount').val()) || 0;
+			var prop = parseFloat($('#selected_prop').val()) || 0;
+			var profit = (amount * prop / 100).toFixed(2);
+			$('#expect_profit').text(profit);
+		}
+
+		window.formRender = function(){
+			get_seconds_form(localsym, page_out);
+		}
+
+		window.orderGo = function(){
+			layer.closeAll();
+		}
+
+		// 买涨
+		$('#btn_buy').click(function(){
+			submitOrder(1);
+		});
+
+		// 买跌
+		$('#btn_sell').click(function(){
+			submitOrder(2);
+		});
+
+		function submitOrder(op_style){
+			var start_price = $("#times-sec-price").text();
+			var play_time = $('#selected_time').val();
+			var op_number = $('#custom_amount').val() || $('#selected_amount').val();
+
+			var ze = /^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/;
+			if (!ze.test(op_number)){
+				layer.msg("{:lang('seconds_trade.check_op_number')}");
+				return false;
+			}
+
+			var data = {
+				code: localsym,
+				start_price: start_price,
+				play_time: play_time,
+				op_number: op_number,
+				op_style: op_style
+			};
+
+			$("#start_price").text(start_price);
+			$("#end_sepriceo").text(start_price);
+			$('#end_price').text(op_number);
+			$('#end_priceo').text(op_number);
+			$("#time-op-style").text(op_style);
+			$("#time_play_price").text(op_number);
+			$("#time_play_priceo").text(op_number);
+
+			if(op_style == 1){
+				$("#time_redirect").removeClass("color-red").addClass("color-green").text("{:lang('seconds_trade.btn_buy')}");
+				$("#time_redirecto").removeClass("color-red").addClass("color-green").text("{:lang('seconds_trade.btn_buy')}");
+			}else{
+				$("#time_redirect").removeClass("color-green").addClass("color-red").text("{:lang('seconds_trade.btn_sell')}");
+				$("#time_redirecto").removeClass("color-green").addClass("color-red").text("{:lang('seconds_trade.btn_sell')}");
+			}
+
+			loading = layer.load(1, {shade: [0.1,'#fff']});
+			$.post("{:url('order/doseconds')}", data, function(res){
+				layer.close(loading);
+				if(res.code > 0){
+					layer.msg(res.msg, {time: 600}, function(){
+						timesSet(play_time, res.id);
+						showTime();
+						get_userwallet(localsym, page_out);
+					});
+				}else{
+					if(res.url){
+						layer.msg(res.msg, {time: 1800}, function(){
+							location.href = res.url;
+						});
+					}else{
+						layer.msg(res.msg, {time: 1800});
+					}
+				}
+			});
+		}
+
+		// 持仓列表
+		window.refreshLista = function(){
+			$('#lista').empty();
+			$.post("{:url('seconds/lista')}", {page:1, code:localsym}, function(res){
+				if(res.data && res.data.length > 0){
+					$('#empty_tip').hide();
+					var html = '';
+					$.each(res.data, function(index, item){
+						html += '<div class="option-order-item" id="list'+item.id+'">';
+						html += '<div class="option-order-header">';
+						html += '<span class="option-order-type '+(item.op_style==1?'buy':'sell')+'">'+item.opstyle+'</span>';
+						html += '<span class="option-order-time">'+getDuration(item.play_time)+'</span>';
+						html += '</div>';
+						html += '<div class="option-order-info">';
+						html += '<div><span class="label">{:lang("seconds_trade.table_num")}:</span> <span class="value">'+parseFloat(item.op_number)+'</span></div>';
+						html += '<div><span class="label">{:lang("seconds_trade.table_buyprice")}:</span> <span class="value">'+parseFloat(item.start_price)+'</span></div>';
+						html += '<div><span class="label">{:lang("seconds_trade.table_nowprice")}:</span> <span class="value price'+item.id+'"></span></div>';
+						html += '<div><span class="label">{:lang("seconds_trade.table_win")}:</span> <span class="value" id="win'+item.id+'"></span></div>';
+						html += '</div>';
+						html += '<div class="layui-progress" data-time="'+item.creates_time+'" data-stop="'+item.play_time+'" lay-filter="list'+item.id+'" style="margin-top:10px;"><div class="layui-progress-bar layui-bg-orange" lay-percent="0%"></div></div>';
+						html += '</div>';
+						goprogress("list"+item.id, item.creates_time, item.play_time, "win"+item.id, item.op_style, item.op_number, item.start_price);
+					});
+					$('#lista').html(html);
+				}else{
+					if(currentTab == 'holding') $('#empty_tip').show();
+				}
+			});
+		}
+
+		// 历史记录
+		window.refreshListb = function(){
+			$('#listb').empty();
+			$.post("{:url('seconds/listb')}", {page:1, code:localsym}, function(res){
+				if(res.data && res.data.length > 0){
+					$('#empty_tip').hide();
+					var html = '';
+					$.each(res.data, function(index, item){
+						html += '<div class="option-order-item">';
+						html += '<div class="option-order-header">';
+						html += '<span class="option-order-type '+(item.op_style==1?'buy':'sell')+'">'+item.opstyle+'</span>';
+						html += '<span class="option-order-time">'+item.iswin+'</span>';
+						html += '</div>';
+						html += '<div class="option-order-info">';
+						html += '<div><span class="label">{:lang("seconds_trade.table_num")}:</span> <span class="value">'+parseFloat(item.op_number)+'</span></div>';
+						html += '<div><span class="label">{:lang("seconds_trade.table_buyprice")}:</span> <span class="value">'+parseFloat(item.start_price)+'</span></div>';
+						html += '<div><span class="label">{:lang("seconds_trade.table_endprice")}:</span> <span class="value">'+parseFloat(item.end_price)+'</span></div>';
+						html += '<div><span class="label">{:lang("seconds_trade.table_salt")}:</span> <span class="value '+(item.fee>0?'color-green':'color-red')+'">'+item.fee+'</span></div>';
+						html += '</div>';
+						html += '</div>';
+					});
+					$('#listb').html(html);
+				}else{
+					if(currentTab == 'history') $('#empty_tip').show();
+				}
+			});
+		}
+
+		window.goprogress = function(obj, t, m, win, type, num, price){
+			addTask(obj, function(){
+				var nowprice = $("#times-sec-price").text();
+				$(".price"+obj.replace('list','')).text(nowprice);
+				num = parseFloat(num);
+				var prop = $("#time-op-prop").text();
+				var changes = floatSub(nowprice, price);
+				var true_fee = floatMul(num, prop/100);
+				var all_fee = floatAdd(true_fee, num);
+				if(type == 1){
+					if(changes > 0){
+						$('#'+win).removeClass("color-red").addClass("color-green").text('+'+all_fee);
+					}else{
+						$('#'+win).removeClass("color-green").addClass("color-red").text('-'+num);
+					}
+				}else{
+					if(changes >= 0){
+						$('#'+win).removeClass("color-green").addClass("color-red").text('-'+num);
+					}else{
+						$('#'+win).removeClass("color-red").addClass("color-green").text('+'+all_fee);
+					}
+				}
+				t++;
+				var n = Math.round((t/m)*100);
+				element.progress(obj, n+'%');
+				if(t >= m){
+					delTask(obj);
+					$("#"+obj).fadeOut(500, function(){ $(this).remove(); });
+					setTimeout(function(){
+						refreshListb();
+						refreshLista();
+					}, 1000);
+				}
+			});
+		}
+
+		window.timeWait = function(id){
+			$("#js-times-box").hide();
+			$("#times-body").hide();
+			$("#times-box-wait").show();
+			findOrder(id);
+		}
+
+		window.findOrder = function(id){
+			$.post("{:url('order/findseconds')}", {id:id}, function(res){
+				layer.close(loading);
+				if(res.code > 0){
+					var data = res.data;
+					$("#play_props").text("{:lang('seconds_trade.order_endprice')}");
+					if(data.win == 1){
+						$("#ok_fee").removeClass("color-red").addClass("color-green").text("+"+parseFloat(data.fee));
+						$("#ok_tit").text("{:lang('seconds_trade.order_win_1')}");
+						$("#end_price").removeClass("color-red").addClass("color-green").text(parseFloat(data.price));
+						$("#end_sepriceo").removeClass("color-red").addClass("color-green").text(parseFloat(data.price));
+						$("#end_priceo").removeClass("color-red").addClass("color-green").text("+"+parseFloat(data.fee));
+						get_userwallet(localsym, page_out);
+						refreshListb();
+					}else{
+						$("#ok_fee").removeClass("color-green").addClass("color-red").text("-"+parseFloat(data.fee));
+						$("#ok_tit").text("{:lang('seconds_trade.order_win_2')}");
+						$("#end_price").removeClass("color-green").addClass("color-red").text(parseFloat(data.price));
+						$("#end_sepriceo").removeClass("color-green").addClass("color-red").text(parseFloat(data.price));
+						$("#end_priceo").removeClass("color-green").addClass("color-red").text("-"+parseFloat(data.fee));
+					}
+					$("#times-box-ok").show();
+					$("#times-body").show();
+					$("#show_ordering").hide();
+					$("#show_orderok").show();
+					$("#times-box-wait").hide();
+				}else{
+					findOrder(id);
+				}
+			});
+		}
+
+		window.timesSet = function(time, id){
+			refreshLista();
+			refreshListb();
+			clearInterval(timer);
+			$("#js-times-box").show();
+			$("#times-body").show();
+			$("#show_orderok").hide();
+			$("#show_ordering").show();
+			$("#times-box-ok").hide();
+			$("#play_props").text("{:lang('seconds_trade.play_props')}");
+			$("#end_price").removeClass("color-green").removeClass("color-red");
+			$("#end_priceo").removeClass("color-green").removeClass("color-red");
+			var t = time;
+			var n = document.getElementById("js-sec-circle");
+			var et = Math.round(t / time * 628);
+			n.style.strokeDashoffset = et - 628;
+			document.getElementById("js-sec-text").innerHTML = t;
+			timer = setInterval(function(){
+				if(t <= 0){
+					clearInterval(timer);
+					timeWait(id);
+				}else{
+					if($('#times-sec-price').length > 0){
+						var nowprice = $("#times-sec-price").text();
+						var start_price = $("#start_price").text();
+						var op_type = $("#time-op-style").text();
+						var prop = $("#time-op-prop").text();
+						var play_price = $("#time_play_price").text();
+						var changes = floatSub(nowprice, start_price);
+						var true_fee = floatMul(play_price, prop/100);
+						var all_fee = floatAdd(true_fee, parseFloat(play_price));
+
+						if(op_type == '1'){
+							if(changes > 0){
+								$('#end_price').removeClass("color-red").addClass("color-green").text('+'+all_fee);
+								$('#end_priceo').removeClass("color-red").addClass("color-green").text('+'+all_fee);
+							}else{
+								$('#end_price').removeClass("color-green").addClass("color-red").text('-'+play_price);
+								$('#end_priceo').removeClass("color-green").addClass("color-red").text('-'+play_price);
+							}
+						}else{
+							if(changes >= 0){
+								$('#end_price').removeClass("color-green").addClass("color-red").text('-'+play_price);
+								$('#end_priceo').removeClass("color-green").addClass("color-red").text('-'+play_price);
+							}else{
+								$('#end_price').removeClass("color-red").addClass("color-green").text('+'+all_fee);
+								$('#end_priceo').removeClass("color-red").addClass("color-green").text('+'+all_fee);
+							}
+						}
+					}
+					t -= 1;
+					document.getElementById("js-sec-text").innerHTML = t;
+					var e = Math.round(t / time * 628);
+					n.style.strokeDashoffset = e - 628;
+				}
+			}, 970);
+		}
+
+		window.showTime = function(){
+			$("#times-box-wait").hide();
+			layer.open({
+				type: 1,
+				title: false,
+				closeBtn: true,
+				skin: 'fox-layui-box',
+				area: ['auto'],
+				shade: 0.5,
+				content: $('#show-times-box')
+			});
+		}
+
+		$('.deal-price').bind('input propertychange change', function(){
+			refreshLista();
+			refreshListb();
+			formRender();
+		});
+	});
+
+	function plusReady(){
+		var ws = plus.webview.currentWebview();
+		ws.overrideUrlLoading({mode: 'reject'}, function(e){
+			console.log('url: ' + e.url);
+		});
+	}
+	document.addEventListener('plusready', plusReady, false);
+
+	$(function(){
+		socket.sendData({type: 'kline', find: 'seconds'}, null, null);
+	});
+
+	window.onload = function(){
+		formRender();
+		refreshLista();
+		refreshListb();
+	}
+
+	function getDuration(second){
+		if(second <= 60){
+			return second + "s";
+		}else if(second < 3600){
+			return Math.floor(second/60) + "{:lang('time_format.minute')}";
+		}else if(second < 86400){
+			return Math.floor(second/3600) + "{:lang('time_format.hour')}";
+		}else{
+			return Math.floor(second/86400) + "{:lang('time_format.day')}";
+		}
+	}
+</script>

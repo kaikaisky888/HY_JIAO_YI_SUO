@@ -1,0 +1,125 @@
+<div class="layuimini-container">
+    <form id="app-form" class="layui-form layuimini-form">
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">对应币种</label>
+            <div class="layui-input-block">
+                <select name="product_id" lay-verify="required">
+                    <option value=''></option>
+                    {foreach $getProductLists as $k=>$v}
+                    <option value='{$v.id}' {if $row.product_id==$v.id}selected=""{/if}>{$v.title}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">币名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="coin_title" class="layui-input"  placeholder="请输入币名称或代码" value="{$row.coin_title}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">发行价格U</label>
+            <div class="layui-input-block">
+                <input type="text" name="ieo_usdt_price" class="layui-input"  placeholder="请输入发行价格U" value="{$row.ieo_usdt_price}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">发行价格B</label>
+            <div class="layui-input-block">
+                <input type="text" name="ieo_btc_price" class="layui-input"  placeholder="请输入发行价格B" value="{$row.ieo_btc_price}">
+                <tip>不填写则根据发行价格U自动生成对应价格</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">发行价格E</label>
+            <div class="layui-input-block">
+                <input type="text" name="ieo_eth_price" class="layui-input"  placeholder="请输入发行价格E" value="{$row.ieo_eth_price}">
+                <tip>不填写则根据发行价格U自动生成对应价格</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">发行总量</label>
+            <div class="layui-input-block">
+                <input type="text" name="ieo_num" class="layui-input"  placeholder="请输入发行总量" value="{$row.ieo_num}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">有效日期</label>
+            <div class="layui-input-block">
+                <input type="text" name="in_time" class="layui-input" data-date="" data-date-type="date" data-date-range="-"  placeholder="请输入有效日期范围" value="{$row.start_time|date='Y-m-d'} - {$row.end_time|date='Y-m-d'}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">官网</label>
+            <div class="layui-input-block">
+                <input type="text" name="ieo_site" class="layui-input"  placeholder="请输入官网" value="{$row.ieo_site}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">白皮书链接</label>
+            <div class="layui-input-block">
+                <input type="text" name="ieo_link" class="layui-input"  placeholder="请输入白皮书链接" value="{$row.ieo_link}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">语言内容</label>
+            <div class="layui-input-block">
+                <div class="layui-tab layui-tab-card">
+                    <ul class="layui-tab-title">
+                        {foreach $lang_list as $key=>$val}
+                        <li {if $val==sysconfig('base','base_lang')}class="layui-this"{/if}>{$val}</li>
+                        {/foreach}
+                    </ul>
+                    <div class="layui-tab-content">
+                        {foreach $lang_list as $key=>$val}
+                        <div class="layui-tab-item {if $val==sysconfig('base','base_lang')}layui-show{/if}">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">新闻标题</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="title[{$val}]" class="layui-input"  placeholder="请输入标题" value="{$langcon[$val]['title']|default=''}">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">新闻图片</label>
+                                <div class="layui-input-block layuimini-upload">
+                                    <input name="logo[{$val}]" class="layui-input layui-col-xs6"   placeholder="请上传图片" value="{$langcon[$val]['logo']|default=''}">
+                                    <div class="layuimini-upload-btn">
+                                        <span><a class="layui-btn" data-upload="logo[{$val}]" data-uploads="logo_{$key}" data-upload-number="one" data-upload-exts="png|jpg|ico|jpeg" data-upload-icon="image"><i class="fa fa-upload"></i> 上传</a></span>
+                                        <span><a class="layui-btn layui-btn-normal" id="select_logo_{$key}" data-upload-select="logo[{$val}]" data-upload-number="one" data-upload-mimetype="image/*"><i class="fa fa-list"></i> 选择</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">内容描述</label>
+                                <div class="layui-input-block">
+                                    <textarea name="content[{$val}]" rows="20" class="layui-textarea editor" 内容描述 placeholder="请输入内容描述">{$langcon[$val]['content']|raw|default=''}</textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">申购备注</label>
+                                <div class="layui-input-block">
+                                    <textarea name="remark[{$val}]" class="layui-textarea"  placeholder="请输入申购备注">{$langcon[$val]['remark']|raw|default=''}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {/foreach}
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="text" name="sort" class="layui-input"  placeholder="请输入排序" value="{$row.sort|default=''}">
+            </div>
+        </div>
+        <div class="hr-line"></div>
+        <div class="layui-form-item text-center">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit>确认</button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+        </div>
+
+    </form>
+</div>

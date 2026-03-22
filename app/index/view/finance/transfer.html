@@ -1,0 +1,209 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-22 18:23:24
+ * @LastEditTime: 2021-08-04 21:33:20
+ * @Description: Forward, no stop
+-->
+<div class="header">
+    {include file="./block/block_head"}
+</div>
+<div class="new-bg">
+	<!--主体-->
+	<div class="main">
+		<div class="layui-container">
+			<div class="layui-row layui-col-space30 white-box">
+				<div class="layui-col-xs3">
+					<div class="left-nav">
+						{include file="./finance/left_menu"}
+					</div>
+				</div>
+				<div class="layui-col-xs9">
+					<div class="transfer">
+						<div class="text-right"><a href="{:url('finance/transferlog')}">{:lang('finance.transfer_logs')}<i class="layui-icon layui-icon-right"></i></a></div>
+						<form class="layui-form mt-10" action="">
+							<div class="layui-form-item">
+								<label class="layui-form-label">{:lang('finance.transfer_from')}</label>
+								<div class="layui-input-inline" style="width: 263px;">
+									<select id="before-coin-type" name="before_type" lay-verify="required" lay-filter="beforeType">
+									</select>
+								</div>
+								<div class="layui-form-mid">{:lang('finance.transfer_to')}</div>
+								<div class="layui-input-inline" style="width: 263px;">
+									<select id="after-coin-type" name="after_type" lay-verify="required" lay-filter="afterType" lay-verType="tips" lay-reqText="{:lang('finance.after_select')}">
+									</select>
+								</div>
+							</div>
+						 	<div class="layui-form-item">
+								<label class="layui-form-label">{:lang('finance.transfer_coin')}</label>
+								<div class="layui-input-block" style="width: 560px;">
+									<select id="get-product" name="product_id" lay-verify="required" lay-verType="tips" lay-filter="productId">
+										
+									</select>
+								</div>
+							</div>
+							
+							<div class="layui-form-item">
+								<label class="layui-form-label">{:lang('finance.transfer_num')}</label>
+								<div class="layui-input-block" style="width: 560px;">
+									<input type="number" name="account"  lay-verify="required|account" lay-verType="tips" lay-reqText="{:lang('finance.transfer_num_check')}" placeholder="{:lang('public.please_input')}{:lang('finance.transfer_num')}" autocomplete="off" class="layui-input">
+									<p class="mt-10" id="can_transfer"></p>
+								</div>				
+							</div>
+							<div class="layui-form-item">
+								 <button class="layui-btn layui-btn-normal layui-btn-lg" lay-submit lay-filter="transferForm">{:lang('finance.transfer_btn')}</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/block_bottom"}
+{include file="./block/foot_script"}
+<script>
+	var type = "{$type}";
+	var after_select = "{:lang('finance.after_select')}";
+	var coins_select = "{:lang('finance.coins_select')}";
+	
+	layui.use(['layer', 'form', 'jquery'], function(){
+		var layer = layui.layer
+		,form = layui.form
+		,$ = layui.jquery;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		form.verify({
+			account: [
+				/^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/,
+				"{:lang('finance.transfer_num_check')}"
+			],
+		});
+
+		window.get_product = function (){
+			var from = $("#before-coin-type").val();
+			var to = $("#after-coin-type").val();
+			$.post("{:url('finance/get_product')}",{from:from,to:to},function(res){
+				if(res.code == 1){
+					$("#get-product").empty();
+					$("#get-product").append('<option value="">'+coins_select+'</option>');
+					var data =res.data
+					var html = "";
+					for (var i = 0; i < data.length; i++) {
+						$("#get-product").append('<option value="'+data[i]['id']+'">'+data[i]['title']+'</option>');
+					}
+					form.render();
+				}
+			})
+		}
+		window.before_coin_type  = function (type,to){
+			$.post("{:url('finance/before_coin_type')}",{type:type,to:to},function(res){
+				if(res.code == 1){
+					$("#before-coin-type").empty();
+					var data =res.data
+					for (var i = 0; i < data.length; i++) {
+						if(parseInt(data[i]['key']) === parseInt(type)){
+							$("#before-coin-type").append('<option value="'+data[i]['key']+'" selected>'+data[i]['vol']+'</option>');
+						}else{
+							$("#before-coin-type").append('<option value="'+data[i]['key']+'">'+data[i]['vol']+'</option>');
+						}
+					}
+					form.render();
+				}
+			})
+		}
+		window.after_coin_type  = function (type,to){
+			$.post("{:url('finance/after_coin_type')}",{type:type,to:to},function(res){
+				if(res.code == 1){
+					$("#after-coin-type").empty();
+					$("#after-coin-type").append('<option value="">'+after_select+'</option>');
+					var data =res.data
+					for (var i = 0; i < data.length; i++) {
+						if(parseInt(data[i]['key']) === parseInt(type)){
+							$("#after-coin-type").append('<option value="'+data[i]['key']+'" selected>'+data[i]['vol']+'</option>');
+						}else{
+							$("#after-coin-type").append('<option value="'+data[i]['key']+'">'+data[i]['vol']+'</option>');
+						}
+					}
+					form.render();
+				}
+			})
+		}
+		window.get_wallet = function (){
+			var product_id = $("#get-product").val();
+			var from = $("#before-coin-type").val();
+			var to = $("#after-coin-type").val();
+			$.post("{:url('finance/get_wallet')}",{product_id:product_id,from:from,to:to},function(res){
+				if(res.code == 1){
+					var data =res.data
+					$("#can_transfer").html("{:lang('finance.transfer_can')}："+data.money+data.title);
+				}
+			})
+		}
+		
+		form.on('select(productId)', function(data){
+			var id = data.value;
+			get_wallet();
+		});
+
+		form.on('select(beforeType)', function(data){
+			var type = data.value;
+			before_coin_type(type,0);
+			after_coin_type(type,1);
+		});
+
+		form.on('select(afterType)', function(data){
+			$("#get-product").empty();
+			$("#can_transfer").empty();
+			var type = data.value;
+			var bf = $("#before-coin-type").val();
+			if(type == bf){
+				before_coin_type(type,1);
+			}
+			// 
+			after_coin_type(type,0);
+			get_wallet();
+			get_product();
+		});
+
+		form.on('submit(transferForm)', function(data){
+			if(data.field.account){
+				loading =layer.load(1, {shade: [0.1,'#fff']});
+				$.post("{:url('finance/transfer')}", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						}else{
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		});
+
+		$(function(){
+		if(type > 0){
+			before_coin_type(type,0);
+			after_coin_type(type,1);
+		}else{
+			before_coin_type(1,0);
+			after_coin_type(1,1);
+		}
+	});
+
+	})
+	
+</script>

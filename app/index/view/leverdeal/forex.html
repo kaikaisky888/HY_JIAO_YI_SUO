@@ -1,0 +1,933 @@
+<script src="__STATIC__/index/trading/pako.js?v={$version}"></script>
+<script src="__STATIC__/index/trading/event.js?v={$version}"></script>
+<script src="__STATIC__/index/trading/charting_library/charting_library.min.js?v={$version}"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/index/lib/tablesort/tablesorter.css?v={$version}" />
+<link rel="stylesheet" href="__STATIC__/index/trading/trading.css?v={$version}">
+<script>
+	var page_out = "leverdeal",
+		lang_kline = "{:lang('kline_list.lang')}";
+	symbol_first = "{$product.0.code}";
+	var Webtheme = "{$theme}";
+	var Productone = "{:url('ajax/get_product')}";
+	var depth_bid = "{:lang('deal.depth_bid')}";
+	var depth_ask = "{:lang('deal.depth_ask')}";
+	var uid = "{:session('member.id')}";
+	var cate_id = "{$cate_id}";
+	var forex_first_title = "{$product.0.title}";
+</script>
+<script src="__STATIC__/index/js/websocket.js?v={$version}"></script>
+<script src="__STATIC__/index/trading/datafeed.js?v={$version}"></script>
+<script src="__STATIC__/index/trading/chartConfig.js?v={$version}"></script>
+<style>
+	/* 整体深色主题样式 */
+	body {
+		background-color: #1e222d !important;
+		color: #ffffff !important;
+		margin: 0;
+		padding: 0;
+	}
+
+	/* 修复导航遮挡 - 关键修改 */
+	.header {
+		position: relative !important;
+		z-index: 10;
+		margin-bottom: 10px;
+	}
+
+	.new-bg {
+		padding-top: 0 !important;
+		background-color: #1e222d;
+		padding: 10px;
+	}
+
+	.deal-bg {
+		background-color: #1e222d !important;
+		border: 1px solid #2a2e39 !important;
+	}
+
+	.layui-table {
+		background-color: #1e222d !important;
+		color: #ffffff !important;
+		border: none !important;
+		margin: 0 !important;
+	}
+
+	.layui-table th,
+	.layui-table td {
+		border-color: #2a2e39 !important;
+		color: #ffffff !important;
+		padding: 8px 5px !important;
+	}
+
+	/* 修复输入框无法输入问题 - 关键修改 */
+	.layui-input,
+	.layui-select {
+		background-color: #2a2e39 !important;
+		border: 1px solid #383d49 !important;
+		color: #ffffff !important;
+		height: 36px !important;
+		line-height: 36px !important;
+		padding: 0 10px !important;
+		display: block !important;
+		width: 100% !important;
+		pointer-events: auto !important;
+		z-index: 1 !important;
+	}
+
+	.layui-form-label {
+		color: #cccccc !important;
+		width: 80px !important;
+		padding: 9px 5px !important;
+	}
+
+	/* 布局调整 */
+	.forex-layout {
+		display: flex;
+		gap: 8px;
+		padding: 8px;
+		margin-top: 0 !important;
+		background-color: #1e222d;
+		position: relative;
+		z-index: 1;
+		min-height: calc(100vh - 100px);
+	}
+
+	.forex-left {
+		width: 180px;
+		flex-shrink: 0;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.forex-left .deal-bg {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		border-radius: 4px;
+		padding: 8px;
+	}
+
+	.forex-left table {
+		flex: 1;
+	}
+
+	.forex-left tbody {
+		display: block;
+		max-height: calc(100vh - 120px);
+		overflow-y: auto;
+	}
+
+	.forex-left thead,
+	.forex-left tbody tr {
+		display: table;
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	.forex-center {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.forex-right {
+		width: 220px;
+		flex-shrink: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	/* === 关键修复：图表容器样式 === */
+	.forex-chart {
+		height: 550px !important; /* 增加高度，确保图表有足够空间 */
+		border-radius: 4px;
+		padding: 10px;
+		position: relative;
+		z-index: 1;
+		overflow: hidden; /* 防止内部元素溢出 */
+	}
+
+	/* 图表外层容器 - 修复尺寸计算 */
+	.et-chart-wrap {
+		position: relative;
+		z-index: 99;
+		height: calc(100% - 60px) !important; /* 重新计算高度，适配标题栏 */
+		width: 100%;
+		overflow: hidden;
+	}
+
+	.et-chart-setting {
+		position: relative;
+		z-index: 100;
+		margin-bottom: 8px;
+	}
+
+	/* TradingView图表容器 - 统一样式，取消重复定义 */
+	.trading-view {
+		width: 100%;
+		height: calc(100% - 35px) !important;
+		position: relative;
+		z-index: 999;
+	}
+
+	#tv_chart_container {
+		height: 100% !important;
+		width: 100% !important;
+		position: relative !important;
+		z-index: 999 !important;
+		overflow: hidden !important; /* 关键：防止图表溢出 */
+	}
+
+	/* TradingView左侧工具栏样式修复 */
+	.chart-container-border-left {
+		left: 0 !important;
+		z-index: 1000 !important;
+	}
+
+	/* === 交易面板样式 === */
+	.forex-trade {
+		display: flex;
+		gap: 8px;
+		margin-top: 0;
+		transform: none;
+		border-radius: 4px;
+		padding: 10px;
+		position: relative;
+		z-index: 1; /* 确保交易面板在图表下方 */
+	}
+
+	.forex-trade .trade-col {
+		flex: 1;
+		padding: 10px;
+		background-color: #2a2e39;
+		border-radius: 4px;
+	}
+
+	.forex-depth,
+	.forex-logs {
+		flex: 1;
+		overflow: auto;
+		border-radius: 4px;
+		padding: 8px;
+	}
+
+	.forex-orders {
+		margin-top: 8px;
+		border-radius: 4px;
+	}
+
+	/* 顶部行情标题样式 */
+	.deal-top-center-title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 10px;
+		padding-bottom: 8px;
+		border-bottom: 1px solid #2a2e39;
+		height: 50px; /* 固定高度，避免挤压图表 */
+	}
+
+	.deal-top-center-title .symbol-name {
+		font-size: 18px;
+		font-weight: bold;
+		color: #ffffff;
+	}
+
+	.deal-top-center-title p {
+		display: flex;
+		gap: 15px;
+		margin: 0;
+		font-size: 12px;
+		flex-wrap: wrap;
+	}
+
+	/* 交易面板样式优化 */
+	.trade-col h4 {
+		margin: 0 0 15px 0 !important;
+		padding-bottom: 8px;
+		border-bottom: 1px solid #383d49;
+	}
+
+	.lever-account {
+		display: flex;
+		align-items: center;
+		width: 100%;
+	}
+
+	.input-group-addon {
+		background-color: #383d49;
+		border: 1px solid #444a58;
+		padding: 6px 10px;
+		border-right: none;
+		border-radius: 4px 0 0 4px;
+		color: #cccccc;
+		font-size: 12px;
+		white-space: nowrap;
+	}
+
+	.layui-input-block {
+		margin-left: 0 !important;
+		width: 100%;
+	}
+
+	/* 百分比快速选择按钮 */
+	.percent-selector {
+		display: flex;
+		gap: 5px;
+		margin-top: 5px;
+		margin-bottom: 10px;
+	}
+
+	.percent-btn {
+		background-color: #383d49;
+		border: 1px solid #444a58;
+		padding: 4px 8px;
+		border-radius: 3px;
+		cursor: pointer;
+		font-size: 12px;
+		color: #cccccc;
+	}
+
+	.percent-btn:hover {
+		background-color: #444a58;
+	}
+
+	/* 按钮样式优化 */
+	.layui-btn-fluid {
+		border-radius: 4px !important;
+		height: 40px !important;
+		line-height: 40px !important;
+	}
+
+	.layui-bg-green {
+		background-color: #0ecb81 !important;
+	}
+
+	.layui-bg-red {
+		background-color: #f6465d !important;
+	}
+
+	/* K线时间选择器样式 */
+	#interval {
+		display: flex;
+		gap: 10px;
+		margin-bottom: 10px;
+		flex-wrap: wrap;
+	}
+
+	#interval span {
+		padding: 5px 10px;
+		cursor: pointer;
+		border-radius: 3px;
+		font-size: 12px;
+	}
+
+	#interval span.active {
+		background-color: #0ecb81;
+		color: #ffffff;
+	}
+
+	/* 滚动条样式 */
+	::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: #2a2e39;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: #444a58;
+		border-radius: 3px;
+	}
+
+	/* 修复输入框父元素遮挡问题 */
+	.layui-form-item {
+		position: relative;
+	}
+</style>
+<div class="header">
+	{include file="./block/block_head"}
+</div>
+<div class="new-bg" style="background-color: #1e222d; padding: 10px;">
+	<div class="deal-box">
+		<div class="forex-layout">
+			<!-- 左侧：产品列表 - 只显示币种和最新价 -->
+			<div class="forex-left deal-bg">
+				{if $cate_id == 10}
+				<div
+					style="padding:8px 10px; font-weight:bold; color:#0ecb81; border-bottom:1px solid #2a2e39; margin-bottom:8px;">
+					外汇</div>
+				{elseif $cate_id == 11}
+				<div
+					style="padding:8px 10px; font-weight:bold; color:#0ecb81; border-bottom:1px solid #2a2e39; margin-bottom:8px;">
+					大宗商品</div>
+				{else}
+				<div
+					style="padding:8px 10px; font-weight:bold; color:#0ecb81; border-bottom:1px solid #2a2e39; margin-bottom:8px;">
+					{:lang('deal.USDT')}</div>
+				{/if}
+				<table class="layui-table" lay-skin="nob" id="list_pro">
+					<thead>
+						<tr>
+							<th style="width:60%;">币种</th> <!-- 简化列名 -->
+							<th style="width:40%;">最新价</th> <!-- 只保留这两列 -->
+						</tr>
+					</thead>
+					<tbody id="symbol">
+						{volist name="product" id="vo"}
+						<tr data-value="{$vo.code}" id="left_list_{$vo.code}" style="cursor:pointer;">
+							<td data-value="{$vo.code}">{$vo.title}</td>
+							<td data-value="{$vo.code}" id="left_price_{$vo.code}">{$vo.last_price|floatVal}</td>
+						</tr>
+						{/volist}
+					</tbody>
+				</table>
+			</div>
+
+			<!-- 中间：K线图 + 交易面板 -->
+			<!-- 中间：K线图 + 交易面板 -->
+			<div class="forex-center">
+				<!-- K线图表区域 - 修复遮挡问题 -->
+				<div class="deal-bg forex-chart">
+					<div class="deal-top-center-title">
+						<span class="symbol-name" id="trading_top_title">{$product.0.title}</span>
+						<p>
+							<span id="trading_top_price" class="color-green"
+								style="font-weight:bold;">{$product.0.last_price|floatVal}</span>
+							<span id="trading_top_change">0.00%</span>
+							<span>{:lang('deal.24h_high')}: <span id="trading_top_high">0</span></span>
+							<span>{:lang('deal.24h_low')}: <span id="trading_top_low">0</span></span>
+							<span>{:lang('deal.24h_volume')}: <span id="trading_top_volume">0</span></span>
+						</p>
+					</div>
+					<!-- 关键修复：重构图表容器结构，确保层级和尺寸 -->
+					<div class="et-chart-wrap" style="position: relative; z-index: 99; height: calc(100% - 50px);">
+						<div class="et-chart-setting">
+							<div class="times time-range" id="interval">
+								<span data-value="1" data-kline="1">分时</span>
+								<span class="active" data-value="1">1分钟</span>
+								<span data-value="5">5分钟</span>
+								<span data-value="15">15分钟</span>
+								<span data-value="30">30分钟</span>
+								<span data-value="60">1小时</span>
+								<span data-value="240">4小时</span>
+								<span data-value="1d">1天</span>
+								<span data-type="kline" class="active">K线图</span>
+								<span data-type="depth">深度图</span>
+							</div>
+						</div>
+						<!-- 提升图表容器层级，确保不被遮挡 -->
+						<div class="trading-view" style="position: relative; z-index: 999; height: calc(100% - 30px);">
+							<div id="tv_chart_container"
+								style="position: relative; z-index: 999; height: 100% !important; width: 100% !important;">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 交易面板：买/卖并排 -->
+				<div class="deal-bg forex-trade">
+					<input type="hidden" name="deal_price" value="0" class="layui-input deal-price">
+					<input type="hidden" name="close_price" id="close_price" value="{$product.0.last_price|floatVal}"
+						class="layui-input close-price">
+					<span class="le-play-time hidebox"></span>
+					<span class="buy-play-time hidebox">125</span>
+					<span class="sell-play-time hidebox">125</span>
+					<span class="le-order-rate hidebox"></span>
+					<span class="le-sx-fee hidebox"></span>
+
+					<!-- 买入面板 -->
+					<div class="trade-col" style="border-right:1px solid #383d49;">
+						<h4 style="color:#0ecb81;">买入/做多</h4>
+						<form class="layui-form" action="">
+							<div class="layui-form-item" style="margin-bottom: 15px;">
+								<label class="layui-form-label">买入价格</label>
+								<div class="layui-input-block">
+									<input type="text" value="以市场上最优价格买入" readonly
+										style="background-color: #383d49; padding: 6px 10px; border-radius: 4px; font-size: 12px;">
+								</div>
+							</div>
+
+							<!-- 金额输入框 - 修复无法输入问题 -->
+							<div class="layui-form-item" style="margin-bottom: 15px; position: relative; z-index: 10;">
+								<label class="layui-form-label">买入数量</label>
+								<div class="layui-input-block">
+									<div class="input-group lever-account">
+										<span class="input-group-addon">1张=100.00USD</span>
+										<!-- 关键修复：确保输入框可交互 -->
+										<input type="number" name="account" id="buy_account1" value="0"
+											autocomplete="off" class="layui-input"
+											style="border-radius: 0 4px 4px 0; position: relative; z-index: 2;">
+									</div>
+									<!-- 百分比快速选择 -->
+									<div class="percent-selector">
+										<div class="percent-btn" data-percent="25">25%</div>
+										<div class="percent-btn" data-percent="50">50%</div>
+										<div class="percent-btn" data-percent="75">75%</div>
+										<div class="percent-btn" data-percent="100">100%</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="layui-form-item" style="margin-bottom: 15px;">
+								<label class="layui-form-label">杠杆倍数</label>
+								<div class="layui-input-block">
+									<select name="play_time" class="play_time" lay-filter="playTime" data-type="buy">
+										<option value="125" selected>125倍</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="layui-form-item" style="margin-bottom: 15px;">
+								<label class="layui-form-label">占用保证金</label>
+								<div class="layui-input-block num-input"><span class="buy_margin_this">0</span> USDT
+								</div>
+							</div>
+
+							<div class="layui-form-item" style="margin-bottom: 15px;">
+								<label class="layui-form-label">可用USDT</label>
+								<div class="layui-input-block num-input"><span class="can-use-money">0</span> USDT</div>
+							</div>
+
+							<div class="layui-form-item" style="margin-bottom: 0;">
+								<button type="button" class="layui-btn layui-btn-fluid layui-bg-green" lay-submit
+									lay-filter="buyForm">买入/做多</button>
+							</div>
+						</form>
+					</div>
+
+					<!-- 卖出面板 -->
+					<div class="trade-col">
+						<h4 style="color:#f6465d;">卖出/做空</h4>
+						<form class="layui-form" action="">
+							<div class="layui-form-item" style="margin-bottom: 15px;">
+								<label class="layui-form-label">卖出价格</label>
+								<div class="layui-input-block">
+									<input type="text" value="以市场上最优价格卖出" readonly
+										style="background-color: #383d49; padding: 6px 10px; border-radius: 4px; font-size: 12px;">
+								</div>
+							</div>
+
+							<!-- 金额输入框 - 修复无法输入问题 -->
+							<div class="layui-form-item" style="margin-bottom: 15px; position: relative; z-index: 10;">
+								<label class="layui-form-label">卖出数量</label>
+								<div class="layui-input-block">
+									<div class="input-group lever-account">
+										<span class="input-group-addon">1张=100.00USD</span>
+										<!-- 关键修复：确保输入框可交互 -->
+										<input type="number" name="account" id="sell_account1" value="0"
+											autocomplete="off" class="layui-input"
+											style="border-radius: 0 4px 4px 0; position: relative; z-index: 2;">
+									</div>
+									<!-- 百分比快速选择 -->
+									<div class="percent-selector">
+										<div class="percent-btn" data-percent="25">25%</div>
+										<div class="percent-btn" data-percent="50">50%</div>
+										<div class="percent-btn" data-percent="75">75%</div>
+										<div class="percent-btn" data-percent="100">100%</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="layui-form-item" style="margin-bottom: 15px;">
+								<label class="layui-form-label">杠杆倍数</label>
+								<div class="layui-input-block">
+									<select name="play_time" class="play_time" lay-filter="playTime" data-type="sell">
+										<option value="125" selected>125倍</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="layui-form-item" style="margin-bottom: 15px;">
+								<label class="layui-form-label">占用保证金</label>
+								<div class="layui-input-block num-input"><span class="sell_margin_this">0</span> USDT
+								</div>
+							</div>
+
+							<div class="layui-form-item" style="margin-bottom: 15px;">
+								<label class="layui-form-label">可用USDT</label>
+								<div class="layui-input-block num-input"><span class="can-use-money">0</span> USDT</div>
+							</div>
+
+							<div class="layui-form-item" style="margin-bottom: 0;">
+								<button type="button" class="layui-btn layui-btn-fluid layui-bg-red" lay-submit
+									lay-filter="sellForm">卖出/做空</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- 右侧：深度 + 成交记录 -->
+			<div class="forex-right">
+				<div class="deal-bg forex-depth">
+					<h5 style="padding:8px 10px; margin:0 0 10px 0; font-weight:bold; border-bottom:1px solid #2a2e39;">
+						盘口
+						<div class="trade-checkout" style="float:right;">
+							<span class="depth-biao" data-value="0"><img
+									src="__STATIC__/index/img/trade-check-1.png"></span>
+							<span class="depth-biao" data-value="1"><img
+									src="__STATIC__/index/img/trade-check-2.png"></span>
+							<span class="depth-biao" data-value="2"><img
+									src="__STATIC__/index/img/trade-check-3.png"></span>
+						</div>
+					</h5>
+					<table class="layui-table" lay-skin="nob">
+						<thead>
+							<tr>
+								<th>方向</th>
+								<th>价格(USDT)</th>
+								<th>数量(BTC)</th>
+							</tr>
+						</thead>
+						<tbody id="bids_box"></tbody>
+						<tbody>
+							<tr>
+								<td colspan="3" class="depth-box" style="text-align:center; padding:5px 0;">
+									<span class="color-green" id="right_price">{$product.0.last_price|floatVal}</span>
+									<span>≈</span>
+									<span id="right_price_usd">0</span>
+									<span>$</span>
+								</td>
+							</tr>
+						</tbody>
+						<tbody id="asks_box"></tbody>
+					</table>
+				</div>
+				<div class="deal-bg forex-logs">
+					<h5 style="padding:8px 10px; margin:0 0 10px 0; font-weight:bold; border-bottom:1px solid #2a2e39;">
+						实时成交</h5>
+					<table class="layui-table" lay-skin="nob">
+						<thead>
+							<tr>
+								<th style="width:40%;">价格(USD)</th>
+								<th style="width:30%;">数量(张)</th>
+								<th style="width:30%;">累计(USD)</th>
+							</tr>
+						</thead>
+						<tbody id="model_logs"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<!-- 底部：订单列表 -->
+		<div class="forex-orders deal-bottom">
+			<div class="deal-bg" style="width:100%; border-radius:4px; padding:10px;">
+				<div class="layui-tab layui-tab-brief" lay-filter="tabList" style="margin:0;">
+					<ul class="layui-tab-title" style="background-color: #2a2e39; border-radius:4px 4px 0 0;">
+						<li class="layui-this">当前持仓</li>
+						<li>历史成交</li>
+					</ul>
+					<div class="layui-tab-content" style="padding:10px;">
+						<div class="layui-tab-item layui-show">
+							<table class="layui-table" lay-skin="nob" lay-even>
+								<thead>
+									<tr>
+										<th>时间</th>
+										<th>类型</th>
+										<th>买入价</th>
+										<th>当前价</th>
+										<th>数量</th>
+										<th>杠杆</th>
+										<th>盈亏</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody id="lista"></tbody>
+							</table>
+						</div>
+						<div class="layui-tab-item">
+							<table class="layui-table" lay-skin="nob" lay-even>
+								<thead>
+									<tr>
+										<th>时间</th>
+										<th>类型</th>
+										<th>买入价</th>
+										<th>平仓价</th>
+										<th>数量</th>
+										<th>杠杆</th>
+										<th>收益率</th>
+										<th>盈亏金额</th>
+									</tr>
+								</thead>
+								<tbody id="listb"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{include file="./block/foot_script"}
+<script src="__STATIC__/index/js/socketset.js?v={$version}"></script>
+<script src="__STATIC__/index/js/websocket.js?v={$version}"></script>
+<script type="text/javascript" src="__STATIC__/index/lib/tablesort/tablesorter.js?v={$version}"></script>
+<script type="text/javascript">
+	var t;
+	var tasks = new Map();
+	setInterval(function () {
+		for (var key in tasks) {
+			tasks[key]();
+		}
+	}, 3000)
+	function addTask(key, value) {
+		if (typeof value === "function") {
+			tasks[key] = value;
+		}
+	}
+	function delTask(task) {
+		delete tasks[task];
+	}
+	function plusReady() {
+		var ws = plus.webview.currentWebview();
+		ws.overrideUrlLoading({ mode: 'reject' }, function (e) { console.log('url: ' + e.url); })
+	}
+	document.addEventListener('plusready', plusReady, false);
+
+	$(function () {
+		storage.setItem("tobol", symbol_first);
+		if ($('#trading_top_title').length > 0) {
+			$('#trading_top_title').html(forex_first_title);
+		}
+		socket.sendData({ type: 'kline', find: 'leverdeal' }, null, null)
+		$("#list_pro").DataTable({ "info": false, columnDefs: [{ orderable: false, targets: 0 }], "order": [], "searching": false, searchable: false, paging: false });
+
+		// 百分比快速选择功能
+		$('.percent-btn').click(function () {
+			var percent = $(this).data('percent');
+			var available = parseFloat($(this).closest('.layui-input-block').find('.can-use-money').text()) || 0;
+			var leverage = parseFloat($(this).closest('form').find('.play_time').val()) || 125;
+			var price = parseFloat($("#close_price").val()) || 0;
+
+			// 计算对应数量
+			var amount = (available * percent / 100) * leverage / 100; // 1张=100USD
+			$(this).closest('.layui-input-block').find('input[name="account"]').val(amount.toFixed(2));
+
+			// 更新保证金显示
+			var type = $(this).closest('form').find('.play_time').data('type');
+			var margin = (amount * 100) / leverage; // 保证金计算
+			$("." + type + "_margin_this").html(margin.toFixed(4));
+		});
+
+		// 确保输入框可以获得焦点
+		$('#buy_account1, #sell_account1').click(function () {
+			$(this).focus();
+		}).keydown(function (e) {
+			// 允许数字、小数点、删除键、方向键等
+			var keyCode = e.keyCode;
+			if ((keyCode >= 48 && keyCode <= 57) || // 数字键
+				(keyCode >= 96 && keyCode <= 105) || // 小键盘数字
+				keyCode == 190 || keyCode == 110 || // 小数点
+				keyCode == 8 || keyCode == 46 || // 删除/退格
+				(keyCode >= 37 && keyCode <= 40)) { // 方向键
+				return true;
+			}
+			return false;
+		});
+	})
+
+	layui.use(['layer', 'element', 'jquery', 'slider', 'form', 'flow'], function () {
+		var layer = layui.layer, element = layui.element, $ = layui.jquery, form = layui.form, slider = layui.slider, flow = layui.flow;
+		$.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+
+		element.on('tab(tabList)', function (data) {
+			if (data.index == 0) refreshLista();
+			if (data.index == 1) refreshListb();
+		});
+
+		window.orderThis = function (id) {
+			layer.msg("确定平仓吗？", {
+				time: 0, shade: 0.3, area: ['250px', '100px'],
+				btn: ["确定", "取消"],
+				yes: function (index) {
+					layer.close(index);
+					$.post("{:url('leverdeal/order_this')}", { id: id }, function (res) {
+						if (res.code > 0) {
+							layer.msg(res.msg, { time: 1800 }, function () { playTime(); refreshLista(); });
+						} else {
+							if (res.url) { layer.msg(res.msg, { time: 1800 }, function () { location.href = res.url; }); }
+							else { layer.msg(res.msg, { time: 1800 }); }
+						}
+					})
+				}
+			});
+		}
+
+		window.goThis = function (obj, id) {
+			addTask(obj, function () {
+				$.post("{:url('leverdeal/findorder')}", { id: id }, function (res) {
+					if (res.code > 0) {
+						var data = res.data;
+						$("#price_" + id).html(parseFloat(data.now_price));
+						$("#win_" + id).html(parseFloat(data.win_account));
+					} else {
+						delTask(obj); $("#" + obj).remove(); refreshListb();
+					}
+				})
+			});
+		}
+
+		window.refreshLista = function () {
+			$('#lista').empty();
+			flow.load({
+				elem: '#lista', colSpan: 8, isAuto: false,
+				end: '<td colspan="8" class="text-center load-box-fox">暂无数据</td>',
+				done: function (page, next) {
+					var lis = [];
+					$.post("{:url('leverdeal/lista')}", { page: page, code: localsym }, function (res) {
+						layui.each(res.data, function (index, item) {
+							var html = '<tr id="list' + item.id + '">';
+							html += '<td>' + item.create_time + '</td>';
+							html += '<td class="leverdeal-color-' + item.style + '">' + item.ostyle + '</td>';
+							html += '<td>' + parseFloat(item.buy_price) + '</td>';
+							html += '<td class="price_' + item.id + '" id="price_' + item.id + '">' + parseFloat(item.now_price) + '</td>';
+							html += '<td>' + parseFloat(item.account) + '</td>';
+							html += '<td>' + item.play_time + '</td>';
+							html += '<td id="win_' + item.id + '" class="win' + item.id + ' leverdeal-color-' + item.style + '">' + parseFloat(item.win_account) + '</td>';
+							html += '<td><a href="javascript:void(0);" onclick="orderThis(' + item.id + ')" class="layui-btn layui-btn-sm layui-btn-warm">平仓</a></td>';
+							html += '</tr>';
+							lis.push(html);
+							goThis("list" + item.id, item.id);
+						});
+						next(lis.join(''), page < res.pages);
+					});
+				}
+			});
+		}
+
+		window.refreshListb = function () {
+			$('#listb').empty();
+			flow.load({
+				elem: '#listb', colSpan: 8, isAuto: false,
+				end: '<td colspan="8" class="text-center load-box-fox">暂无数据</td>',
+				done: function (page, next) {
+					var lis = [];
+					$.post("{:url('leverdeal/listb')}", { page: page, code: localsym }, function (res) {
+						layui.each(res.data, function (index, item) {
+							var html = '<tr>';
+							html += '<td>' + item.create_time + '</td>';
+							html += '<td class="leverdeal-color-' + item.style + '">' + item.ostyle + '</td>';
+							html += '<td>' + parseFloat(item.buy_price) + '</td>';
+							html += '<td>' + parseFloat(item.close_price) + '</td>';
+							html += '<td>' + parseFloat(item.account) + '</td>';
+							html += '<td>' + item.play_time + '</td>';
+							html += '<td class="leverdeal-color-' + item.style + '">' + item.owin + '</td>';
+							html += '<td class="leverdeal-color-' + item.style + '">' + parseFloat(item.win_account) + '</td>';
+							html += '</tr>';
+							lis.push(html);
+						});
+						next(lis.join(''), page < res.pages);
+					});
+				}
+			});
+		}
+
+		form.on('submit(buyForm)', function (data) {
+			var account = $('#buy_account1').val();
+			if (account && account > 0) {
+				var money = parseFloat($(".can-use-money").first().text());
+				var buy_price = $("#close_price").val();
+				var play_time = $('select[data-type="buy"]').val();
+				var postData = { account: account, play_time: play_time, buy_price: buy_price, money: money, code: localsym, style: 1 };
+				var loading = layer.load(1, { shade: [0.1, '#fff'] });
+				$.post("{:url('leverdeal/orderdo')}", postData, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, { time: 1800 }, function () { playTime(); $('#buy_account1').val(0); refreshLista(); });
+					} else {
+						if (res.url) { layer.msg(res.msg, { time: 1800 }, function () { location.href = res.url; }); }
+						else { layer.msg(res.msg, { time: 1800 }); }
+					}
+				});
+			}
+			return false;
+		});
+
+		form.on('submit(sellForm)', function (data) {
+			var account = $('#sell_account1').val();
+			if (account && account > 0) {
+				var money = parseFloat($(".can-use-money").first().text());
+				var buy_price = $("#close_price").val();
+				var play_time = $('select[data-type="sell"]').val();
+				var postData = { account: account, play_time: play_time, buy_price: buy_price, money: money, code: localsym, style: 2 };
+				var loading = layer.load(1, { shade: [0.1, '#fff'] });
+				$.post("{:url('leverdeal/orderdo')}", postData, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, { time: 1800 }, function () { playTime(); $('#sell_account1').val(0); refreshLista(); });
+					} else {
+						if (res.url) { layer.msg(res.msg, { time: 1800 }, function () { location.href = res.url; }); }
+						else { layer.msg(res.msg, { time: 1800 }); }
+					}
+				});
+			}
+			return false;
+		});
+
+		window.playTime = function () {
+			var title = "倍";
+			$.post("{:url('leverdeal/get_play_time')}", { code: localsym }, function (res) {
+				if (res.code == 1) {
+					var play_time = res.data.play_time;
+					var prophtml = '';
+					for (var i = 0; i < play_time.length; i++) {
+						if (i === 0) { prophtml += '<option value="' + play_time[i] + '" selected>' + play_time[i] + title + '</option>'; }
+						else { prophtml += '<option value="' + play_time[i] + '">' + play_time[i] + title + '</option>'; }
+					}
+					$(".play_time").html(prophtml);
+					$(".play_time2").html(prophtml);
+					form.render('select');
+
+					// 默认选中125倍杠杆
+					$(".play_time").val(125);
+					form.render('select');
+
+					// 初始化保证金计算
+					var price = parseFloat($("#right_price").text());
+					$(".buy_margin_this").html(floatp(price, 125).toFixed(4));
+					$(".sell_margin_this").html(floatp(price, 125).toFixed(4));
+				}
+			})
+		}
+
+		form.on('select(playTime)', function (data) {
+			var type = $(data.elem).data('type');
+			var value = data.value;
+			var price = parseFloat($("#right_price").text());
+			var margin = floatp(price, value);
+			$("." + type + "-play-time").html(value);
+			$("." + type + "_margin_this").html(margin.toFixed(4));
+		});
+
+		$('.deal-price').bind('input propertychange change', function () { refreshLista(); refreshListb(); playTime(); })
+		$('.close-price').bind('input propertychange change', function () {
+			var price = parseFloat($("#right_price").text());
+			var buyPlay = parseFloat($(".buy-play-time").text()) || 125;
+			var sellPlay = parseFloat($(".sell-play-time").text()) || 125;
+			$(".buy_margin_this").html(floatp(price, buyPlay).toFixed(4));
+			$(".sell_margin_this").html(floatp(price, sellPlay).toFixed(4));
+		})
+
+		// K线/深度图切换
+		$('#interval span[data-type]').click(function () {
+			$('#interval span[data-type]').removeClass('active');
+			$(this).addClass('active');
+			var type = $(this).data('type');
+			// 这里可以添加切换图表类型的逻辑
+		});
+
+		refreshLista();
+		playTime();
+	})
+
+	// 保证金计算函数
+	function floatp(price, leverage) {
+		return (price * 100) / leverage; // 1张=100USD的保证金计算
+	}
+</script>

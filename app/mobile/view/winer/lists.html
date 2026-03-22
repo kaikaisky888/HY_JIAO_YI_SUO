@@ -1,0 +1,122 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-08-05 22:42:11
+ * @LastEditTime: 2021-09-27 12:14:06
+ * @Description: Forward, no stop
+-->
+{include file="./block/mobile_backhome"}
+
+<div class="new-bg">
+	<div class="main-no">
+			<div class="white-box pd-10">
+				<div class="transfer-box coinwin-bottom">
+					<div class="layui-tab layui-tab-brief" lay-filter="tabList">
+						<ul class="layui-tab-title">
+						  <li class="layui-this">{:lang('winer.lists')}</li>
+						  <li>{:lang('winer.daylists')}</li>
+						</ul>
+						<div class="layui-tab-content">
+							<div class="layui-tab-item layui-show">
+								<table class="layui-table fox-table" lay-skin="nob" lay-even>
+								<thead>
+									<tr>
+									<th><span class="table-span-list">{:lang('winer.table_title')}/{:lang('winer.table_nums')}</span></th>
+									<th><span class="table-span-list">{:lang('winer.table_rates')}/{:lang('winer.table_time')}</span></th>
+									<th><span class="table-span-list">{:lang('winer.table_lock')}/{:lang('winer.table_status')}</span></th>
+									</tr> 
+								</thead>
+								<tbody id="lists">
+									
+								</tbody>
+								</table>
+							</div>
+							<div class="layui-tab-item">
+								<table class="layui-table fox-table" lay-skin="nob" lay-even>
+								<thead>
+									<tr>
+										<th><span class="table-span-list">{:lang('winer.table_times')}</span></th>
+										<th><span class="table-span-list">{:lang('winer.table_title')}</span></th>
+										<th><span class="table-span-list">{:lang('winer.table_rate')}</span></th>
+									</tr> 
+								</thead>
+								<tbody id="listlog">
+									
+								</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/foot_script"}
+<script>
+	layui.use(['layer','element','jquery', 'form', 'flow'], function(){
+		var layer = layui.layer
+		,element = layui.element
+		,$ = layui.jquery
+		,form = layui.form
+		var flow = layui.flow;
+
+		element.on('tab(tabList)', function(data){
+			if(data.index == 0){
+				listWiner();
+			}
+			if(data.index == 1){
+				listLog();
+			}
+		});
+
+		window.listWiner = function(){
+			$('#lists').empty();
+			flow.load({
+				elem: '#lists' //指定列表容器
+				,colSpan: 3 //列数
+				,isAuto: true
+				,end:'<td colspan="3" class="text-center load-box-fox">{:lang("finance.finance_nodata")}</td>'
+				,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+				var lis = [];
+				$.post("{:url('winer/lists')}",{page:page}, function(res){
+					layui.each(res.data, function(index, item){
+						var html = '<tr>';
+						html = html + '<td>'+item.title+'-'+item.id+'<br>'+parseFloat(item.buy_account)+'</td>';
+						html = html + '<td>'+parseFloat(item.rate_account).toFixed(6)+'<br>'+item.time+'</td>';
+						html = html + '<td>'+item.lock+'<br>'+item.upstatus+'</td>';	
+						html = html + '</tr>';
+						lis.push(html);
+					}); 
+					next(lis.join(''), page < res.pages);    
+					});
+				}
+			});
+		}
+
+		window.listLog = function(){
+			$('#listlog').empty();
+			flow.load({
+				elem: '#listlog' //指定列表容器
+				,colSpan: 3 //列数
+				,isAuto: true
+				,end:'<td colspan="3" class="text-center load-box-fox">{:lang("finance.finance_nodata")}</td>'
+				,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+				var lis = [];
+				$.post("{:url('winer/listlog')}",{page:page}, function(res){
+					layui.each(res.data, function(index, item){
+						var html = '<tr>';
+						html = html + '<td>'+item.create_time+'</td>';
+						html = html + '<td>'+item.title+'</td>';	
+						html = html + '<td>'+parseFloat(item.all_account)+'</td>';
+						html = html + '</tr>';
+						lis.push(html);
+					}); 
+					next(lis.join(''), page < res.pages);    
+					});
+				}
+			});
+		}
+
+		listWiner();
+	})
+</script>

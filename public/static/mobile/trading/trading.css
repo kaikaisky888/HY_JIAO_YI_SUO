@@ -1,0 +1,152 @@
+.layui-table-fox td, .layui-table-fox th {
+    position: relative;
+    padding: 2px 5px;
+    min-height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+}
+
+.layui-table-page, .layui-table-total{margin-top:20px;border-width: 0 0 0 0;}
+.layui-table-page .layui-laypage a, .layui-table-page .layui-laypage span{color:#d2d2d2!important;font-size: 14px;}
+.layui-table,.layui-table-view{margin-top:0;}
+.layui-table, .layui-table-view {
+    margin: -5px 0;
+}
+.layui-table-view .layui-table td {
+    cursor: default;
+}
+.layui-table-view .fox-layui-table th {
+    padding: 5px 0;
+    border-top: none;
+    border-left: none;
+    font-size: 12px;
+    text-align: center;
+}
+.layui-table-view .fox-layui-table td {
+    padding: 20px 0;
+    border-top: none;
+    border-left: none;
+    font-size: 14px;
+}
+.layui-table-view .fox-layui-table th ,.fox-layui-table .layui-table-cell, .fox-layui-table .layui-table-tool-panel li {
+    overflow:visible;
+    text-overflow:inherit;
+    white-space:inherit;
+}
+.fox-layui-table td{height: 60px;
+ line-height: 60px;}
+ .fox-layui-table .layui-table-cell {padding: 0 5px;text-align: center;
+    overflow:visible;            text-overflow:inherit;            white-space:normal;
+}
+.fox-text-center{
+    text-align: center;
+}
+ .fox-middle-box {
+    display: inline-block;
+    height: 38px;
+    line-height: 18px;
+    padding: 0 5px;
+    white-space: inherit;
+}
+ .fox-btn {
+    display: inline-block;
+    height: 38px;
+    line-height: 18px;
+    padding: 0 18px;
+    color: #009688;
+    white-space: inherit;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.fox-btn {
+    outline: 0;
+    -webkit-appearance: none;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    box-sizing: border-box;
+}
+.fox-btn:hover,.fox-btn:focus{
+    color: #02c5b2;
+}
+.fox-btn-box {
+    display: inline-block;
+    height: 38px;
+    line-height: 18px;
+    white-space: inherit;
+    text-align: center;
+    cursor: pointer;
+}
+.layui-table-page{text-align: right;}
+.fox-mt30{margin-top:30px;}
+.layui-table-cell,.layui-table-tool-panel li{
+    height:auto;
+    overflow:visible;
+    text-overflow:inherit;
+    white-space:normal;
+    padding:0px 5px !important;
+}
+.layui-table-load {
+	background: #0d1c2e;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-button,
+  ::-webkit-scrollbar-button:vertical {
+    display: none;
+  }
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-track:vertical {
+    background-color: black;
+  }
+  ::-webkit-scrollbar-track-piece {
+    background-color: #13161b;
+  }
+  ::-webkit-scrollbar-thumb,
+  ::-webkit-scrollbar-thumb:vertical {
+    margin-right: 10px;
+    background-color: #13161b;
+  }
+  ::-webkit-scrollbar-thumb:hover,
+  ::-webkit-scrollbar-thumb:vertical:hover {
+    background-color: #13161b;
+  }
+  ::-webkit-scrollbar-corner,
+  ::-webkit-scrollbar-corner:vertical {
+    background-color: #13161b;
+  }
+  ::-webkit-scrollbar-resizer,
+  ::-webkit-scrollbar-resizer:vertical {
+    background-color: #13161b;
+  }
+
+  .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row] {
+    border-width: 0px;
+    border-style: solid;
+    border-color: #757575;
+  }
+  .layui-table-tips-main {
+    margin: -44px 0 0 -1px;
+    max-height: 150px;
+    padding: 8px 15px;
+    font-size: 14px;
+    overflow-y: scroll;
+    background-color: #3cbc98;
+    color: #ffffff;
+}
+.fox-layui-table .layui-layer-tips .layui-layer-content:after {
+    width: 0px;
+    height: 0px;
+    border: 10px transparent solid;
+    border-bottom-color: #3cbc98;
+    position: absolute;
+    top: -20px;
+    left: 20%;
+    content: "";
+}
+body{overflow-y: scroll;}

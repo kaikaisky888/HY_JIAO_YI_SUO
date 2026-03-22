@@ -1,0 +1,1184 @@
+<script>
+	/**
+	 * 动态补充 viewport，禁止页面缩放
+	 */
+	(function () {
+		var meta = document.querySelector('meta[name="viewport"]');
+		var content = 'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover';
+		if (!meta) {
+			meta = document.createElement('meta');
+			meta.setAttribute('name', 'viewport');
+			meta.setAttribute('content', content);
+			document.head.appendChild(meta);
+		} else {
+			meta.setAttribute('content', content);
+		}
+
+		// 全局禁止双指缩放、双击缩放、拖拽
+		var lastTouchEnd = 0;
+
+		document.addEventListener('gesturestart', function (e) {
+			e.preventDefault();
+		}, { passive: false });
+
+		document.addEventListener('gesturechange', function (e) {
+			e.preventDefault();
+		}, { passive: false });
+
+		document.addEventListener('gestureend', function (e) {
+			e.preventDefault();
+		}, { passive: false });
+
+		document.addEventListener('touchstart', function (e) {
+			if (e.touches && e.touches.length > 1) {
+				e.preventDefault();
+			}
+		}, { passive: false });
+
+		document.addEventListener('touchmove', function (e) {
+			if (e.touches && e.touches.length > 1) {
+				e.preventDefault();
+				return false;
+			}
+		}, { passive: false });
+
+		document.addEventListener('touchend', function (e) {
+			var now = Date.now();
+			if (now - lastTouchEnd <= 300) {
+				e.preventDefault();
+			}
+			lastTouchEnd = now;
+		}, { passive: false });
+
+		document.addEventListener('dragstart', function (e) {
+			e.preventDefault();
+			return false;
+		}, false);
+	})();
+</script>
+
+<style>
+	html, body {
+		width: 100%;
+		max-width: 100%;
+		overflow-x: hidden;
+		-webkit-user-select: none;
+		user-select: none;
+		-webkit-touch-callout: none;
+		overscroll-behavior: none;
+		touch-action: manipulation;
+	}
+
+	body, body * {
+		-webkit-user-drag: none;
+	}
+
+	a, button, input, textarea, select, div, span, img {
+		-webkit-tap-highlight-color: rgba(0,0,0,0);
+	}
+
+	.new-bg,
+	.main,
+	.lever-top,
+	.lever-bottom,
+	.lever-top-left,
+	.lever-top-right,
+	.deal-bottom-left,
+	.lever-bottom-right,
+	.deal_trade_box,
+	#deal_top_box,
+	#kline_lists_box {
+		max-width: 100%;
+		box-sizing: border-box;
+		overflow-x: hidden;
+	}
+
+	.home-a {
+		display: inline-block;
+		position: absolute;
+		left: 10px;
+		top: -40px;
+		z-index: 99;
+		width: 30px;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		color: #ffd37a !important;
+		border-radius: 50%;
+		background: rgba(0,0,0,.25);
+	}
+
+	.lever-header-with-home {
+		position: relative;
+		padding-left: 46px;
+	}
+
+	#deal_top_box,
+	.deal_trade_box,
+	.lever-bottom,
+	.lever-bottom-right {
+		touch-action: manipulation;
+		-ms-touch-action: manipulation;
+	}
+
+	#deal_top_box *,
+	.deal_trade_box *,
+	.lever-bottom *,
+	.lever-bottom-right * {
+		-webkit-user-drag: none;
+	}
+</style>
+
+<script src="__STATIC__/mobile/trading/pako.js?v={$version}"></script>
+<script src="__STATIC__/mobile/trading/event.js?v={$version}"></script>
+<script src="__STATIC__/mobile/trading/charting_library/charting_library.min.js?v={$version}"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/mobile/lib/tablesort/tablesorter.css?v={$version}"/>
+<link rel="stylesheet" href="__STATIC__/mobile/trading/trading.css?v={$version}">
+
+<script>
+	var page_out = "leverdeal",
+			lang_kline = "{:lang('kline_list.lang')}";
+	symbol_first = "{:sysconfig('api','leverdeal_first')}";
+	var Webtheme = "{$theme}";
+	var Productone = "{:url('ajax/get_product')}";
+	var depth_bid = "{:lang('deal.depth_bid')}";
+	var depth_ask = "{:lang('deal.depth_ask')}";
+	var uid = "{:session('member.id')}";
+	var HOME_URL = "{:url('/mobile/index/')}";
+
+	function goPage(url) {
+		if (!url) {
+			return false;
+		}
+		window.location.href = url;
+		return false;
+	}
+
+	function goHome() {
+		return goPage(HOME_URL);
+	}
+</script>
+
+<script src="__STATIC__/mobile/js/websocket.js?v={$version}"></script>
+<script src="__STATIC__/mobile/trading/datafeed.js?v={$version}"></script>
+<script src="__STATIC__/mobile/trading/chartConfig.js?v={$version}"></script>
+
+<div class="new-bg">
+	<!--主体-->
+	<div class="main">
+		<div class="lever-top">
+			<div class="deal-top-left deal-bg hidebox" id="kline_lists_box">
+				<a class="color-blue">{:lang('deal.USDT')}</a>
+				<table class="layui-table" lay-skin="nob" id="list_pro">
+					<thead>
+					<tr>
+						<th>{:lang('deal.left_symbol')}</th>
+						<th lay-data="{field:'price', sort:true}">{:lang('deal.left_price')}</th>
+						<th>{:lang('deal.left_change')}</th>
+					</tr>
+					</thead>
+					<tbody id="symbol">
+					{volist name="product" id="vo"}
+					<tr data-value="{$vo.code}" id="left_list_{$vo.code}" class="cursor-pointer">
+						<td data-value="{$vo.code}">{$vo.title}</td>
+						<td data-value="{$vo.code}" id="left_price_{$vo.code}">{$vo.last_price|floatVal}</td>
+						<td data-value="{$vo.code}" id="left_change_{$vo.code}" {if $vo.change>0}class="color-green"{else}class="color-red"{/if}>{$vo.change|floatVal|fox_nums}%</td>
+					</tr>
+					{/volist}
+					</tbody>
+				</table>
+			</div>
+
+			<div class="lever-top-left deal-bg hidebox" id="deal_top_box">
+				<a href="javascript:void(0);" onclick="return goHome();" class="home-a" title="Home">
+					<i class="fa fa-reply" aria-hidden="true"></i>
+				</a>
+
+				<div class="a-header layui-rows lever-header-with-home">
+					<div class="layui-col-xs9 kline_coin_left">
+						<i class="fa fa-bars"></i>
+						<span class="trading_top_title_m"></span>
+						<span class="trading_top_change_m"></span>
+					</div>
+					<div class="layui-col-xs3 text-right closea">
+						<a href="javascript:void(0);" onclick="hide_all()" title="Close"><i class="fa fa-times-circle-o"></i></a>
+					</div>
+				</div>
+
+				<div class="deal-top-center-title">
+					<p class="layui-inline">
+						<span id="trading_top_price"></span><br>
+						<span>≈</span>
+						<span id="trading_top_usd"></span>
+						<span>$</span>
+					</p>
+					<p class="layui-inline">
+						<span>{:lang('deal.top_high')}</span><br>
+						<span class="color-grey" id="trading_top_high"></span>
+					</p>
+					<p class="layui-inline">
+						<span>{:lang('deal.top_low')}</span><br>
+						<span class="color-grey" id="trading_top_low"></span>
+					</p>
+					<p class="layui-inline">
+						<span>{:lang('deal.top_volume')}</span><br>
+						<span class="color-grey" id="trading_top_volume"></span>
+					</p>
+				</div>
+
+				<div class="et-chart-wrap">
+					<div class="et-chart-setting">
+						<div class="times time-range" id="interval">
+							<span data-value="1" data-kline="1">{:lang('kline_list.time')}</span>
+							<span class="active" data-value="1">{:lang('kline_list.1_min')}</span>
+							<span data-value="5">{:lang('kline_list.5_min')}</span>
+							<span data-value="15">{:lang('kline_list.15_min')}</span>
+							<span data-value="30">{:lang('kline_list.30_min')}</span>
+							<span data-value="60">{:lang('kline_list.60_min')}</span>
+							<span data-value="240">{:lang('kline_list.240_min')}</span>
+							<span data-value="1d">{:lang('kline_list.1_day')}</span>
+						</div>
+					</div>
+					<div class="trading-view">
+						<div id="tv_chart_container"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="lever-top-right deal-bg hidebox deal_trade_box">
+				<a href="javascript:void(0);" onclick="return goHome();" class="home-a" title="Home">
+					<i class="fa fa-reply" aria-hidden="true"></i>
+				</a>
+
+				<div class="a-header layui-rows lever-header-with-home">
+					<div class="layui-col-xs9 kline_coin_left">
+						<i class="fa fa-bars"></i>
+						<span class="trading_top_title_m"></span>
+						<span class="trading_top_change_m"></span>
+					</div>
+					<div class="layui-col-xs3 text-right closea">
+						<a href="javascript:void(0);" onclick="hide_all()" title="Close"><i class="fa fa-times-circle-o"></i></a>
+					</div>
+				</div>
+
+				<h5>
+					{:lang('deal.depth_title')}
+					<div class="trade-checkout">
+						<span class="depth-biao" data-value="0"><img src="__STATIC__/mobile/img/trade-check-1.png" alt="Depth 1" title="Depth 1"></span>
+						<span class="depth-biao" data-value="1"><img src="__STATIC__/mobile/img/trade-check-2.png" alt="Depth 2" title="Depth 2"></span>
+						<span class="depth-biao" data-value="2"><img src="__STATIC__/mobile/img/trade-check-3.png" alt="Depth 3" title="Depth 3"></span>
+					</div>
+				</h5>
+			</div>
+		</div>
+
+		<div class="lever-bottom layui-rows first_box">
+			<div class="play-tab">
+				<a href="javascript:void(0);" onclick="return goPage('{:url('leverdeal/index')}');" class="layui-btn layui-btn-normal layui-btn-sm no-radius">{:lang('mobile_home.le_title')}</a>
+				<a href="javascript:void(0);" onclick="return goPage('{:url('seconds/index')}');" class="layui-btn layui-btn-primarys layui-btn-sm no-radius">{:lang('mobile_home.op_title')}</a>
+			</div>
+
+			<div class="a-header layui-rows lever-header-with-home">
+				<a href="javascript:void(0);" onclick="return goHome();" class="home-a" title="Home">
+					<i class="fa fa-reply" aria-hidden="true"></i>
+				</a>
+
+				<div class="layui-col-xs9 kline_coin_left">
+					<i class="fa fa-bars"></i>
+					<span class="trading_top_title_m"></span>
+					<span class="trading_top_change_m"></span>
+				</div>
+				<div class="layui-col-xs3 text-right">
+					<a href="javascript:void(0);" onclick="show_kline('deal_top_box','')" title="Chart"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
+				</div>
+			</div>
+
+			<div class="lever-bottom-right deal-bg layui-row pd-10 mt-20">
+				<div class="layui-col-xs5 kline-box-depth">
+					<table class="layui-table depth-table" lay-skin="nob">
+						<tbody id="bids_box"></tbody>
+						<tbody>
+						<tr>
+							<td colspan="2" class="depth-box">
+								<span class="color-green font-25" id="right_price">000</span>
+							</td>
+						</tr>
+						</tbody>
+						<tbody>
+						<tr>
+							<td colspan="2" class="depth-box">
+								<span>≈</span>
+								<span id="right_price_usd"></span>
+								<span>$</span>
+							</td>
+						</tr>
+						</tbody>
+						<tbody id="asks_box"></tbody>
+					</table>
+				</div>
+
+				<div class="layui-col-xs7 kline-box-trade-level">
+					<div class="layui-tab layui-tab-brief">
+						<ul class="layui-tab-title">
+							<li class="layui-this">{:lang('leverdeal.btn_buy')}</li>
+							<li>{:lang('leverdeal.btn_sell')}</li>
+						</ul>
+
+						<div class="layui-tab-content">
+							<input type="hidden" name="deal_price" value="0" autocomplete="off" class="layui-input deal-price">
+							<input type="hidden" name="close_price" id="close_price" value="0" autocomplete="off" class="layui-input close-price">
+
+							<div class="lever-info-box">
+								<div class="lever-info-row">
+									<span class="lever-info-label">{:lang('leverdeal.can_use_money')}</span>
+									<span class="lever-info-value"><span class="can-use-money">0.00</span> <span class="balance-tit">USDT</span></span>
+								</div>
+								<div class="lever-info-row">
+									<span class="lever-info-label">USDT{:lang('leverdeal.can_use_money')}</span>
+									<span class="lever-info-value"><span class="usdt-account-balance">0.00</span> USDT</span>
+								</div>
+								<div class="lever-info-row">
+									<span class="lever-info-label">{:lang('leverdeal.play_sxf_title')}</span>
+									<span class="lever-info-value"><span class="le-sx-fee-100"></span></span>
+								</div>
+							</div>
+
+							<span class="pro-tit hidebox"></span>
+							<span class="pro-tit-convert hidebox"></span>
+							<span class="le-play-time hidebox"></span>
+							<span class="buy-play-time hidebox"></span>
+							<span class="sell-play-time hidebox"></span>
+							<span class="le-order-rate hidebox"></span>
+							<span class="le-sx-fee hidebox"></span>
+
+							<!-- 买涨 -->
+							<div class="layui-tab-item layui-show">
+								<div class="layui-col-xs12">
+									<form class="layui-form buy-form-box" action="">
+										<div class="layui-form-item">
+											<label class="layui-form-label">{:lang('leverdeal.play_time_title')}：</label>
+											<div class="layui-input-block">
+												<select name="play_time" class="play_time" lay-verify="required" lay-filter="playTime" data-type="buy" title="Leverage"></select>
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">{:lang('leverdeal.buy_account')}：</label>
+											<div class="layui-input-block position-re">
+												<input type="number" id="buy_account" name="account" value="0" lay-verify="required|buy_account" lay-verType="tips" autocomplete="off" class="layui-input" title="Amount" placeholder="0">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">止盈价：</label>
+											<div class="layui-input-block position-re">
+												<input type="number" name="stop_profit_price" value="" autocomplete="off" class="layui-input buy-stop-profit-price" placeholder="不填则不设置">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">止损价：</label>
+											<div class="layui-input-block position-re">
+												<input type="number" name="stop_loss_price" value="" autocomplete="off" class="layui-input buy-stop-loss-price" placeholder="不填则不设置">
+											</div>
+										</div>
+
+										<div class="layui-form-item mt-30" id="slideNum1"></div>
+
+										<div class="lever-stat-row"><span>{:lang('leverdeal.max_num')}</span><span>≈<span class="buy_num_this"></span></span></div>
+										<div class="lever-stat-row"><span>{:lang('leverdeal.right_price_this')}</span><span>≈<span class="right_price_this"></span> {:lang('leverdeal.after_usdt')}</span></div>
+										<div class="lever-stat-row"><span>{:lang('leverdeal.margin_this')}</span><span>≈<span class="buy_margin_this"></span> {:lang('leverdeal.after_usdt')}</span></div>
+										<div class="lever-stat-row"><span>{:lang('leverdeal.sxf_this')}</span><span>≈<span class="buy_sxf_this"></span> {:lang('leverdeal.after_usdt')}</span></div>
+
+										<div class="layui-form-item">
+											<button type="button" class="layui-btn btn-green" lay-submit lay-filter="buyForm">{:lang('leverdeal.btn_buy')}<span class="pro-tit span-margin"></span></button>
+										</div>
+									</form>
+								</div>
+							</div>
+
+							<!-- 买跌 -->
+							<div class="layui-tab-item">
+								<div class="layui-col-xs12">
+									<form class="layui-form sell-form-box" action="">
+										<div class="layui-form-item">
+											<label class="layui-form-label">{:lang('leverdeal.play_time_title')}：</label>
+											<div class="layui-input-block">
+												<select name="play_time" class="play_time" lay-verify="required" lay-filter="playTime" data-type="sell" title="Leverage"></select>
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">{:lang('leverdeal.buy_account')}：</label>
+											<div class="layui-input-block position-re">
+												<input type="number" id="sell_account" name="account" value="0" lay-verify="required|sell_account" lay-verType="tips" autocomplete="off" class="layui-input" title="Amount" placeholder="0">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">止盈价：</label>
+											<div class="layui-input-block position-re">
+												<input type="number" name="stop_profit_price" value="" autocomplete="off" class="layui-input sell-stop-profit-price" placeholder="不填则不设置">
+											</div>
+										</div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">止损价：</label>
+											<div class="layui-input-block position-re">
+												<input type="number" name="stop_loss_price" value="" autocomplete="off" class="layui-input sell-stop-loss-price" placeholder="不填则不设置">
+											</div>
+										</div>
+
+										<div class="layui-form-item mt-30" id="slideNum2"></div>
+
+										<div class="lever-stat-row"><span>{:lang('leverdeal.max_num')}</span><span>≈<span class="sell_num_this"></span></span></div>
+										<div class="lever-stat-row"><span>{:lang('leverdeal.right_price_this')}</span><span>≈<span class="right_price_this"></span> {:lang('leverdeal.after_usdt')}</span></div>
+										<div class="lever-stat-row"><span>{:lang('leverdeal.margin_this')}</span><span>≈<span class="sell_margin_this"></span> {:lang('leverdeal.after_usdt')}</span></div>
+										<div class="lever-stat-row"><span>{:lang('leverdeal.sxf_this')}</span><span>≈<span class="sell_sxf_this"></span> {:lang('leverdeal.after_usdt')}</span></div>
+
+										<div class="layui-form-item">
+											<button type="button" class="layui-btn btn-red" lay-submit lay-filter="sellForm">{:lang('leverdeal.btn_sell')}<span class="pro-tit span-margin"></span></button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="deal-bottom-left deal-bg padding-l-r mt-20">
+				<div class="layui-tab layui-tab-brief" lay-filter="tabList">
+					<ul class="layui-tab-title">
+						<li class="layui-this">{:lang('leverdeal.left_order')}</li>
+						<li>{:lang('leverdeal.left_history')}</li>
+					</ul>
+
+					<div class="layui-tab-content mobile-layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							<table class="layui-table fox-table" lay-skin="nob" lay-even>
+								<colgroup>
+									<col width="30%">
+									<col width="50%">
+									<col width="20%">
+								</colgroup>
+								<thead>
+								<tr>
+									<th><span class="table-span-list">{:lang('leverdeal.table_time')}/{:lang('leverdeal.table_style')}</span></th>
+									<th><span class="table-span-list">{:lang('leverdeal.table_buyprice')}/{:lang('leverdeal.table_nowprice')}/{:lang('leverdeal.table_account')}/{:lang('leverdeal.table_play')}</span></th>
+									<th><span class="table-span-list">{:lang('leverdeal.table_rates')}/{:lang('leverdeal.table_do')}</span></th>
+								</tr>
+								</thead>
+								<tbody id="lista"></tbody>
+							</table>
+						</div>
+
+						<div class="layui-tab-item">
+							<table class="layui-table fox-table" lay-skin="nob" lay-even>
+								<colgroup>
+									<col width="30%">
+									<col width="50%">
+									<col width="20%">
+								</colgroup>
+								<thead>
+								<tr>
+									<th><span class="table-span-list">{:lang('leverdeal.table_time')}/{:lang('leverdeal.table_style')}</span></th>
+									<th><span class="table-span-list">{:lang('leverdeal.table_buyprice')}/{:lang('leverdeal.table_closeprice')}/{:lang('leverdeal.table_account')}/{:lang('leverdeal.table_play')}</span></th>
+									<th><span class="table-span-list">{:lang('leverdeal.table_rates')}/{:lang('leverdeal.table_salt')}</span></th>
+								</tr>
+								</thead>
+								<tbody id="listb"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{include file="./block/mobile_footmenu"}
+{include file="./block/foot_script"}
+
+<script src="__STATIC__/mobile/js/socketset.js?v={$version}"></script>
+<script src="__STATIC__/mobile/js/websocket.js?v={$version}"></script>
+<script type="text/javascript" src="__STATIC__/mobile/lib/tablesort/tablesorter.js?v={$version}"></script>
+
+<script type="text/javascript">
+	var t;
+	var tasks = {};
+
+	setInterval(function () {
+		for (var key in tasks) {
+			if (tasks.hasOwnProperty(key) && typeof tasks[key] === 'function') {
+				tasks[key]();
+			}
+		}
+	}, 3000);
+
+	function addTask(key, value) {
+		if (typeof value === "function") {
+			tasks[key] = value;
+		}
+	}
+
+	function delTask(task) {
+		delete tasks[task];
+	}
+
+	/**
+	 * APP 环境下彻底关闭 WebView 缩放
+	 */
+	function plusReady() {
+		try {
+			var ws = plus.webview.currentWebview();
+			if (ws && ws.setStyle) {
+				ws.setStyle({
+					scalable: false
+				});
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	}
+	document.addEventListener('plusready', plusReady, false);
+
+	/**
+	 * 指定区域再额外兜底，防止双指缩放和拖拽
+	 */
+	function disablePageGesture() {
+		var selectors = ['#deal_top_box', '.deal_trade_box', '.lever-bottom-right', '.deal-bottom-left'];
+		for (var i = 0; i < selectors.length; i++) {
+			var boxList = document.querySelectorAll(selectors[i]);
+			for (var j = 0; j < boxList.length; j++) {
+				(function(box){
+					box.addEventListener('gesturestart', function (e) {
+						e.preventDefault();
+					}, { passive: false });
+
+					box.addEventListener('gesturechange', function (e) {
+						e.preventDefault();
+					}, { passive: false });
+
+					box.addEventListener('gestureend', function (e) {
+						e.preventDefault();
+					}, { passive: false });
+
+					box.addEventListener('touchstart', function (e) {
+						if (e.touches && e.touches.length > 1) {
+							e.preventDefault();
+						}
+					}, { passive: false });
+
+					box.addEventListener('touchmove', function (e) {
+						if (e.touches && e.touches.length > 1) {
+							e.preventDefault();
+							return false;
+						}
+					}, { passive: false });
+
+					box.addEventListener('dragstart', function (e) {
+						e.preventDefault();
+						return false;
+					}, false);
+				})(boxList[j]);
+			}
+		}
+	}
+
+	$(function(){
+		sessionStorage.setItem("ins1", 0);
+		sessionStorage.setItem("ins2", 0);
+
+		socket.sendData({
+			type: 'kline',
+			find: 'leverdeal',
+		}, null, null);
+
+		if ($("#list_pro").length > 0 && $.fn.DataTable) {
+			$("#list_pro").DataTable({
+				"info": false,
+				columnDefs: [
+					{ orderable: false, targets: 0 }
+				],
+				"order": [],
+				"searching": false,
+				searchable: false,
+				paging: false
+			});
+		}
+
+		disablePageGesture();
+	});
+
+	layui.use(['layer','element','jquery','slider', 'form', 'flow'], function(){
+		var layer = layui.layer,
+				element = layui.element,
+				$ = layui.jquery,
+				form = layui.form,
+				slider = layui.slider,
+				flow = layui.flow;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		function safeNum(val, fixed) {
+			var n = parseFloat(val);
+			if (isNaN(n)) {
+				n = 0;
+			}
+			if (typeof fixed === 'number') {
+				return n.toFixed(fixed);
+			}
+			return n;
+		}
+
+		function validateStopPrice(style, buyPrice, stopProfitPrice, stopLossPrice){
+			buyPrice = parseFloat(buyPrice) || 0;
+			stopProfitPrice = parseFloat(stopProfitPrice) || 0;
+			stopLossPrice = parseFloat(stopLossPrice) || 0;
+
+			if (stopProfitPrice < 0 || stopLossPrice < 0) {
+				return '止盈止损价格不能小于0';
+			}
+
+			if(stopProfitPrice > 0){
+				if(style == 1 && stopProfitPrice <= buyPrice){
+					return '买涨时，止盈价必须大于开仓价';
+				}
+				if(style == 2 && stopProfitPrice >= buyPrice){
+					return '买跌时，止盈价必须小于开仓价';
+				}
+			}
+
+			if(stopLossPrice > 0){
+				if(style == 1 && stopLossPrice >= buyPrice){
+					return '买涨时，止损价必须小于开仓价';
+				}
+				if(style == 2 && stopLossPrice <= buyPrice){
+					return '买跌时，止损价必须大于开仓价';
+				}
+			}
+
+			return '';
+		}
+
+		form.verify({
+			buy_account: function(value, item){
+				var money = parseFloat($(".can-use-money").text());
+				if(money <= 0){
+					return "{:lang('leverdeal.check_nomony')}";
+				}
+				var ze = /^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/;
+				if (!ze.test(value)) {
+					return "{:lang('leverdeal.check_buy_account')}";
+				}
+				var buymax = parseFloat($(".buy_num_this").text());
+				if(value > buymax) {
+					return "{:lang('leverdeal.check_buy_account_enough')}" + buymax;
+				}
+			},
+			sell_account: function(value, item){
+				var money = parseFloat($(".can-use-money").text());
+				if(money <= 0){
+					return "{:lang('leverdeal.check_nomony')}";
+				}
+				var ze = /^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/;
+				if (!ze.test(value)) {
+					return "{:lang('leverdeal.check_sell_account')}";
+				}
+				var sellmax = parseFloat($(".sell_num_this").text());
+				if(value > sellmax) {
+					return "{:lang('leverdeal.check_sell_account_enough')}" + sellmax;
+				}
+			}
+		});
+
+		element.on('tab(tabList)', function(data){
+			if(data.index == 0){
+				refreshLista();
+			}
+			if(data.index == 1){
+				refreshListb();
+			}
+		});
+
+		window.orderThis = function(id){
+			layer.msg("{:lang('leverdeal.do_ask')}", {
+				time: 0,
+				shade: 0.3,
+				area: ['250px', '100px'],
+				btn: ["{:lang('leverdeal.do_ask_yes')}", "{:lang('leverdeal.do_ask_no')}"],
+				yes: function(index){
+					layer.close(index);
+					$.post("{:url('leverdeal/order_this')}", {id:id}, function (res) {
+						if (res.code > 0) {
+							layer.msg(res.msg, {time: 1800}, function(){
+								playTime();
+								refreshLista();
+							});
+						} else {
+							if(res.url){
+								layer.msg(res.msg, {time: 1800}, function () {
+									location.href = res.url;
+								});
+							} else {
+								layer.msg(res.msg, {time: 1800});
+							}
+						}
+					});
+				}
+			});
+		};
+
+		window.goThis = function(obj, id){
+			addTask(obj, function () {
+				$.post("{:url('leverdeal/findorder')}", {id:id}, function (res) {
+					if (res.code > 0) {
+						var data = res.data;
+						var price = parseFloat(data.now_price);
+						var win = parseFloat(data.win_account);
+						$("#price_" + id).html(price);
+						$("#win_" + id).html(win);
+
+						if ($("#tp_" + id).length > 0) {
+							$("#tp_" + id).html((parseFloat(data.stop_profit_price) > 0 ? data.stop_profit_price : '--'));
+						}
+						if ($("#sl_" + id).length > 0) {
+							$("#sl_" + id).html((parseFloat(data.stop_loss_price) > 0 ? data.stop_loss_price : '--'));
+						}
+					} else {
+						delTask(obj);
+						$("#" + obj).remove();
+						refreshListb();
+					}
+				});
+			});
+		};
+
+		window.refreshLista = function(){
+			$('#lista').empty();
+			flow.load({
+				elem: '#lista',
+				colSpan: 3,
+				isAuto: true,
+				end:'<td colspan="3" class="text-center">{:lang("finance.finance_nodata")}</td>',
+				done: function(page, next){
+					var lis = [];
+					$.post("{:url('leverdeal/lista')}", {page:page, code:localsym}, function(res){
+						layui.each(res.data, function(index, item){
+							var tpText = item.stop_profit_text ? item.stop_profit_text : '--';
+							var slText = item.stop_loss_text ? item.stop_loss_text : '--';
+
+							var html = '<tr id="list' + item.id + '">';
+							html += '<td>' + item.create_time + '<br>';
+							html += '<span class="leverdeal-color-' + item.style + '">' + item.ostyle + '</span></td>';
+
+							html += '<td>' + safeNum(item.buy_price) + '<br>';
+							html += '<span class="price_' + item.id + '" id="price_' + item.id + '">' + safeNum(item.now_price) + '</span><br>';
+							html += '' + safeNum(item.account) + '/' + item.play_time + '</td>';
+
+							html += '<td>';
+							html += '<span id="win_' + item.id + '" class="win' + item.id + ' leverdeal-color-' + item.style + '">' + safeNum(item.win_account) + '</span><br>';
+							html += '<span class="color-green">TP:<span id="tp_' + item.id + '">' + tpText + '</span></span><br>';
+							html += '<span class="color-red">SL:<span id="sl_' + item.id + '">' + slText + '</span></span><br>';
+							html += '<a href="javascript:void(0);" onclick="orderThis(' + item.id + ')" class="layui-btn layui-btn-xs fox-btn-xs layui-btn-warm">{:lang("leverdeal.do_btn")}</a>';
+							html += '</td>';
+
+							html += '</tr>';
+							lis.push(html);
+							goThis("list" + item.id, item.id);
+						});
+						next(lis.join(''), page < res.pages);
+					});
+				}
+			});
+		};
+
+		window.refreshListb = function(){
+			$('#listb').empty();
+			flow.load({
+				elem: '#listb',
+				colSpan: 3,
+				isAuto: true,
+				end:'<td colspan="3" class="text-center">{:lang("finance.finance_nodata")}</td>',
+				done: function(page, next){
+					var lis = [];
+					$.post("{:url('leverdeal/listb')}", {page:page, code:localsym}, function(res){
+						layui.each(res.data, function(index, item){
+							var closeTypeText = item.close_type_text ? item.close_type_text : '--';
+
+							var html = '<tr>';
+							html += '<td>' + item.create_time + '<br>';
+							html += '<span class="leverdeal-color-' + item.style + '">' + item.ostyle + '</span></td>';
+
+							html += '<td>' + safeNum(item.buy_price) + '<br>' + safeNum(item.close_price) + '<br>' + safeNum(item.account) + '/' + item.play_time + '</td>';
+
+							html += '<td>';
+							html += '<span class="leverdeal-color-' + item.style + '">' + item.owin + '</span><br>';
+							html += '<span>' + closeTypeText + '</span><br>';
+							html += '<span class="leverdeal-color-' + item.style + '">' + safeNum(item.win_account) + '</span>';
+							html += '</td>';
+
+							html += '</tr>';
+							lis.push(html);
+						});
+						next(lis.join(''), page < res.pages);
+					});
+				}
+			});
+		};
+
+		form.on('submit(buyForm)', function(data){
+			if(data.field.account){
+				var money = parseFloat($(".can-use-money").text());
+				var buy_price = $("#close_price").val();
+
+				var stopMsg = validateStopPrice(
+						1,
+						buy_price,
+						data.field.stop_profit_price,
+						data.field.stop_loss_price
+				);
+				if(stopMsg){
+					layer.msg(stopMsg, {time: 1800});
+					return false;
+				}
+
+				data.field.buy_price = buy_price;
+				data.field.money = money;
+				data.field.code = localsym;
+				data.field.style = 1;
+
+				loading = layer.load(1, {shade: [0.1,'#fff']});
+				$.post("{:url('leverdeal/orderdo')}", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function(){
+							playTime();
+							ins1.setValue(0);
+							$('#buy_account').val(0);
+							$('.buy-stop-profit-price').val('');
+							$('.buy-stop-loss-price').val('');
+							refreshLista();
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						} else {
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		});
+
+		form.on('submit(sellForm)', function(data){
+			if(data.field.account){
+				var money = parseFloat($(".can-use-money").text());
+				var buy_price = $("#close_price").val();
+
+				var stopMsg = validateStopPrice(
+						2,
+						buy_price,
+						data.field.stop_profit_price,
+						data.field.stop_loss_price
+				);
+				if(stopMsg){
+					layer.msg(stopMsg, {time: 1800});
+					return false;
+				}
+
+				data.field.buy_price = buy_price;
+				data.field.money = money;
+				data.field.code = localsym;
+				data.field.style = 2;
+
+				loading = layer.load(1, {shade: [0.1,'#fff']});
+				$.post("{:url('leverdeal/orderdo')}", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function(){
+							playTime();
+							ins2.setValue(0);
+							$('#sell_account').val(0);
+							$('.sell-stop-profit-price').val('');
+							$('.sell-stop-loss-price').val('');
+							refreshLista();
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						} else {
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		});
+
+		var ins1 = slider.render({
+			elem: '#slideNum1',
+			step: 1,
+			stepshow: 25,
+			disabled: false,
+			showstep: true,
+			setTips: function(value){
+				return value + '%';
+			},
+			change: function(value){
+				var buymax = parseFloat($(".buy_num_this").text());
+				if(value > 0){
+					sessionStorage.setItem("ins1", value);
+					$(".layui-slider .layui-slider-tips").show();
+					var num = floatMul(buymax, value / 100);
+					$('#buy_account').val(num);
+				} else {
+					$('#buy_account').val(0);
+				}
+			}
+		});
+
+		var ins2 = slider.render({
+			elem: '#slideNum2',
+			step: 1,
+			stepshow: 25,
+			disabled: false,
+			showstep: true,
+			theme: '#ef5656',
+			setTips: function(value){
+				return value + '%';
+			},
+			change: function(value){
+				var sellmax = parseFloat($(".sell_num_this").text());
+				if(value > 0){
+					sessionStorage.setItem("ins2", value);
+					var num = floatMul(sellmax, value / 100);
+					$('#sell_account').val(num);
+				} else {
+					$('#sell_account').val(0);
+				}
+			}
+		});
+
+		$("#slideNum1 .layui-slider-wrap").on("touchstart", function (e) {
+			var startX = e.originalEvent.targetTouches[0].pageX;
+			$(this).on('touchmove', function (e) {
+				arguments[0].preventDefault();
+			});
+			$(this).on('touchend', function (e) {
+				var lenth = $("#slideNum1 .layui-slider").width();
+				var endX = e.originalEvent.changedTouches[0].pageX;
+				e.stopPropagation();
+				var val = Math.floor((endX - startX) / lenth * 100);
+				if(val > 0 && val <= 100){
+					$("#slideNum1 .layui-slider .layui-slider-tips").show();
+					var value = sessionStorage.getItem("ins1");
+					var num = value ? (parseInt(value) + parseInt(val)) : val;
+					if(num < 100){
+						sessionStorage.setItem("ins1", num);
+					} else {
+						sessionStorage.setItem("ins1", 100);
+						num = 100;
+					}
+					ins1.setValue(num);
+					var buymax = parseFloat($(".buy_num_this").text());
+					var nums = floatMul(buymax, num / 100);
+					$('#buy_account').val(nums);
+				} else {
+					$("#slideNum1 .layui-slider .layui-slider-tips").show();
+					var values = sessionStorage.getItem("ins1");
+					if(values){
+						var nums2 = parseInt(values) + parseInt(val);
+						if(nums2 > 0){
+							ins1.setValue(nums2);
+							var buymaxs = parseFloat($(".buy_num_this").text());
+							var nums3 = floatMul(buymaxs, nums2 / 100);
+							$('#buy_account').val(nums3);
+							sessionStorage.setItem("ins1", nums2);
+						} else {
+							$("#slideNum1 .layui-slider .layui-slider-tips").hide();
+							ins1.setValue(0);
+							$('#buy_account').val(0);
+							sessionStorage.removeItem("ins1");
+						}
+					}
+				}
+				$(this).off('touchmove touchend');
+			});
+		});
+
+		$("#slideNum2 .layui-slider-wrap").on("touchstart", function (e) {
+			var startX = e.originalEvent.targetTouches[0].pageX;
+			$(this).on('touchmove', function (e) {
+				arguments[0].preventDefault();
+			});
+			$(this).on('touchend', function (e) {
+				var lenth = $("#slideNum2 .layui-slider").width();
+				var endX = e.originalEvent.changedTouches[0].pageX;
+				e.stopPropagation();
+				var val = Math.floor((endX - startX) / lenth * 100);
+				if(val > 0 && val <= 100){
+					$("#slideNum2 .layui-slider .layui-slider-tips").show();
+					var value = sessionStorage.getItem("ins2");
+					var num = value ? (parseInt(value) + parseInt(val)) : val;
+					if(num < 100){
+						sessionStorage.setItem("ins2", num);
+					} else {
+						sessionStorage.setItem("ins2", 100);
+						num = 100;
+					}
+					ins2.setValue(num);
+					var sellmax = parseFloat($(".sell_num_this").text());
+					var nums = floatMul(sellmax, num / 100);
+					$('#sell_account').val(nums);
+				} else {
+					$("#slideNum2 .layui-slider .layui-slider-tips").show();
+					var values = sessionStorage.getItem("ins2");
+					if(values){
+						var nums2 = parseInt(values) + parseInt(val);
+						if(nums2 > 0){
+							ins2.setValue(nums2);
+							var sellmaxs = parseFloat($(".sell_num_this").text());
+							var nums3 = floatMul(sellmaxs, nums2 / 100);
+							$('#sell_account').val(nums3);
+							sessionStorage.setItem("ins2", nums2);
+						} else {
+							$("#slideNum2 .layui-slider .layui-slider-tips").hide();
+							ins2.setValue(0);
+							$('#sell_account').val(0);
+							sessionStorage.removeItem("ins2");
+						}
+					}
+				}
+				$(this).off('touchmove touchend');
+			});
+		});
+
+		window.playTime = function(){
+			var title = "{:lang('leverdeal.play_time_title')}";
+			$.post("{:url('leverdeal/get_play_time')}", {code:localsym}, function(res){
+				if(res.code == 1){
+					var play_time = res.data.play_time;
+					var prophtml = '';
+					for(var i = 0; i < play_time.length; i++){
+						if(i === 0){
+							prophtml += '<option value="' + play_time[i] + '" selected>' + play_time[i] + title + '</option>';
+						} else {
+							prophtml += '<option value="' + play_time[i] + '">' + play_time[i] + title + '</option>';
+						}
+					}
+					$(".play_time").html(prophtml);
+					form.render();
+				}
+			});
+		};
+
+		form.on('select(playTime)', function(data){
+			var type = $(data.elem).data('type');
+			var value = data.value;
+			var price = parseFloat($("#right_price").text());
+			var margin = floatp(price, value);
+
+			$("." + type + "-play-time").html(value);
+			$("." + type + "_margin_this").html(margin);
+
+			var can = parseFloat($('.can-use-money').text());
+			var cans = parseFloat($("." + type + "-play-time").text());
+			var num = floatMul(can, cans);
+			$("." + type + "_num_this").html(num.toFixed(4));
+
+			if(type == 'buy'){
+				ins1.setValue(0);
+				$('#buy_account').val(0);
+			}
+			if(type == 'sell'){
+				ins2.setValue(0);
+				$('#sell_account').val(0);
+			}
+		});
+
+		$('.deal-price').bind('input propertychange change', function(){
+			refreshLista();
+			refreshListb();
+			playTime();
+		});
+
+		$('.close-price').bind('input propertychange change', function(){
+			var buy = $("#buy_account").val();
+			var sell = $("#sell_account").val();
+			var buyPlayVal = parseFloat($(".buy-play-time").text()) || 0;
+			var sellPlayVal = parseFloat($(".sell-play-time").text()) || 0;
+			var lePlayVal = parseFloat($(".le-play-time").text()) || 0;
+
+			if(buy > 0 && buyPlayVal > 0){
+				var price = parseFloat($("#right_price").text());
+				var margin = floatp(price, buyPlayVal);
+				margin = margin.toFixed(4);
+				var margins = floatMul(margin, buy);
+				$(".buy_margin_this").html(margins);
+
+				var sx_fee = parseFloat($(".le-sx-fee").text()) || 0;
+				var sxf = floatMul(margin, sx_fee);
+				var fwf = floatMul(sxf, buy);
+				$(".buy_sxf_this").html(fwf);
+			} else if(lePlayVal > 0){
+				var price2 = parseFloat($("#right_price").text());
+				var margin2 = floatp(price2, lePlayVal);
+				margin2 = margin2.toFixed(4);
+				$(".buy_sxf_this").html("0.0000");
+				$(".buy_margin_this").html(margin2);
+			}
+
+			if(sell > 0 && sellPlayVal > 0){
+				var price3 = parseFloat($("#right_price").text());
+				var margin3 = floatp(price3, sellPlayVal);
+				margin3 = margin3.toFixed(4);
+				var margins2 = floatMul(margin3, sell);
+				$(".sell_margin_this").html(margins2);
+
+				var sx_fee2 = parseFloat($(".le-sx-fee").text()) || 0;
+				var sxf2 = floatMul(margin3, sx_fee2);
+				var fwf2 = floatMul(sxf2, sell);
+				$(".sell_sxf_this").html(fwf2);
+			} else if(lePlayVal > 0){
+				var price4 = parseFloat($("#right_price").text());
+				var margin4 = floatp(price4, lePlayVal);
+				margin4 = margin4.toFixed(4);
+				$(".sell_sxf_this").html("0.0000");
+				$(".sell_margin_this").html(margin4);
+			}
+
+			var can2 = parseFloat($('.can-use-money').text()) || 0;
+			var buyplay = buyPlayVal || lePlayVal;
+			var sellplay = sellPlayVal || lePlayVal;
+
+			if(buyplay > 0){
+				var buynum = floatMul(can2, buyplay);
+				$(".buy_num_this").html(buynum.toFixed(4));
+			}
+			if(sellplay > 0){
+				var sellnum = floatMul(can2, sellplay);
+				$(".sell_num_this").html(sellnum.toFixed(4));
+			}
+
+			var usdtBal = parseFloat($('.usdt-account-balance').text());
+			var curPrice = parseFloat($("#right_price").text());
+			if(usdtBal > 0 && curPrice > 0){
+				$('.usdt-convert-coin').html((usdtBal / curPrice).toFixed(8));
+			}
+		});
+
+		refreshLista();
+		playTime();
+	});
+</script>

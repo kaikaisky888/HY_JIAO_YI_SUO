@@ -1,0 +1,171 @@
+﻿<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-11 22:08:23
+ * @LastEditTime: 2021-09-12 17:38:01
+ * @Description: Forward, no stop
+-->
+<div class="a-header position-re finance-bg">
+	<div class="layui-row">
+		<div class="layui-col-xs3">
+			<a href="javascript:window.history.go(-1);"><i class="layui-icon layui-icon-left"></i></a>
+		</div>
+		<div class="layui-col-xs6 text-center">
+			地址管理
+		</div>
+		<div class="layui-col-xs3 text-right">
+			<a href="{:url('/mobile')}"><i class="layui-icon layui-icon-home"></i></a>
+		</div>
+	</div>
+</div>
+<div class="new-bg">
+	<!--主体-->
+	<div class="coin-select-wrapper">
+		<div class="coin-btn-bar">
+			{volist name="pro" id="vo"}
+			<a class="coin-btn {if $coin_id ==$vo.id}coin-btn-active{/if}" href="{:url('dealings/setaddress',['coin_id'=>$vo.id])}">{$vo.title}</a>
+			{/volist}
+		</div>
+	</div>
+	<div class="main-no {if $coin_id == 0}hidebox{/if}">
+		<div class="layui-container">
+			<div class="layui-row white-box">
+				<div class="layui-col-xs12">
+					<div class="a-form">
+						<form class="layui-form" action="" id="setAddressForm">
+							<input type="hidden" name="product_id" value="{$plist.id}">
+							{if $plist.withdraw_erc_sxf >0}
+							<div class="layui-form-item">
+								<label class="a-label">ERC20 {:lang('dealings.address_title')}：<span class="optional-tag"></span></label>
+								<div class="">
+								<input type="text" name="withdraw_erc_address" id="addr_erc" placeholder="请输入ERC20提现地址" autocomplete="off" class="layui-input addr-input" value="{$wlist.withdraw_erc_address}">
+								</div>
+							</div>
+							{/if}
+							{if $plist.withdraw_trc_sxf >0}
+							<div class="layui-form-item">
+								<label class="a-label">TRC20 {:lang('dealings.address_title')}：<span class="optional-tag"></span></label>
+								<div class="">
+								<input type="text" name="withdraw_trc_address" id="addr_trc" placeholder="请输入TRC20提现地址" autocomplete="off" class="layui-input addr-input" value="{$wlist.withdraw_trc_address}">
+								</div>
+							</div>
+							{/if}
+							{if $plist.withdraw_omni_sxf >0}
+							<div class="layui-form-item">
+								<label class="a-label">OMNI {:lang('dealings.address_title')}：<span class="optional-tag"></span></label>
+								<div class="">
+								<input type="text" name="withdraw_omni_address" id="addr_omni" placeholder="请输入OMNI提现地址" autocomplete="off" class="layui-input addr-input" value="{$wlist.withdraw_omni_address}">
+								</div>
+							</div>
+							{/if}
+							{if $plist.withdraw_bsc_sxf >0}
+							<div class="layui-form-item">
+								<label class="a-label">BSC {:lang('dealings.address_title')}：<span class="optional-tag"></span></label>
+								<div class="">
+								<input type="text" name="withdraw_bsc_address" id="addr_bsc" placeholder="请输入BSC提现地址" autocomplete="off" class="layui-input addr-input" value="{$wlist.withdraw_bsc_address}">
+								</div>
+							</div>
+							{/if}
+							{if $plist.withdraw_pol_sxf >0}
+							<div class="layui-form-item">
+								<label class="a-label">POL {:lang('dealings.address_title')}：<span class="optional-tag"></span></label>
+								<div class="">
+								<input type="text" name="withdraw_pol_address" id="addr_pol" placeholder="请输入POL提现地址" autocomplete="off" class="layui-input addr-input" value="{$wlist.withdraw_pol_address}">
+								</div>
+							</div>
+							{/if}
+							{if $plist.withdraw_base_sxf >0}
+							<div class="layui-form-item">
+								<label class="a-label">Base {:lang('dealings.address_title')}：<span class="optional-tag"></span></label>
+								<div class="">
+								<input type="text" name="withdraw_base_address" id="addr_base" placeholder="请输入Base提现地址" autocomplete="off" class="layui-input addr-input" value="{$wlist.withdraw_base_address}">
+								</div>
+							</div>
+							{/if}
+							<div class="layui-form-item">
+								<label class="a-label">{:lang('incomeset.paypwd')}：</label>
+								<div class="">
+								<input type="password" name="paypwd" lay-verify="required" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('incomeset.paypwd'))}" placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('incomeset.paypwd'))}" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+							<div class="layui-form-item">
+								 <button class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-lg" lay-submit lay-filter="setWithdraw">{:lang('incomeset.set_btn')}</button>
+							</div>
+						</form>
+					</div>
+					<div class="site-memo">
+						{:lang('dealings.set_memo_title')}
+						{:lang('dealings.set_memo_content')}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/foot_script"}
+<style>
+.coin-select-wrapper { padding: 0; margin: 0; }
+.coin-btn-bar {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding: 10px 15px; background: transparent;
+}
+.coin-btn {
+    display: inline-block; padding: 6px 16px; border-radius: 4px;
+    background: #2a405c; color: #768da9; font-size: 13px;
+    text-decoration: none; border: 1px solid rgba(255,255,255,0.1);
+}
+.coin-btn-active { background: #ffd37a; color: #1b2c42; border-color: #ffd37a; font-weight: bold; }
+.optional-tag { font-size: 11px; color: #aaa; margin-left: 4px; }
+.layui-form-item { margin-bottom: 12px; }
+.main-no { padding-left: 0 !important; padding-right: 0 !important; }
+.main-no .layui-container { padding-left: 0 !important; padding-right: 0 !important; }
+.layui-row.white-box .a-label { color: #768da9 !important; }
+.site-memo { color: #768da9 !important; }
+.layui-btn-normal { background-color: #3d74eb !important; }
+</style>
+<script>
+	layui.use(['layer', 'jquery', 'form', 'element'], function(){
+		var layer = layui.layer
+		,$ = layui.jquery
+		,form = layui.form;
+		var element = layui.element;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		form.on('submit(setWithdraw)', function(data){
+			// 至少填写一个地址
+			var addrInputs = $('#setAddressForm .addr-input');
+			var hasOne = false;
+			addrInputs.each(function(){ if($.trim($(this).val()) !== ''){ hasOne = true; } });
+			if(!hasOne){
+				layer.msg('请至少填写一个提现地址', {time: 2000});
+				return false;
+			}
+			if(!data.field.paypwd){
+				return false;
+			}
+			var loading = layer.load(1, {shade: [0.1,'#fff']});
+			$.post("", data.field, function (res) {
+				layer.close(loading);
+				if (res.code > 0) {
+					layer.msg(res.msg, {time: 1800}, function () {
+						location.href = res.url;
+					});
+				} else {
+					if(res.url){
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					}else{
+						layer.msg(res.msg, {time: 1800});
+					}
+				}
+			});
+			return false;
+		})
+	})
+</script>

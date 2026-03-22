@@ -1,0 +1,140 @@
+body,.new-bg{
+	background: #171c2b;
+	color:#ffffff;
+}
+a{
+	color:#ffffff;
+}
+.layui-nav .menu-left .layui-nav-item a,.menu-right .layui-nav-item a{
+	color: #87a2cd;
+}
+.layui-nav .menu-left .layui-nav-item a:hover, .layui-nav .menu-left .layui-this a {
+  background: #233150;
+}
+.post-box,.white-box,.deal-bg,.coinwin-header,.coinwin-body .layui-panel,
+.coinwin-bottom,.coinwin-box,.ieo-body .layui-panel,.ieo-bottom,.ieo-oper{
+	background: #1a243b;
+}
+.left-nav{
+  border-right: 1px solid #4a4a4a;
+}
+.layui-timeline-item:before, hr{
+	background-color:#4a4a4a;
+}
+.account-body li,
+.deal-top-left .layui-table thead tr,
+.deal-bottom-left .layui-table thead tr,
+.deal-top-center-title,
+.deal-top-right-box h5,
+.new-table .layui-table tr,.layui-tab-title,
+.lever-bottom-left .layui-table thead tr,
+.seconds-left-bottom .layui-table thead tr,
+.log-table .layui-table tr{
+	border-bottom: 1px solid #4a4a4a;
+}
+.layui-table,.new-table .layui-table thead tr,
+.log-table .layui-table thead tr{
+	background-color: unset;
+	color: #ffffff;
+}
+.layui-table tbody tr:hover,
+.layui-table thead tr,
+.layui-table-click,
+.layui-table-header,
+.layui-table-hover,
+.layui-table-mend,
+.layui-table-patch,
+.layui-table-tool,
+.layui-table-total,
+.layui-table-total tr,
+.layui-table[lay-even] tr:nth-child(even),
+.deal-top-left .layui-table tbody tr:hover,
+.deal-top-right-box .layui-table tbody tr:hover,
+.lever-top-right .layui-table tbody tr:hover,
+.coinwin-bottom .layui-table[lay-even] tr:nth-child(even){
+  background-color: #1f263c;
+}
+.deal-top-left .layui-table tbody .active{
+	background: rgba(242, 245, 250, 0.1);
+}
+.coinwin-bottom .layui-table thead tr {
+  background: #232a44;
+}
+.market .layui-tab-brief>.layui-tab-title .layui-this,
+.lever-bottom-left .layui-tab-brief>.layui-tab-title .layui-this{
+	color:#ffffff;
+}
+.layui-input, .layui-select, .layui-textarea,
+.deal-bottom-right .layui-form-item .layui-input,
+.lever-bottom-right .layui-form-item .layui-input,
+.coinwin-body .layui-panel .layui-input{
+	background-color: #1e2235;
+	color:#ffffff;
+	border:1px solid #525a75;
+}
+.layui-form-select dl{
+	background: #171c2b;
+	border: 1px solid #535a75;
+}
+.layui-form-select dl dd.layui-this,.layui-form-select dl dd:hover {
+    background-color: #233150;
+}
+/*登录注册*/
+.login-bg {
+  background: url(../img/login_bg.png) center bottom #171c2b;
+	color:#ffffff;
+}
+.login-bg .layui-input, .layui-select, .layui-textarea{
+	background: #1e2235;
+	border-color:#525a75;
+	color:#ffffff;
+}
+.login-box .v-send {
+	border-left: 1px solid #535a75;
+}
+.info-list-box{background: rgba(42, 53, 87, 0.2);}
+.form-bg{
+	background: #4a4a4a;
+}
+.time-range{background: #141822;border-bottom: 1px solid #303241;}
+.time-range span.active{
+	color:#ffffff;
+}
+.depth-box{text-align: center;font-size: 16px !important;padding:10px !important;color: rgba(157, 219, 198,.5) !important;
+	background-color: rgba(60, 66, 65, 0.2) !important;}
+.lever-top-right h5{
+	border-bottom: 1px solid #4a4a4a;
+}
+
+.layui-layer-msg{color:#999 !important;}
+.layui-flow-more a cite{background: #141822 !important;}
+.layui-slider{background: #9db2bd;}
+.show-deal td{background: #141822 !important;font-size: 12px;}
+.deal-price-input{background: #141822 !important;}
+.fox-form .layui-form-radio {background: #1e2235;}
+.fox-form .layui-form-radioed { background: #3d74eb;}
+.wicket-btn-box{
+	text-align: center;
+	background: unset;
+	border-bottom: 2px solid #202b44;
+	height: 54px;
+    line-height: 54px;
+	border-radius: 0;
+}
+.wicket-btn-box .btn-this{
+	background: #1d2439;
+	border-bottom: 2px solid #3d74eb;
+    color: #fff;
+	border-radius: 0;
+	animation: clipCircleIn .9s;
+}
+.coinwin-list .layui-panel,.coinwin-body .layui-form .layui-panel,.coinwin-header {
+    background: #1d2439;
+}
+.coinwin-list .layui-panel .flag {
+    background: #1d2439 url(../img/flag.png) right bottom;
+    color: #fff;
+}
+.coinwin-header .flag {
+    background: #1d2439 url(../img/flag.png) right bottom;
+}

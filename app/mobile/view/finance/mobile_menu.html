@@ -1,0 +1,52 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-22 14:56:12
+ * @LastEditTime: 2021-08-19 12:40:28
+ * @Description: Forward, no stop
+-->
+<ul>
+    <li {if $leftmenu=='fund'} class="layui-this"{/if}><a href="{:url('finance/fund')}">{:lang('mobile_finance.fund_title')}</a></li>
+    <li {if $leftmenu=='ex'} class="layui-this"{/if}><a href="{:url('finance/index')}">{:lang('mobile_finance.ex_title')}</a></li>
+    <li {if $leftmenu=='le'} class="layui-this"{/if}><a href="{:url('finance/lefinance')}">{:lang('mobile_finance.le_title')}</a></li>
+    <li {if $leftmenu=='op'} class="layui-this"{/if}><a href="{:url('finance/opfinance')}">{:lang('mobile_finance.op_title')}</a></li>
+    <li {if $leftmenu=='up'} class="layui-this"{/if}><a href="{:url('finance/upfinance')}">{:lang('mobile_finance.up_title')}</a></li>
+    <li {if $leftmenu=='cm'} class="layui-this"{/if}><a href="{:url('finance/cmfinance')}">{:lang('mobile_finance.cm_title')}</a></li>
+    <!--<li {if $leftmenu=='tf'} class="layui-this"{/if}><a href="{:url('finance/transfer')}">{:lang('mobile_finance.tf_title')}</a></li>-->
+</ul>
+<style>
+    .finance-nav ul {
+        display: flex;
+        flex-wrap: nowrap;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        color: #ffd37a !important;
+    }
+
+    .finance-nav ul li {
+        flex: 1;
+        min-width: 0;
+        text-align: center;
+
+    }
+
+    .finance-nav ul li a {
+        display: block;
+        width: 100%;
+        padding: 8px 0;
+        font-size: 12px;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #ffd37a !important;
+    }
+
+    .finance-nav ul li.layui-this a {
+        /*color: #ffd37a !important;*/
+    }
+
+    .uid-label, .mt-10-uid { font-size: 17px; }
+    .wallet-detail { font-size: 12px; }
+</style>

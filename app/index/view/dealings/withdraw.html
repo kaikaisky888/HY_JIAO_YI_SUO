@@ -1,0 +1,248 @@
+<div class="header">
+    {include file="./block/block_head"}
+</div>
+
+<div class="new-bg">
+	<!--主体-->
+	<!--主体-->
+	<div class="main">
+		<div class="layui-container">
+			<div class="layui-row layui-col-space30 white-box">
+				<div class="layui-col-xs3">
+					{include file="./block/member_left"}
+				</div>
+				<div class="layui-col-xs9">
+					<div class="dealings-top-left mt-30 dealings-bg" id="kline_lists_box">
+						<div>
+							{volist name="pro" id="vo"}
+							<a class="layui-btn layui-btn-sm {if $coin_id ==$vo.id}layui-btn-normal{else}layui-btn-primary{/if}" href="{:url('dealings/withdraw',['coin_id'=>$vo.id])}">{$vo.title}</a>
+							{/volist}
+						</div>
+					</div>
+					{if $found_keys == 0}
+					<div class="v-charge-head kline_coin_left">
+						<div class="head-item bg-theme mt-30 color-red">
+							{:lang('dealings.no_recharge_title')}
+						</div>
+					</div>
+					{/if}
+					<div class="layui-row white-box">
+					<div class="layui-col-xs12">
+						<div class="withdraw-titles">{:lang('dealings.withdraw_can_dotitle')}:<span>{$wlist.ex_money}</span></div>
+						<div class="a-form">
+							<form class="layui-form" action="">
+								<input type="hidden" name="wallet_id" value="{$wlist.id}">
+								<input type="hidden" name="product_id" value="{$plist.id}">
+								<input type="hidden" id="type" name="type" value="">
+								<input type="hidden" name="sxf" value="0">
+								<div class="layui-tab usdt-tab layui-tab-brief" lay-filter="tabWithdraw" id="tabWithdraw">
+									<ul class="layui-tab-title mobile-layui-tab-titles">
+										{if $plist.withdraw_erc_sxf >0}<li lay-id="3" type="erc" sxf="{$plist.withdraw_erc_sxf}">{:lang('dealings.erc_title')}</li>{/if}
+										{if $plist.withdraw_trc_sxf >0}<li lay-id="2" type="trc" sxf="{$plist.withdraw_trc_sxf}">{:lang('dealings.trc_title')}</li>{/if}
+										{if $plist.withdraw_bsc_sxf >0}<li lay-id="5" type="bsc" sxf="{$plist.withdraw_bsc_sxf}">BSC</li>{/if}
+										{if $plist.withdraw_omni_sxf >0}<li lay-id="1" type="omni" sxf="{$plist.withdraw_omni_sxf}">{:lang('dealings.omni_title')}</li>{/if}
+										{if $plist.withdraw_pol_sxf >0}<li lay-id="6" type="pol" sxf="{$plist.withdraw_pol_sxf}">POL</li>{/if}
+										{if $plist.withdraw_base_sxf >0}<li lay-id="7" type="base" sxf="{$plist.withdraw_base_sxf}">Base</li>{/if}
+									</ul>
+									<div class="layui-tab-content layui-tab-contents">
+										{if $plist.withdraw_erc_sxf >0}
+										<div class="layui-tab-item">
+											<div class="layui-row" style="line-height:36px">
+												<div class="layui-col-xs3">{:lang('dealings.address_title')}：</div>
+												<div class="layui-col-xs7">
+													<input type="text" name="withdraw_address[erc]" readonly placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('dealings.address_title'))}" autocomplete="off" class="layui-input" value="{$wlist.withdraw_erc_address}">
+												</div>
+											</div>
+										</div>
+										{/if}
+
+										{if $plist.withdraw_trc_sxf >0}
+										<div class="layui-tab-item">
+											<div class="layui-row" style="line-height:36px">
+												<div class="layui-col-xs3">{:lang('dealings.address_title')}：</div>
+												<div class="layui-col-xs7">
+													<input type="text" name="withdraw_address[trc]" readonly placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('dealings.address_title'))}" autocomplete="off" class="layui-input" value="{$wlist.withdraw_trc_address}">
+												</div>
+											</div>
+										</div>
+										{/if}
+
+										{if $plist.withdraw_bsc_sxf >0}
+										<div class="layui-tab-item">
+											<div class="layui-row" style="line-height:36px">
+												<div class="layui-col-xs3">{:lang('dealings.address_title')}：</div>
+												<div class="layui-col-xs7">
+													<input type="text" name="withdraw_address[bsc]" readonly placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('dealings.address_title'))}" autocomplete="off" class="layui-input" value="{$wlist.withdraw_bsc_address}">
+												</div>
+											</div>
+										</div>
+										{/if}
+
+										{if $plist.withdraw_omni_sxf >0}
+										<div class="layui-tab-item">
+											<div class="layui-row" style="line-height:36px">
+												<div class="layui-col-xs3">{:lang('dealings.address_title')}：</div>
+												<div class="layui-col-xs7">
+													<input type="text" name="withdraw_address[omni]" readonly placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('dealings.address_title'))}" autocomplete="off" class="layui-input" value="{$wlist.withdraw_omni_address}">
+												</div>
+											</div>
+										</div>
+										{/if}
+
+										{if $plist.withdraw_pol_sxf >0}
+										<div class="layui-tab-item">
+											<div class="layui-row" style="line-height:36px">
+												<div class="layui-col-xs3">{:lang('dealings.address_title')}：</div>
+												<div class="layui-col-xs7">
+													<input type="text" name="withdraw_address[pol]" readonly placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('dealings.address_title'))}" autocomplete="off" class="layui-input" value="{$wlist.withdraw_pol_address}">
+												</div>
+											</div>
+										</div>
+										{/if}
+
+										{if $plist.withdraw_base_sxf >0}
+										<div class="layui-tab-item">
+											<div class="layui-row" style="line-height:36px">
+												<div class="layui-col-xs3">{:lang('dealings.address_title')}：</div>
+												<div class="layui-col-xs7">
+													<input type="text" name="withdraw_address[base]" readonly placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('dealings.address_title'))}" autocomplete="off" class="layui-input" value="{$wlist.withdraw_base_address}">
+												</div>
+											</div>
+										</div>
+										{/if}
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<div class="layui-row" style="line-height:36px">
+										<div class="layui-col-xs3">{$plist.title}{:lang('finance.withdraw_num')}</div>
+										<div class="layui-col-xs7">
+											<input type="text" name="withdraw_account" onblur='check_num(this);' lay-verify="required|withdraw" lay-verType="tips" lay-reqText="{:lang('finance.withdraw_num_must')}" placeholder="{$plist.title}{:lang('finance.withdraw_num')}" autocomplete="off" class="layui-input">
+											<div class="layui-input-inline text-left show-sxf" style="line-height: 36px;width:100%;"></div>
+										</div>
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<div class="layui-row" style="line-height:36px">
+										<div class="layui-col-xs3">{:lang('incomeset.paypwd')}：</div>
+										<div class="layui-col-xs7">
+										<input type="password" name="paypwd" lay-verify="required" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('incomeset.paypwd'))}" placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('incomeset.paypwd'))}" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<button class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-lg" lay-submit lay-filter="setWithdraw">{:lang('dealings.withdraw_btn_title')}</button>
+								</div>
+							</form>
+						</div>
+						<div class="site-memo">
+							{:lang('dealings.withdraw_memo_title')}
+							{:lang('dealings.withdraw_memo_content')}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{if !empty($wlist.id)}
+<div class="layui-container mt-10">
+	<div class="layui-row white-box">
+		<div class="layui-col-xs12">
+			<table class="layui-table" lay-skin="nob">
+				<thead><tr><th colspan="3" class="text-center">近期提币记录</th></tr><tr><th>时间/币种</th><th>金额</th><th>状态</th></tr></thead>
+				<tbody id="withdraw_log_tbody"></tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{/if}
+</div>
+<!--footer-->
+{include file="./block/foot_script"}
+<script>
+	layui.use(['layer', 'jquery', 'form', 'element'], function(){
+		var layer = layui.layer
+		,$ = layui.jquery
+		,form = layui.form;
+		var element = layui.element;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		element.on('tab(tabWithdraw)', function(data){
+			var type = this.getAttribute('type');
+			var sxf = this.getAttribute('sxf');
+			$("#type").val(type);
+			$('input[name="sxf"]').val(sxf);
+		});
+
+		form.on('submit(setWithdraw)', function(data){
+			if(data.field.paypwd){
+				loading =layer.load(1, {shade: [0.1,'#fff']});
+				$.post("{:url('finance/withdraw')}", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						}else{
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		})
+	})
+	$(function(){
+		$("#tabWithdraw .layui-tab-title").find("li").eq(0).addClass("layui-this");
+		$("#tabWithdraw .layui-tab-content").find(".layui-tab-item").eq(0).addClass("layui-show");
+		var type = $("#tabWithdraw .layui-tab-title").find("li").eq(0).attr("type");
+		var sxf = $("#tabWithdraw .layui-tab-title").find("li").eq(0).attr("sxf");
+		$("#type").val(type);
+		$('input[name="sxf"]').val(sxf);
+		{if !empty($wlist.id)}
+		$.post("{:url('finance/findlog')}", {id:{$wlist.id},page:1,type:2}, function(res){
+			if(res.data && res.data.length > 0){
+				var html = '';
+				$.each(res.data, function(i, item){
+					html += '<tr><td>'+ item.create_time +'<br>'+ item.title +'</td><td>'+ item.all_account +'</td><td>'+ item.status +'</td></tr>';
+				});
+				$('#withdraw_log_tbody').html(html);
+			}
+		});
+		{/if}
+	})
+	function check_num(a){
+		var withdraw_num_max = "{$plist.withdraw_num_max}";
+		var withdraw_num_sxf = "{$plist.withdraw_num_sxf}";
+		var n = a.value;
+		var reg = /^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/;
+		if (!reg.test(n)) {
+			$(a).parent().parent().find('.show-sxf').html("{:lang('finance.withdraw_num_check')}");
+			return false;
+		}
+		b = $('input[name="sxf"]').val();
+		if(n && b > 0){
+			var sxf = floatMul(n,b);
+			var end = floatSub(n,sxf);
+			$(a).parent().parent().find('.show-sxf').html("{:lang('finance.withdraw_num_sxf')}"+sxf+",{:lang('finance.withdraw_num_end')}"+end);
+		}
+		if(withdraw_num_max > 0 && withdraw_num_sxf >0){
+			if(n - withdraw_num_max > 0){
+				var add = parseFloat(withdraw_num_sxf)+'%';
+				b = floatAdd(b, withdraw_num_sxf);
+				sxf = floatMul(n,b);
+				end = floatSub(n,sxf);
+				$(a).parent().parent().find('.show-sxf').html("{:lang('finance.withdraw_num_sxf')}"+sxf+"({:lang('finance.withdraw_num_max')}"+parseFloat(withdraw_num_max)+",{:lang('finance.withdraw_num_sxf_add')}"+add+"),{:lang('finance.withdraw_num_end')}"+end);
+			}
+		}
+	}
+</script>

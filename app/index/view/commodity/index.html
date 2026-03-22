@@ -1,0 +1,72 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-12 16:20:09
+ * @LastEditTime: 2021-07-23 18:57:39
+ * @Description: Forward, no stop
+-->
+
+	<div class="header">
+		{include file="./block/block_head"}
+	</div>
+	<!--全部行情-->
+	<div class="market">
+		<div class="layui-tab layui-tab-brief">
+			<ul class="layui-tab-title">
+				<li class="layui-this">{:lang('market.list_title')}</li>
+			</ul>
+			<div class="layui-tab-content">
+				 <div class="layui-tab-item layui-show">
+					 <div><span class="layui-btn layui-btn-normal">{:lang('market.')}</span></div>
+					 <div class="new-table">
+					 	<table class="layui-table" lay-skin="nob" lay-size="lg">
+					 		<thead>
+					 			<tr>
+					 				<th>{:lang('market.symbol')}</th>
+					 				<th>{:lang('market.price')}</th>
+					 				<th>{:lang('market.change')}</th>
+					 				<th>{:lang('market.high')}</th>
+					 				<th>{:lang('market.low')}</th>
+					 				<th class="text-center">{:lang('market.amount')}</th>
+					 				<th></th>
+					 			</tr> 
+					 		</thead>
+					 		<tbody>
+								{volist name="product" id="vo"}
+					 			<tr onclick='go_kline("{$vo.code}");' style="cursor:pointer;">
+					 				<td>
+					 					<span>{$vo.title}</span>
+					 				</td>
+					 				<td>
+										<span id="price_{$vo.code}">{$vo.last_price|floatVal}</span>
+									</td>
+					 				<td><span id="change_{$vo.code}" {if $vo.change>0}class="color-green"{else}class="color-red"{/if}>{$vo.change|floatVal|fox_nums}%</span></td>
+					 				<td><span id="high_{$vo.code}">{$vo.high|floatVal}</span></td>
+					 				<td><span id="low_{$vo.code}">{$vo.low|floatVal}</span></td>
+					 				<td><span id="amount_{$vo.code}">{$vo.volume|floatVal}</span></td>
+									<td class="text-center"><svg class="svg" id="svg_{$vo.code}" width="120" height="40" xmlns="http://www.w3.org/2000/svg"></svg></td>
+					 			</tr>
+								 {/volist}
+					 		</tbody>
+					 	</table>
+					 </div>
+				 </div>
+			</div>
+		</div>
+	</div>
+	{include file="./block/foot_script"}
+	<script src="__STATIC__/index/js/index/d3.v4.min.js?v={$version}"></script>
+	<script src="__STATIC__/index/js/index/index.js?v={$version}"></script>
+	<script>var page_out="market";</script>
+	<script src="__STATIC__/index/js/websocket.js?v={$version}"></script>
+	<script>
+		$(function(){
+			socket.sendData({
+				type: 'kline',
+				find: 'market',
+			},null,null)
+		})
+		function go_kline(a){
+			storage.setItem("tobol",a);
+			location.href="{:url('deal/index')}?cate_id=11";
+		}
+	</script>

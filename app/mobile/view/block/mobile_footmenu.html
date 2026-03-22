@@ -1,0 +1,82 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-08-17 17:41:21
+ * @LastEditTime: 2021-08-25 21:52:33
+ * @Description: Forward, no stop
+-->
+<!--底部-->
+<style>
+    button{
+        background-color: #242424;
+        border:none;
+    color:#768da9;
+    }
+</style>
+<div class="footer box-shadow-foot">	
+    <div class="footer-tab layui-inline">
+        <!--<a href="{:url('/mobile')}">-->
+            <button class="menuBtn" onclick="menuClick('mobile')" data="mobile">
+            <img src="__STATIC__/mobile/imgn/home_ico{if $footmenu=='home'}_HL{/if}.png" alt="Home" title="Home">
+            <p {if $footmenu=='home'} class="active"{/if}>{:lang('mobile_foot.home')}</p>
+        </button>
+    </div>
+    <div class="footer-tab layui-inline">
+        <!--<a href="{:url('market/index')}">-->
+            <button class="menuBtn" onclick="menuClick('market')" data="market">
+            <img src="__STATIC__/mobile/imgn/market_ico{if $footmenu=='market'}_HL{/if}.png" alt="Market" title="Market">
+            <p {if $footmenu=='market'} class="active"{/if}>{:lang('mobile_foot.market')}</p>
+        </button>
+    </div>
+    <div class="footer-tab layui-inline">
+        <!--<a href="{:url('deal/index')}">-->
+            <button class="menuBtn" onclick="menuClick('deal')"  data="deal">
+            <img src="__STATIC__/mobile/imgn/trade_ico{if $footmenu=='deal'}_HL{/if}.png" alt="Trade" title="Trade">
+            <p {if $footmenu=='deal'} class="active"{/if}>{:lang('mobile_foot.deal')}</p>
+        </button>
+    </div>
+    <div class="footer-tab layui-inline">
+        <!--<a href="{:url('leverdeal/index')}">-->
+        <button class="menuBtn"onclick="menuClick('leverdeal')"  data="leverdeal">
+            <img src="__STATIC__/mobile/imgn/lever_ico{if $footmenu=='leverdeal'}_HL{/if}.png" alt="Contract" title="Contract">
+            <p {if $footmenu=='leverdeal'} class="active"{/if}>{:lang('mobile_foot.leverdeal')}</p>
+        </button>
+    </div>
+    <div class="footer-tab layui-inline">
+        <button class="menuBtn" onclick="menuClick('finance')" data="finance">
+            <img src="__STATIC__/mobile/img/assets_ico{if $footmenu=='finance'}_HL{/if}.png" alt="Assets" title="Assets">
+            <p {if $footmenu=='finance'} class="active"{/if}>{:lang('mobile_foot.finance')}</p>
+        </button>
+    </div>
+</div>
+<script type="text/javascript">
+    /*$(document).ready(function(){
+        $(".menuBtn").click(function(){
+            var type = $(".menuBtn").attr("data");
+            console.log(type == 'mobile');
+            if(type == 'mobile'){
+                window.location.href = "{:url('/mobile')}"
+            }else if(type == 'market'){
+                window.location.href = "{:url('market/index')}"
+            }else if(type == 'deal'){
+                window.location.href = "{:url('seconds/index')}"
+            }else if(type == 'leverdeal'){
+                window.location.href = "{:url('leverdeal/index')}"
+            }else if(type == 'finance'){
+                window.location.href = "{:url('finance/fund')}"
+            }
+        });
+    });*/
+    function menuClick(type){
+        if(type == 'mobile'){
+            window.location.href = "{:url('/mobile')}"
+        }else if(type == 'market'){
+            window.location.href = "{:url('market/index')}"
+        }else if(type == 'deal'){
+            window.location.href = "{:url('seconds/index')}"
+        }else if(type == 'leverdeal'){
+            window.location.href = "{:url('leverdeal/index')}"
+        }else if(type == 'finance'){
+            window.location.href = "{:url('finance/fund')}"
+        }
+    }
+</script>

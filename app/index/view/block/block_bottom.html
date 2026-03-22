@@ -1,0 +1,61 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-06 16:46:46
+ * @LastEditTime: 2021-07-06 20:42:02
+ * @Description: Forward, no stop
+-->
+<div class="footer">
+    <div class="layui-container">
+        <div class="layui-row layui-col-space30">
+            <div class="layui-col-xs4">
+                <img src="__STATIC__/index/img/footer_logo.png">
+                <p class="font-12 mt-10 color-grey">© <?php echo date('Y')-4;?>-<?php echo date('Y')+6;?> Copyright {:sysconfig('site','domain_url')}</p>
+            </div>
+            <div class="layui-col-xs1">
+                <h5>{:lang('bottom_page.about')}</h5>
+                <ul>
+                    <li><a href="{:url('show/news',['id'=>12])}">{:lang('bottom_page.about_us')}</a></li>
+                    <li><a href="{:url('show/news',['id'=>14])}">{:lang('bottom_page.agreement')}</a></li>
+                    <li><a href="{:url('show/news',['id'=>26])}">{:lang('bottom_page.white_paper')}</a></li>
+                </ul>
+            </div>
+            <div class="layui-col-xs1">
+                <h5>{:lang('bottom_page.help')}</h5>
+                <ul>
+                    <li><a href="{:url('show/news',['id'=>20])}">{:lang('bottom_page.privacy')}</a></li>
+                    <li><a href="{:url('show/news',['id'=>21])}">{:lang('bottom_page.notices')}</a></li>
+                    <li><a href="{:url('show/news',['id'=>23])}">{:lang('bottom_page.disclaimer')}</a></li>
+                    <li><a href="{:url('show/news',['id'=>22])}">{:lang('bottom_page.request')}</a></li>
+                    <li><a href="{:url('show/news',['id'=>24])}">{:lang('bottom_page.anti_money')}</a></li>
+                </ul>
+            </div>
+            <div class="layui-col-xs1">
+                <h5>{:lang('bottom_page.service')}</h5>
+                <ul>
+                    <li><a href="{:url('show/news',['id'=>13])}">{:lang('bottom_page.option')}</a></li>
+                    <li><a href="{:url('show/news',['id'=>19])}">{:lang('bottom_page.trading')}</a></li>
+                    <li><a href="{:url('show/news',['id'=>25])}">{:lang('bottom_page.subscription')}</a></li>
+                </ul>
+            </div>
+            <div class="layui-col-xs1">
+                <h5>{:lang('bottom_page.tool')}</h5>
+                <ul>
+                    <li><a href="#">{:lang('bottom_page.tool')}</a></li>
+                </ul>
+            </div>
+            <div class="layui-col-xs4 footer-icon">
+                <h5>{:lang('bottom_page.town')}</h5>
+                <div>
+                    <a><img src="__STATIC__/index/img/footer_wx.png"></a>
+                    <a><img src="__STATIC__/index/img/footer_fb.png"></a>
+                </div>			
+                <ul class="mt-10">
+                    <li>{:lang('bottom_page.buss')}：<span>{:sysconfig('base','bottom_buss')}</span></li>
+                    <li>{:lang('bottom_page.mark')}：<span>{:sysconfig('base','bottom_mark')}</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="layui-clear"></div>
+        <div class="font-12 mt-10 color-grey">{:lang('bottom_page.notice')}</div>
+    </div>
+</div>

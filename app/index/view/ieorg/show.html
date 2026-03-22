@@ -1,0 +1,207 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-06-13 16:47:10
+ * @LastEditTime: 2021-08-05 00:47:31
+ * @Description: Forward, no stop
+-->
+<div class="header">
+	{include file="./block/block_head"}
+</div>
+<div class="new-bg">
+	<!--主体-->
+	<div class="ieo-top">
+		<div class="layui-container">
+			<div class="layui-row layui-col-space30">
+				<div class="layui-col-xs4">
+					<div class="ieo-img">
+						<img src="{$row.info['logo']}" >
+					</div>
+				</div>
+				<div class="layui-col-xs8">
+					<h3>{$row.title}</h3>
+					<span class="font-14 color-grey">({$row.coin_title})</span>
+					<hr>
+					<div class="layui-row">
+						<div class="layui-col-xs6 mt-10">
+							<span class="color-grey">{:lang('ieorg.list_num_price')}</span>
+							<p class="mt-10">1 {$row.coin_title} = {$row.ieo_usdt_price} {:lang('market.USDT')}</p>	
+						</div>
+						<div class="layui-col-xs6 mt-10">
+							<span class="color-grey">{:lang('ieorg.list_num_title')}</span>
+							<p class="mt-10">{$row.ieo_num} {$row.coin_title}</p>	
+						</div>
+					</div>
+					<hr>
+					<div class="mt-30">
+						<a href="{$row.ieo_site}" class="color-grey">{:lang('ieorg.show_website')}</a>
+						<a href="{$row.ieo_link}" class="color-grey">{:lang('ieorg.show_link')}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="main">
+		<div class="layui-container">
+			<div class="layui-row layui-col-space30">
+				<div class="layui-col-xs8">
+					<div class="ieo-bottom">
+						<div class="layui-tab layui-tab-brief">
+							<ul class="layui-tab-title">
+								<li class="layui-this">{:lang('ieorg.show_tab_a')}</li>
+								<li>{:lang('ieorg.show_tab_b')}</li>
+							</ul>
+							<div class="layui-tab-content">
+								<div class="layui-tab-item layui-show">
+									{$row.info.remark|fox_raw|raw|htmlspecialchars_decode|html_entity_decode}
+								</div>
+								<div class="layui-tab-item ">
+									{$row.info.content|raw|htmlspecialchars_decode|html_entity_decode}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs4">
+					<div class="ieo-oper">
+						<h4>{:lang('ieorg.right_buy_title')}<a href="javascript:void(0);" onclick="buyall();" class="float-right color-blue">{:lang('ieorg.right_buy_all')}</a></h4>
+						<form class="layui-form mt-10" action="">
+							<div class="layui-form-item">					
+								<select name="product_id" id="get-product" lay-verify="required" lay-verType="tips" lay-filter="productId">
+									<option value="">{:lang('ieorg.select_product')}</option>
+									{volist name="can_products" id="vo"}
+									<option value="{$vo.id}">{$vo.title}</option>
+									{/volist}
+								</select>			
+							</div>
+							<div class="layui-form-item">
+								<input type="number" name="buy_account" value="" lay-verify="required|account" lay-verType="tips" placeholder="{:lang('ieorg.please_input_num')}" autocomplete="off" class="layui-input"/>
+							</div>
+							<div class="hidebox" id="money"></div>
+							<div class="hidebox" id="equal"></div>
+							<div class="layui-form-item" id="equal_tit"></div>
+							<div class="layui-form-item font-12" id="money_tit"></div>
+							<div class="layui-form-item font-12"><span id="buy_tit"></span><span id="buy_use_money"></span></div>
+							<div class="layui-form-item">
+								<span class="layui-btn layui-btn-warm" lay-submit lay-filter="ieorgForm">{:lang('ieorg.buy_btn')}</span>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/block_bottom"}
+{include file="./block/foot_script"}
+<script>
+	layui.use(['layer','element','jquery', 'form', 'flow'], function(){
+		var layer = layui.layer
+		,element = layui.element
+		,$ = layui.jquery
+		,form = layui.form
+		var flow = layui.flow;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		form.verify({
+			account: [
+				/^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/,
+				"{:lang('ieorg.buy_num_check')}"
+			],
+		});
+
+		window.get_wallet = function(id){
+			var good_id ="{$row.id}";
+			if(id){
+				$.post("{:url('ieorg/get_wallet')}",{product_id:id,good_id:good_id},function(res){
+					if(res.code == 1){
+						var data =res.data
+						$("#money").html(data.money);
+						$("#equal").html(data.equal);
+						$("#equal_tit").html(data.equal_tit);
+						$("#money_tit").html(data.money_tit);
+						$("#buy_tit").html(data.buy_tit);
+					}
+				})
+			}
+		}
+
+		form.on('select(productId)', function(data){
+			var id = data.value;
+			$("#buy_use_money").html("");
+			$("input[name='buy_account']").val("");
+			get_wallet(id);
+		});
+
+		$("input[name='buy_account']").on("input", function () {
+			var num =$(this).val();
+			var product_id = $("#get-product").val();
+			if(!product_id){
+				var that = this;
+				layer.msg("{:lang('ieorg.please_select_product')}",{shade:0.2,time:1000}, function(){
+					$("input[name='buy_account']").val("");
+				});
+				return false;
+			}
+			if(num){
+				var equal= $("#equal").text();
+				$.post("{:url('ieorg/get_num')}",{num:num,equal:equal},function(res){
+					if(res.code == 1){
+						var data =res.data
+						$("#buy_use_money").html(data.donum);
+					}
+				})
+			}
+		});
+
+		window.buyall = function(){
+			var product_id = $("#get-product").val();
+			if(!product_id){
+				var that = this;
+				layer.msg("{:lang('ieorg.please_select_product')}",{shade:0.2,time:1000});
+				return false;
+			}
+			var money = $("#money").text();
+			var equal = $("#equal").text();
+			$.post("{:url('ieorg/get_nums')}",{money:money,equal:equal},function(res){
+				if(res.code == 1){
+					var data =res.data
+					$("input[name='buy_account']").val(data.donum);
+					$("#buy_use_money").html(money);
+				}
+			})
+		}
+
+		form.on('submit(ieorgForm)', function(data){
+			if(data.field.buy_account){
+				data.field.ieo_id = "{$row.id}";
+				data.field.product_id = $("#get-product").val();
+				data.field.money = $("#buy_use_money").text();
+				loading =layer.load(1, {shade: [0.1,'#fff']});
+				$.post("{:url('ieorg/orderdo')}", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function () {
+							window.location.reload();
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						}else{
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		});
+		
+	})
+</script>

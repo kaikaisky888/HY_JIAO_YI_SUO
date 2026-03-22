@@ -1,0 +1,333 @@
+<div class="a-header position-re layui-rows loan-dark-header">
+    <div class="layui-col-xs4">
+        <a href="javascript:window.history.go(-1);" class="loan-dark-nav-btn"><i class="layui-icon layui-icon-left"></i></a>
+    </div>
+    <div class="layui-col-xs4 text-center loan-dark-header-title">
+        {:lang('loan.apply_title')}
+    </div>
+    <div class="layui-col-xs4 text-right">
+        <a href="{:url('/mobile')}" class="loan-dark-nav-btn"><i class="layui-icon layui-icon-home"></i></a>
+    </div>
+</div>
+
+<div class="loan-dark-page">
+    <div class="loan-dark-content">
+
+        <div class="loan-white-card">
+            <div class="loan-section-title-dark">{:lang('loan.product_info')}</div>
+            <div class="loan-product-top-box">
+                <div class="loan-product-top-name">{$loan.show_name}</div>
+                <div class="loan-product-top-rate">{$loan.interest_rate}% {:lang('loan.annual_interest_rate')}</div>
+            </div>
+
+            <div class="loan-info-panel">
+                <div class="loan-info-line">
+                    <span>{:lang('loan.loan_range')}</span>
+                    <span>{$loan.min_amount|floatVal} - {$loan.max_amount|floatVal}</span>
+                </div>
+                <div class="loan-info-line">
+                    <span>{:lang('loan.repayment_period')}</span>
+                    <span>{$loan.repayment_period}{:lang('loan.days_unit')}</span>
+                </div>
+            </div>
+
+            <div class="loan-desc-html">
+                {$loan.show_description|htmlspecialchars_decode|html_entity_decode|raw}
+            </div>
+        </div>
+
+        <div class="loan-white-card">
+            <div class="loan-section-title-dark">{:lang('loan.apply_materials')}</div>
+
+            <form class="layui-form" action="" id="loanApplyForm">
+                {:token_field()}
+                <input type="hidden" name="loan_id" value="{$loan.id}">
+
+                <div class="loan-form-block-dark">
+                    <label class="loan-form-label-dark">{:lang('loan.amount')}</label>
+                    <input type="text" name="amount" lay-verify="required" autocomplete="off" class="layui-input loan-input-dark" placeholder="{:lang('loan.amount_placeholder')}">
+                    <div class="loan-form-tip-dark">{:lang('loan.amount_range')}：{$loan.min_amount|floatVal} - {$loan.max_amount|floatVal}</div>
+                </div>
+
+                <div class="loan-form-block-dark">
+                    <label class="loan-form-label-dark">{:lang('loan.real_name')}</label>
+                    <input type="text" name="real_name" lay-verify="required" autocomplete="off" class="layui-input loan-input-dark" placeholder="{:lang('loan.real_name_placeholder')}">
+                </div>
+
+                <div class="loan-form-block-dark">
+                    <label class="loan-form-label-dark">{:lang('loan.id_number')}</label>
+                    <input type="text" name="id_number" lay-verify="required" autocomplete="off" class="layui-input loan-input-dark" placeholder="{:lang('loan.id_number_placeholder')}">
+                </div>
+
+                <div class="loan-form-block-dark">
+                    <label class="loan-form-label-dark">{:lang('loan.phone')}</label>
+                    <input type="text" name="phone" lay-verify="required" autocomplete="off" class="layui-input loan-input-dark" placeholder="{:lang('loan.phone_placeholder')}">
+                </div>
+
+                <div class="loan-form-block-dark">
+                    <label class="loan-form-label-dark">{:lang('loan.upload_documents')}</label>
+                    <div class="loan-upload-grid-dark">
+                        <div class="loan-upload-box-dark" id="id_card_front_btn">
+                            <img src="__STATIC__/index/img/sf_zm.png" alt="{:lang('loan.id_card_front')}">
+                            <input type="hidden" id="id_card_front" name="id_card_front" value="">
+                            <div class="loan-upload-text-dark">{:lang('loan.click_upload_front')}</div>
+                        </div>
+
+                        <div class="loan-upload-box-dark" id="id_card_back_btn">
+                            <img src="__STATIC__/index/img/sf_fm.png" alt="{:lang('loan.id_card_back')}">
+                            <input type="hidden" id="id_card_back" name="id_card_back" value="">
+                            <div class="loan-upload-text-dark">{:lang('loan.click_upload_back')}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loan-submit-area-dark">
+                    <button class="loan-submit-btn-dark" lay-submit lay-filter="submitLoan">{:lang('loan.submit_apply')}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .loan-dark-page{
+        min-height:100vh;
+        background:#242424;
+        padding-bottom:20px;
+    }
+    .loan-dark-header{
+        background:#242424;
+        border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .loan-dark-nav-btn{
+        display:inline-block;
+        padding:10px 14px;
+        color:#f5f5f5 !important;
+        font-size:18px;
+    }
+    .loan-dark-header-title{
+        font-size:16px;
+        font-weight:600;
+        color:#f5f5f5;
+        line-height:42px;
+    }
+    .loan-dark-content{
+        padding:12px;
+    }
+    .loan-white-card{
+        background:#fff;
+        border-radius:16px;
+        padding:16px;
+        margin-bottom:14px;
+        box-shadow:0 4px 16px rgba(0,0,0,.14);
+    }
+    .loan-section-title-dark{
+        font-size:16px;
+        color:#222;
+        font-weight:700;
+        margin-bottom:14px;
+    }
+    .loan-product-top-box{
+        padding:14px;
+        border-radius:14px;
+        background:#f7f7f7;
+        margin-bottom:12px;
+    }
+    .loan-product-top-name{
+        font-size:17px;
+        color:#1f1f1f;
+        font-weight:700;
+    }
+    .loan-product-top-rate{
+        margin-top:6px;
+        font-size:13px;
+        color:#ff9800;
+        font-weight:600;
+    }
+    .loan-info-panel{
+        background:#f8f8f8;
+        border-radius:12px;
+        padding:10px 12px;
+        margin-bottom:12px;
+    }
+    .loan-info-line{
+        display:flex;
+        justify-content:space-between;
+        line-height:2;
+        font-size:13px;
+    }
+    .loan-info-line span:first-child{color:#888;}
+    .loan-info-line span:last-child{color:#222;font-weight:600;}
+    .loan-desc-html{
+        font-size:13px;
+        color:#5f5f5f;
+        line-height:1.8;
+    }
+    .loan-desc-html p{
+        margin:0 0 8px;
+    }
+    .loan-form-block-dark{
+        margin-bottom:16px;
+    }
+    .loan-form-label-dark{
+        display:block;
+        margin-bottom:8px;
+        font-size:14px;
+        color:#222;
+        font-weight:600;
+    }
+    .loan-input-dark{
+        height:44px;
+        border-radius:12px !important;
+        border:1px solid #e8e8e8 !important;
+        background:#fafafa;
+    }
+    .loan-form-tip-dark{
+        margin-top:6px;
+        font-size:12px;
+        color:#999;
+    }
+    .loan-upload-grid-dark{
+        display:flex;
+        gap:12px;
+    }
+    .loan-upload-box-dark{
+        flex:1;
+        background:#fafafa;
+        border:1px dashed #d7d7d7;
+        border-radius:14px;
+        padding:10px;
+        text-align:center;
+    }
+    .loan-upload-box-dark img{
+        width:100%;
+        height:120px;
+        object-fit:cover;
+        border-radius:10px;
+        background:#f0f0f0;
+    }
+    .loan-upload-text-dark{
+        margin-top:8px;
+        font-size:12px;
+        color:#666;
+    }
+    .loan-submit-area-dark{
+        padding-top:8px;
+    }
+    .loan-submit-btn-dark{
+        width:100%;
+        height:46px;
+        border:none;
+        border-radius:999px;
+        background:#ffd37a;
+        color:#2b2b2b;
+        font-size:15px;
+        font-weight:700;
+    }
+</style>
+
+{include file="./block/foot_script"}
+
+<script>
+    layui.use(['layer', 'jquery', 'form', 'upload'], function(){
+        var layer = layui.layer,
+            $ = layui.jquery,
+            form = layui.form,
+            upload = layui.upload;
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        upload.render({
+            elem: '#id_card_front_btn',
+            url: "{:url('member/upload_card')}",
+            exts: 'jpg|png|jpeg',
+            size: 4 * 1024 * 1024,
+            before: function(obj){
+                layer.load(1);
+                obj.preview(function(index, file, result){
+                    $('#id_card_front_btn').find('img').attr('src', result).css({'width':'100%','height':'120px'});
+                });
+            },
+            done: function(res){
+                layer.closeAll('loading');
+                if(!res){
+                    return layer.msg("{:lang('loan.upload_server_error')}");
+                }
+                if(res.code && res.code !== 0){
+                    return layer.msg(res.msg || "{:lang('loan.upload_fail')}");
+                }
+                if(res.code === 0 && res.data && res.data.url){
+                    $('#id_card_front').val(res.data.src);
+                    layer.msg(res.msg || "{:lang('loan.upload_success')}");
+                }
+            },
+            error: function(){
+                layer.closeAll('loading');
+                layer.msg("{:lang('loan.upload_network_error')}");
+            }
+        });
+
+        upload.render({
+            elem: '#id_card_back_btn',
+            url: "{:url('member/upload_card')}",
+            exts: 'jpg|png|jpeg',
+            size: 4 * 1024 * 1024,
+            before: function(obj){
+                layer.load(1);
+                obj.preview(function(index, file, result){
+                    $('#id_card_back_btn').find('img').attr('src', result).css({'width':'100%','height':'120px'});
+                });
+            },
+            done: function(res){
+                layer.closeAll('loading');
+                if(!res){
+                    return layer.msg("{:lang('loan.upload_server_error')}");
+                }
+                if(res.code && res.code !== 0){
+                    return layer.msg(res.msg || "{:lang('loan.upload_fail')}");
+                }
+                if(res.code === 0 && res.data && res.data.url){
+                    $('#id_card_back').val(res.data.src);
+                    layer.msg(res.msg || "{:lang('loan.upload_success')}");
+                }
+            },
+            error: function(){
+                layer.closeAll('loading');
+                layer.msg("{:lang('loan.upload_network_error')}");
+            }
+        });
+
+        form.on('submit(submitLoan)', function(data){
+            if(!data.field.id_card_front){
+                $('#id_card_front_btn').css({'border':'1px solid #ff5722'});
+                layer.msg("{:lang('loan.error_upload_front')}");
+                return false;
+            }else{
+                $('#id_card_front_btn').css({'border':'1px dashed #d7d7d7'});
+            }
+
+            if(!data.field.id_card_back){
+                $('#id_card_back_btn').css({'border':'1px solid #ff5722'});
+                layer.msg("{:lang('loan.error_upload_back')}");
+                return false;
+            }else{
+                $('#id_card_back_btn').css({'border':'1px dashed #d7d7d7'});
+            }
+
+            var loading = layer.load(1, {shade:[0.1,'#fff']});
+            $.post("{:url('loan/doApply')}", data.field, function(res){
+                layer.close(loading);
+                layer.msg(res.msg, {time:1500}, function(){
+                    if(res.code > 0 && res.url){
+                        location.href = res.url;
+                    }
+                });
+            });
+            return false;
+        });
+    });
+</script>

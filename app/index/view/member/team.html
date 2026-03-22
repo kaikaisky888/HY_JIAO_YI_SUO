@@ -1,0 +1,118 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-08 21:39:08
+ * @LastEditTime: 2021-09-09 16:07:47
+ * @Description: Forward, no stop
+-->
+<div class="header">
+    {include file="./block/block_head"}
+</div>
+<div class="new-bg">
+	<!--主体-->
+	<div class="main">
+		<div class="layui-container">
+			<div class="layui-row layui-col-space30 white-box">
+				<div class="layui-col-xs3">
+					{include file="./block/member_left"}
+				</div>
+				<div class="layui-col-xs9">
+					<div class="account-main coinwin-bottom" style="padding: 0px;margin-top:0px;">
+						<div class="layui-tab layui-tab-brief">
+							<ul class="layui-tab-title">
+							  <li class="layui-this">{:lang('public_memu.team_user')}</li>
+							  <li>{:lang('public_memu.team_ma')}</li>
+							  <a href="{:url('finance/cmfinance')}" class="float-right font-14 mt-10">{:lang('public_memu.team_log')}</a>
+							</ul>
+							<div class="layui-tab-content">
+								
+								<div class="layui-tab-item layui-show" style="padding: 20px;">
+									<div class="layui-row text-left">
+										<span class="layui-col-xs4">{:lang('public_memu.team_users')}:</span>
+										<span class="layui-col-xs8">{$myteam_num}</span>
+									</div>
+									<hr>
+									<div class="layui-row mt-10">
+										{volist name="level_member" id="vo" key="key"}
+										<div class="layui-col-xs6">
+											<div class="myteam-body-btn">
+												<div class="panel layui-bg-number">
+													<div class="panel-body">
+														<div class="panel-title">
+															<span class="pull-right layui-badge-dot layui-bg-orange"></span>
+															<h5><i class="layui-icon layui-icon-diamond"></i> {:fox_abcdefg($key)}</h5>
+														</div>
+														<div class="panel-content">
+															<h1 class="no-margins">{$m_num[$key]['num']}</h1>
+															<p class="small">
+																{if fox_team_on($key,1) > 0}{:lang('public_memu.team_on_seconds')}:{:fox_team_on($key,1)};{/if}
+																{if fox_team_on($key,2) > 0}{:lang('public_memu.team_on_coinwin')}:{:fox_team_on($key,2)};{/if}
+																{if fox_team_on($key,3) > 0}{:lang('public_memu.team_on_recharge')}:{:fox_team_on($key,3)};{/if}
+															</p>
+														</div>
+													</div>
+												</div>
+											</div>        
+										</div>
+										{/volist}
+									</div>
+								</div>
+								<div class="layui-tab-item">
+									<div class="layui-row">
+										<div class="layui-col-xs3" style="padding:20px;"><img src="{$invite_code_img}" width="120"></div>
+										<div class="layui-col-xs9">
+											<div class="layui-row text-left" style="margin-top:60px">
+												<span class="layui-col-xs4">{:lang('member.member_invite_code')}</span>
+												<span class="layui-col-xs4">{$member.invite_code}</span>
+												<span class="layui-col-xs4"><i class="fa fa-qrcode" aria-hidden="true"></i> <a href="javascript:void(0);" onclick="copy();" class="color-blue">{:lang('member.member_invite_copy')}</a></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/block_bottom"}
+{include file="./block/foot_script"}
+<script src="__STATIC__/index/js/clipboard.min.js?v={$version}"></script>
+<script>
+	var codeurl = "{$invite_code_url}";
+
+	function clipBoard(text) {
+		const body = document.body;
+		const input = document.createElement("input");
+		body.append(input);
+		input.style.opacity = 0;
+		input.value = text;
+		input.select();
+		input.setSelectionRange(0, input.value.length);
+		document.execCommand("Copy");
+		input.blur();
+		input.remove();
+	}
+	function copy() {
+		$(".hidebox").fadeOut();
+		clipBoard(codeurl);
+		layer.msg("{:lang('public.copyok')}");
+	}
+	
+	layui.use(['layer', 'jquery', 'form'], function(){
+		var layer = layui.layer
+		,$ = layui.jquery
+		,form = layui.form;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		
+
+	})
+</script>

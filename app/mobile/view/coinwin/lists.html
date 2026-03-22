@@ -1,0 +1,275 @@
+<div class="a-header position-re layui-rows">
+	<div class="layui-col-xs4">
+		<a href="javascript:window.history.go(-1);"><i class="layui-icon layui-icon-left"></i></a>
+	</div>
+	<div class="layui-col-xs4 text-center">
+		{:lang('coinwin.title')}
+	</div>
+	<div class="layui-col-xs4 text-right">
+		<a href="{:url('/mobile')}"><i class="layui-icon layui-icon-home"></i></a>
+	</div>
+</div>
+
+<div class="new-bg">
+	<div class="main-no">
+		<div class="layui-container">
+			<div class="text-center coinwin-header">
+				<span class="flag">{$coin_title}</span>
+				<div class="layui-row">
+					<div class="layui-col-xs6">
+						<span>{:number_format($info.money,4)}</span>
+						<p>{:lang('coinwin.now_wallet')}</p>
+					</div>
+					<div class="layui-col-xs6">
+						<span id="can_win_today"></span>
+						<p>{:lang('coinwin.can_today_win')}</p>
+					</div>
+					<div class="layui-col-xs6">
+						<span>{:number_format($info.rate_account,4)}</span>
+						<p>{:lang('coinwin.all_win')}</p>
+					</div>
+					<div class="layui-col-xs6">
+						<span>{:number_format($info.buy_account,4)}</span>
+						<p>{:lang('coinwin.now_order_in')}</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-row layui-col-space20 coinwin-body">
+				{volist name="goods" id="vo"}
+				<div class="layui-col-xs12">
+					<form class="layui-form" action="">
+						<div class="layui-panel">
+							<h3>{$vo.show_title}</h3>
+							<input type="hidden" name="good_id" value="{$vo.id}">
+							<input type="" name="buy_account" value="" lay-verify="required|account" lay-verType="tips" placeholder="{:lang('coinwin.min_coin_num')} {$vo.play_price|floatVal}" class="layui-input"/>
+
+							<div class="layui-row">
+								<div class="layui-col-xs4">
+									<span class="font-25">{$vo.play_price|floatVal}</span>
+									<p class="color-grey">{:lang('coinwin.min_coin_num')}</p>
+								</div>
+								<div class="layui-col-xs4">
+									<span class="font-25">{$vo.annual_rate_text}</span>
+									<p class="color-grey">{:lang('coinwin.annual_rate')}</p>
+								</div>
+								<div class="layui-col-xs4 text-right">
+									<span class="font-25">{$vo.play_time|floatVal}</span>
+									<p class="color-grey">{:lang('coinwin.play_time')}</p>
+								</div>
+							</div>
+
+							<div class="mt-30">
+								<button class="layui-btn layui-btn-normal" lay-submit lay-filter="formCoin{$vo.id}">{:lang('coinwin.btn_buy')}</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				{/volist}
+			</div>
+
+			<div class="layui-clear"></div>
+
+			<div class="coinwin-bottom">
+				<div class="layui-tab layui-tab-brief" lay-filter="tabList">
+					<ul class="layui-tab-title">
+						<li class="layui-this">{:lang('coinwin.bottom_tab_a')}</li>
+						<li>{:lang('coinwin.bottom_tab_b')}</li>
+						<li>{:lang('coinwin.bottom_tab_c')}</li>
+					</ul>
+
+					<div class="layui-tab-content mobile-layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							<table class="layui-table fox-table" lay-skin="nob" lay-even>
+								<thead>
+								<tr>
+									<th><span class="table-span-list">{:lang('coinwin.table_tit_good')}</span></th>
+									<th><span class="table-span-list">{:lang('coinwin.table_tit_buy')}/{:lang('coinwin.table_tit_win')}</span></th>
+									<th><span class="table-span-list">{:lang('coinwin.table_tit_time')}</span></th>
+									<th><span class="table-span-list">{:lang('coinwin.table_tit_type')}</span></th>
+								</tr>
+								</thead>
+								<tbody id="lista"></tbody>
+							</table>
+						</div>
+
+						<div class="layui-tab-item">
+							<table class="layui-table fox-table" lay-skin="nob" lay-even>
+								<thead>
+								<tr>
+									<th><span class="table-span-list">{:lang('coinwin.table_tit_good')}</span></th>
+									<th><span class="table-span-list">{:lang('coinwin.table_tit_buy')}/{:lang('coinwin.table_tit_win')}</span></th>
+									<th><span class="table-span-list">{:lang('coinwin.table_tit_time')}</span></th>
+									<th><span class="table-span-list">{:lang('coinwin.table_tit_type')}</span></th>
+								</tr>
+								</thead>
+								<tbody id="listb"></tbody>
+							</table>
+						</div>
+
+						<div class="layui-tab-item">
+							<table class="layui-table fox-table" lay-skin="nob" lay-even>
+								<thead>
+								<tr>
+									<th><span class="table-span-list">{:lang('coinwin.table_tit_times')}/{:lang('coinwin.table_tit_good')}</span></th>
+									<th><span class="table-span-list">{:lang('coinwin.table_tit_wins')}</span></th>
+									<th><span class="table-span-list">{:lang('coinwin.table_tit_types')}</span></th>
+								</tr>
+								</thead>
+								<tbody id="listc"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{include file="./block/foot_script"}
+
+<script>
+	var product_id ="{$product_id}";
+	layui.use(['layer','element','jquery', 'form', 'flow'], function(){
+		var layer = layui.layer,
+				element = layui.element,
+				$ = layui.jquery,
+				form = layui.form,
+				flow = layui.flow;
+
+		form.verify({
+			account: [
+				/^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/,
+				"{:lang('coinwin.check_buy_number')}"
+			]
+		});
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		element.on('tab(tabList)', function(data){
+			if(data.index == 0){
+				refreshLista();
+			}
+			if(data.index == 1){
+				refreshListb();
+			}
+			if(data.index == 2){
+				refreshListc();
+			}
+		});
+
+		window.refreshLista = function(){
+			$('#lista').empty();
+			flow.load({
+				elem: '#lista',
+				colSpan: 4,
+				isAuto: true,
+				end:'<td colspan="4" class="text-center">{:lang("finance.finance_nodata")}</td>',
+				done: function(page, next){
+					var lis = [];
+					$.post("{:url('coinwin/lista')}", {product_id:product_id, page:page}, function(res){
+						layui.each(res.data, function(index, item){
+							var html = '<tr>';
+							html += '<td>'+ item.title +'</td>';
+							html += '<td>'+ parseFloat(item.buy_account) +'<br>'+ parseFloat(item.rate_account).toFixed(4) +'</td>';
+							html += '<td>'+ item.lock +'</td>';
+							html += '<td>'+ item.upstatus +'</td>';
+							html += '</tr>';
+							lis.push(html);
+						});
+
+						next(lis.join(''), page < res.pages);
+
+						if(res.can_win_today){
+							$("#can_win_today").html(res.can_win_today);
+						}
+					});
+				}
+			});
+		};
+
+		window.refreshListb = function(){
+			$('#listb').empty();
+			flow.load({
+				elem: '#listb',
+				colSpan: 4,
+				isAuto: true,
+				end:'<td colspan="4" class="text-center">{:lang("finance.finance_nodata")}</td>',
+				done: function(page, next){
+					var lis = [];
+					$.post("{:url('coinwin/listb')}", {product_id:product_id, page:page}, function(res){
+						layui.each(res.data, function(index, item){
+							var html = '<tr>';
+							html += '<td>'+ item.title +'</td>';
+							html += '<td>'+ parseFloat(item.buy_account) +'<br>'+ parseFloat(item.rate_account).toFixed(4) +'</td>';
+							html += '<td>------</td>';
+							html += '<td>'+ item.upstatus +'</td>';
+							html += '</tr>';
+							lis.push(html);
+						});
+						next(lis.join(''), page < res.pages);
+					});
+				}
+			});
+		};
+
+		window.refreshListc = function(){
+			$('#listc').empty();
+			flow.load({
+				elem: '#listc',
+				colSpan: 3,
+				isAuto: true,
+				end:'<td colspan="3" class="text-center">{:lang("finance.finance_nodata")}</td>',
+				done: function(page, next){
+					var lis = [];
+					$.post("{:url('coinwin/listc')}", {product_id:product_id, page:page}, function(res){
+						layui.each(res.data, function(index, item){
+							var html = '<tr>';
+							html += '<td>'+ item.create_time +'<br>'+ item.remark +'</td>';
+							html += '<td>'+ item.allacount +'</td>';
+							html += '<td>'+ item.ordertype +'</td>';
+							lis.push(html);
+						});
+						next(lis.join(''), page < res.pages);
+					});
+				}
+			});
+		};
+
+		{volist name="goods" id="vo"}
+		form.on('submit(formCoin{$vo.id})', function(data){
+			loading = layer.load(1, {shade: [0.1,'#fff']});
+			data.field.product_id = product_id;
+			$.post("{:url('coinwin/dobuy')}", data.field, function (res) {
+				layer.close(loading);
+				if (res.code > 0) {
+					if(res.url){
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					}else{
+						layer.msg(res.msg, {time: 1800}, function () {
+							window.location.reload();
+						});
+					}
+				} else {
+					if(res.url){
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					}else{
+						layer.msg(res.msg, {time: 1800});
+					}
+				}
+			});
+			return false;
+		});
+		{/volist}
+
+			refreshLista();
+		});
+</script>

@@ -1,0 +1,323 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-06-18 18:10:50
+ * @LastEditTime: 2021-10-08 10:47:53
+ * @Description: Forward, no stop
+-->
+<style>
+    .layui-form-label {
+        width: 140px;
+    }
+    .layui-input-block {
+        margin-left: 180px;
+    }
+    .color-gray{color: #999;}
+    </style>
+<div class="layuimini-container">
+    <form id="app-form" class="layui-form layuimini-form">
+        <div class="layui-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">{$row.title}基础参数</li>
+                {if(in_array('1',$row.types))}
+                <li>币币交易参数</li>
+                {/if}
+                {if(in_array('2',$row.types))}
+                <li>合约交易参数</li>
+                {/if}
+                {if(in_array('3',$row.types))}
+                <li>期权交易参数</li>
+                {/if}
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">当前价格</label>
+                        <div class="layui-input-block" style="line-height: 36px;">
+                            {$row.last_price|default=''}
+                            <tip class="color-gray">如果充币地址皆为空则不允许直充，走USDT通道</tip>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">TRC20充币地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="trc_address" class="layui-input"  placeholder="请输入充币地址" value="{$row.trc_address|default=''}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">ERC20充币地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="erc_address" class="layui-input"  placeholder="请输入充币地址" value="{$row.erc_address|default=''}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">Omni充币地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="omni_address" class="layui-input"  placeholder="请输入充币地址" value="{$row.omni_address|default=''}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">OTHER充币地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="pay_address" class="layui-input"  placeholder="请输入充币地址" value="{$row.pay_address|default=''}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">BSC充币地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="bsc_address" class="layui-input"  placeholder="请输入BSC链充币地址" value="{$row.bsc_address|default=''}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">POL充币地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="pol_address" class="layui-input"  placeholder="请输入POL链充币地址" value="{$row.pol_address|default=''}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">Base充币地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="base_address" class="layui-input"  placeholder="请输入Base链充币地址" value="{$row.base_address|default=''}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">基于</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" class="layui-input"  placeholder="请输入" value="{$row.pay_name|default=''}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">提币范围</label>
+                        <div class="layui-inline">
+                            <div class="layui-input-inline" style="width: 180px;margin-left: 10px;">
+                                <input type="text" name="withdraw_min_num" autocomplete="off" placeholder="请输入最小值" class="layui-input" value="{$row.withdraw_min_num|default='0.00000000'}">
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 180px;">
+                                <input type="text" name="withdraw_max_num" placeholder="输入最大值" autocomplete="off" class="layui-input" value="{$row.withdraw_max_num|default='0.00000000'}">
+                            </div>
+                        </div>
+                        <i class="layui-icon layui-icon-tips" lay-tips="提币范围，最小值及最大值，为0则不限制" ></i>
+                   </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">TRC提币手续费</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="withdraw_trc_sxf" class="layui-input"  placeholder="请输入TRC提币手续费" value="{$row.withdraw_trc_sxf|default='1.0000'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">ERC提币手续费</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="withdraw_erc_sxf" class="layui-input"  placeholder="请输入ERC提币手续费" value="{$row.withdraw_erc_sxf|default='1.0000'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">OMNI提币手续费</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="withdraw_omni_sxf" class="layui-input"  placeholder="请输入OMNI提币手续费" value="{$row.withdraw_omni_sxf|default='1.0000'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">BSC提币手续费</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="withdraw_bsc_sxf" class="layui-input"  placeholder="请输入BSC提币手续费" value="{$row.withdraw_bsc_sxf|default='1.0000'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">POL提币手续费</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="withdraw_pol_sxf" class="layui-input"  placeholder="请输入POL提币手续费" value="{$row.withdraw_pol_sxf|default='1.0000'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">Base提币手续费</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="withdraw_base_sxf" class="layui-input"  placeholder="请输入Base提币手续费" value="{$row.withdraw_base_sxf|default='1.0000'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">流行度排序</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="popularity_sort" class="layui-input"  placeholder="数值越大越靠前，如BTC=100" value="{$row.popularity_sort|default='0'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">每天提币次数</label>
+                        <div class="layui-inline">
+                            <div class="layui-input-inline" style="width: 180px;margin-left: 10px;">
+                                <input type="text" name="withdraw_day_num" class="layui-input"  placeholder="请输入" value="{$row.withdraw_day_num|default='0'}">
+                            </div>
+                        </div>
+                        <i class="layui-icon layui-icon-tips" lay-tips="每天提币次数限制，为0则不限制" ></i>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">提币加收手续值</label>
+                        <div class="layui-inline">
+                            <div class="layui-input-inline" style="width: 180px;margin-left: 10px;">
+                                <input type="text" name="withdraw_num_max" class="layui-input"  placeholder="请输入" value="{$row.withdraw_num_max|default='0'}">
+                            </div>
+                        </div>
+                        <i class="layui-icon layui-icon-tips" lay-tips="提币加收手续费值，超过此值时加收手续费，0则无加收" ></i>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">提币加收手续费</label>
+                        <div class="layui-inline">
+                            <div class="layui-input-inline" style="width: 180px;margin-left: 10px;">
+                                <input type="text" name="withdraw_num_sxf" class="layui-input"  placeholder="请输入" value="{$row.withdraw_num_sxf|default='0'}">
+                            </div>
+                        </div>
+                        <i class="layui-icon layui-icon-tips" lay-tips="提币加收手续费，百分比无%，0则无加收" ></i>
+                    </div>
+                </div>
+                {if(in_array('1',$row.types))}
+                <div class="layui-tab-item">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">币币交易手续费</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="ex_sx_fee" class="layui-input"  placeholder="请输入币币交易手续费" value="{$row.ex_sx_fee|default='0'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">BUY最低数量</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="ex_buy_min" class="layui-input"  placeholder="请输入BUY最低数量" value="{$row.ex_buy_min|default='0'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">SELL最低数量</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="ex_sell_min" class="layui-input"  placeholder="请输入SELL最低数量" value="{$row.ex_sell_min|default='0'}">
+                        </div>
+                    </div>
+                </div>
+                {/if}
+                {if(in_array('2',$row.types))}
+                <div class="layui-tab-item">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">合约交易手续费</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="le_sx_fee" class="layui-input"  placeholder="请输入合约交易手续费" value="{$row.le_sx_fee|default='0'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">合约隔夜手续费</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="le_day_sx_fee" class="layui-input"  placeholder="请输入合约隔夜手续费" value="{$row.le_day_sx_fee|default='0'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">合约违约手续费</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="le_no_sx_fee" class="layui-input"  placeholder="请输入合约违约手续费" value="{$row.le_no_sx_fee|default='0'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">合约交易杠杆</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="le_play_time" class="layui-input"  placeholder="请输入合约交易杠杆" value="{$row.le_play_time|default='50'}">
+                            <tip class="color-gray">至少一个，多个用符号,分开</tip>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">止盈止损功能</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="le_play_type" value="0" title="关闭" {if 0==$row.le_play_type}checked{/if}>
+                            <input type="radio" name="le_play_type" value="1" title="打开" {if 1==$row.le_play_type}checked{/if}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">合约爆仓风险率</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="le_order_rate" class="layui-input"  placeholder="请输入合约爆仓风险率" value="{$row.le_order_rate|default='0'}">
+                            <tip class="color-gray">百分比，达到此值自动暴仓</tip>
+                        </div>
+                    </div>
+                </div>
+                {/if}
+                {if(in_array('3',$row.types))}
+                <div class="layui-tab-item">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">期权交易手续费</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="op_sx_fee" class="layui-input"  placeholder="请输入期权交易手续费" value="{$row.op_sx_fee|default='0'}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">期权交易预设价格</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="op_play_price" class="layui-input"  placeholder="请输入期权预设价格" value="{$row.op_play_price|default='50'}">
+                            <tip class="color-gray">至少一个，以符号,分开</tip>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">期权交易时间玩法</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="op_play_time" class="layui-input"  placeholder="请输入期权时间玩法" value="{$row.op_play_time|default='30'}">
+                            <tip class="color-gray">秒单位，以符号,分开</tip>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">期权交易玩法盈利率</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="op_play_prop" class="layui-input"  placeholder="请输入期权玩法盈利率" value="{$row.op_play_prop|default='0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0'}">
+                            <tip class="color-gray">对应时间玩法，以符号,分开</tip>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">期权交易玩法最低值</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="op_play_down" class="layui-input"  placeholder="请输入期权玩法最低值" value="{$row.op_play_down|default='0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0'}">
+                            <tip class="color-gray">对应时间玩法，以符号,分开</tip>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">期权交易最大持仓数</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="op_play_max" class="layui-input"  placeholder="请输入期权最大持仓数" value="{$row.op_play_max|default='0'}">
+                            <tip class="color-gray">最大持仓笔数，0不限制</tip>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">期权交易单笔范围</label>
+                        <div class="layui-inline">
+                            <div class="layui-input-inline" style="width: 180px;margin-left: 10px;">
+                                <input type="text" name="op_order_min" autocomplete="off" placeholder="请输入最小值" class="layui-input" value="{$row.op_order_min|default='0'}">
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 180px;">
+                                <input type="text" name="op_order_max" placeholder="输入最大值" autocomplete="off" class="layui-input" value="{$row.op_order_max|default='0'}">
+                            </div>
+                        </div>
+                        <i class="layui-icon layui-icon-tips" lay-tips="单笔范围，最小值及最大值，为0则不限制" ></i>
+                   </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">期权交易风控范围</label>
+                        <div class="layui-inline">
+                            <div class="layui-input-inline" style="width: 180px;margin-left: 10px;">
+                                <input type="text" name="op_kong_min" autocomplete="off" placeholder="请输入最小值" class="layui-input" value="{$row.op_kong_min|default='0'}">
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 180px;">
+                                <input type="text" name="op_kong_max" placeholder="输入最大值" autocomplete="off" class="layui-input" value="{$row.op_kong_max|default='0'}">
+                            </div>
+                        </div>
+                        <i class="layui-icon layui-icon-tips" lay-tips="风控范围，百分比，不含%，必须设置" ></i>
+                   </div>
+                   <div class="layui-form-item">
+                    <label class="layui-form-label required">期权交易控盈率</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="op_order_kong" class="layui-input"  placeholder="请输入期权交易产品控" value="{$row.op_order_kong|default='50'}">
+                        <tip class="color-gray">产品控盈百分比</tip>
+                    </div>
+                </div>
+                </div>
+                {/if}
+            </div>
+        </div>
+        <div class="hr-line"></div>
+        <div class="layui-form-item text-center">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit>确认</button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+        </div>
+
+    </form>
+</div>

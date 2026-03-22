@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta content="width=device-width,initial-scale=1.0" name="viewport">
+		<link rel="stylesheet" type="text/css" href="https://www.curve168.net/download/download.css" />
+		<script src="https://www.curve168.net/download/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript">
+        var platName = navigator.userAgent;
+        var isAndroid = platName.indexOf("Android")>-1 || platName.indexOf('Lindex')>-1;
+        if(isAndroid){
+            window.location.href="https://bhdexoss.oss-us-west-1.aliyuncs.com/BHDEX_0331223307.apk";
+        }
+		//if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+
+//alert(navigator.userAgent);
+
+//alert('这是IOS');
+
+//} else  else {
+
+//window.location.href=""
+//};
+//			remChange();
+			//监听屏幕改变resize事件 触发remChange方法
+//			window.addEventListener("resize", remChange)
+
+//			function remChange() {
+//				var html = document.querySelector("html");
+//				var width = html.getBoundingClientRect().width; //拿到适配器的宽度值
+				//若屏幕宽为375px则1rem = 100px 若不是则按比例增大或减小
+//				html.style.fontSize = width / 3.75 + 'px';
+//			}
+
+            </script>
+		<style type="text/css">
+			.pattern {
+				position: absolute;
+				top: 0;
+				z-index: 1;
+				max-width: 312px;
+				width: 18%;
+				transition: all .5s;
+			}
+
+			.pattern img {
+				width: 100%;
+				-webkit-transition: all 1s;
+				height: 100%;
+				transition: all 1s;
+				pointer-events: none;
+			}
+
+			.left {
+				left: 0;
+			}
+
+			.right {
+				right: 0;
+			}
+
+			.mainindex {
+				text-align: center;
+				width: 100%;
+				min-width: 100%;
+				height: 100%;
+				display: table;
+			}
+
+			.main_index {
+				display: table-cell;
+				height: 100%;
+				vertical-align: middle;
+				text-align: center;
+			}
+
+			.iconBox {
+				margin-right: auto;
+				margin-left: auto;
+				width: 290px;
+			}
+
+			.iconBox img {
+				max-width: 100%;
+				width: 120px;
+				height: 120px;
+				border-radius: 17.54%;
+			}
+
+			.wrapper {
+				position: relative;
+				margin: 20px auto;
+				width: 290px;
+				color: #505556;
+				text-align: left;
+				font-weight: 400;
+				font-size: 24px;
+				font-family: icomoon;
+				speak: none;
+				font-style: normal;
+				font-weight: 400;
+				font-variant: normal;
+				text-transform: none;
+				line-height: 1;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+				display: block;
+				text-align: center;
+			}
+
+			.release-info {
+				position: relative;
+				margin-top: 30px;
+				margin-bottom: 30px;
+				padding-top: 30px;
+			}
+
+			.release-info p {
+				margin-bottom: 4px;
+			}
+
+			.release-info:before {
+				position: absolute;
+				top: 0;
+				left: 50%;
+				display: block;
+				margin-left: -30%;
+				width: 60%;
+				border-top: 1px solid #dae2e3;
+				content: ' ';
+			}
+
+			button {
+				display: inline-block;
+				padding: 12px 46px;
+				min-width: 200px;
+				border: 1px solid #32b2a7;
+				border-radius: 40px;
+				font-size: 16px;
+				background: #32b2a7;
+				color: #fff;
+			}
+
+			button i {
+				font-size: 12px!important;
+				margin-left: 5px;
+			}
+			.iostc{
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(0,0,0,0.7);
+				z-index: 111;
+				display: none;
+			}
+			.iostc img{
+				width: 90%;
+				margin: auto;
+				display: block;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main">
+			<span class="pattern left">
+				<img src="https://www.curve168.net/download/report-left.png"/>
+			</span>
+			<span class="pattern right">
+				<img src="https://www.curve168.net/download/report-right.png"/>
+			</span>
+			<div class="mainindex">
+				<div class="main_index">
+					<div class="iconBox">
+						<img class="imgurl" src="" />
+					</div>
+					<span class="wrapper">
+						<i class="icon" style="transform:translateY(-12px);font-size: 28px;">&#xe733;</i>
+						<em class="name"></em>
+					</span>
+					<div class="release-info">
+						<p>（Build 1）- 6.80 MB</p>
+						<p>Update：2021-11-17 10:05:25</p>
+					</div>
+					<div class="">
+						<button class="downloadButton down_flag download_app" data-type="0" onclick="download()">
+							Download<i>Normal&nbsp;&nbsp;&nbsp;</i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="iostc">
+			<img src="https://www.curve168.net/download/ios_browser.png"/>
+		</div>
+	</body>
+	<script type="text/javascript">
+		function download() {
+			if (/Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)) {
+				// ios下载链接
+				window.location.href="https://www.curve168.net/download/Curve.mobileconfig"; //下载地址
+			}else{
+				$('.iostc').show();
+				$('.iostc').one().click(function  () {
+					$('.iostc').hide();
+				})
+			}
+		}
+		// 名字
+		$('.name').html('Curve');
+		// icon地址
+		$('.imgurl').attr('src',"https://www.curve168.net/download/Curve_icon.png")
+	</script>
+</html>

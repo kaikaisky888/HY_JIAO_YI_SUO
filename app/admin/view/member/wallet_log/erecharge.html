@@ -1,0 +1,52 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-25 14:18:45
+ * @LastEditTime: 2021-08-12 17:39:26
+ * @Description: Forward, no stop
+-->
+<div class="layuimini-container">
+    <form id="app-form" class="layui-form layuimini-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">充值信息</label>
+            <div class="layui-input-block">
+                <div class="div-cos"><label>充值币</label>{$row.coin}</div>
+                {if !empty($row.title)}
+                <div class="div-cos"><label>币方式</label>{$row.title}</div>
+                {/if}
+                <div class="div-cos"><label>币地址</label>{$row.address}</div>
+                <div class="div-cos"><label>金额量</label>{$row.account}</div>
+                <div class="div-cos"><label>手续费</label>{$row.account_sxf}</div>
+                <div class="div-cos"><label>变动额</label>{$row.all_account}</div>
+                <div class="div-cos"><label>原有额</label>{$row.ex_money}</div>
+                <div class="div-cos"><img src="{$row.up_pic}" style="max-width: 600;"></div>
+            </div>
+        </div>
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                {foreach $wallet_log_status as $key => $val}
+                <input type="radio" name="status" value="{$key}" title="{$val}" {if $key==$row.status}checked{/if}>
+                {/foreach}
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">失败原因</label>
+            <div class="layui-input-block">
+                <textarea name="status_msg" class="layui-textarea"  placeholder="请输入失败原因">{$row.status_msg|raw|default=''}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注说明</label>
+            <div class="layui-input-block">
+                <textarea name="remark" class="layui-textarea"  placeholder="请输入备注说明">{$row.remark|raw|default=''}</textarea>
+            </div>
+        </div>
+        <div class="hr-line"></div>
+        <div class="layui-form-item text-center">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit>确认</button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+        </div>
+
+    </form>
+</div>

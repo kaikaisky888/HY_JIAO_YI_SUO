@@ -1,0 +1,98 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kvi-app
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "2348:2348"
+    environment:
+      - DATABASE_DRIVER=mysql
+      - DATABASE_TYPE=mysql
+      - DATABASE_HOSTNAME=mysql
+      - DATABASE_DATABASE=curve_1
+      - DATABASE_USERNAME=curve_1
+      - DATABASE_PASSWORD=cHchca3cHAZ2CELX
+      - DATABASE_HOSTPORT=3306
+      - DATABASE_CHARSET=utf8
+      - DATABASE_PREFIX=fox_
+      - KLINE_DB_HOST=mysql
+      - KLINE_DB_NAME=curve_2
+      - KLINE_DB_USER=curve_2
+      - KLINE_DB_PASS=2AMzBsa52WGwPkhG
+      - CACHE_DRIVER=redis
+      - REDIS_HOST=redis
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - app_runtime:/var/www/html/runtime
+      - app_upload:/var/www/html/public/upload
+    networks:
+      - kvi-net
+
+  mysql:
+    image: mysql:5.7
+    container_name: kvi-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123456
+      - MYSQL_DATABASE=curve_1
+      - MYSQL_USER=curve_1
+      - MYSQL_PASSWORD=cHchca3cHAZ2CELX
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/01-init-db.sql
+      - ./curve_1.sql:/docker-entrypoint-initdb.d/02-curve_1.sql
+      - ./curve_2.sql:/sql-import/curve_2.sql
+      - ./docker/import-curve2.sh:/docker-entrypoint-initdb.d/03-import-curve2.sh
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot123456"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 120s
+    networks:
+      - kvi-net
+
+  redis:
+    image: redis:6-alpine
+    container_name: kvi-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kvi-net
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: kvi-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token eyJhIjoiYzA1MDcwN2RlOTQ3YTcwNWI2Y2RjZGRlNmVjYzNiODAiLCJ0IjoiMzFmOWYyNzEtYmZhNC00NjNkLTk5ZWItYmVlMmZlOTkyNGFkIiwicyI6IlpqZGxOelU0TlRNdFptUTVNQzAwWWpjekxUaGpaamd0T0dZMVkySTVNRFJoT0RoaCJ9
+    depends_on:
+      - app
+    networks:
+      - kvi-net
+
+volumes:
+  redis_data:
+  mysql_data:
+  app_runtime:
+  app_upload:
+
+networks:
+  kvi-net:
+    driver: bridge

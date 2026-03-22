@@ -1,0 +1,72 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-09-12 17:43:06
+ * @LastEditTime: 2021-09-13 08:20:30
+ * @Description: Forward, no stop
+-->
+<div class="layuimini-container">
+    <form id="app-form" class="layui-form layuimini-form">
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户帐号</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" disabled value="{$row.member|default=''}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">钱包币种</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" disabled value="{$row.coin|default=''}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">调节帐户</label>
+            <div class="layui-input-block">
+                <select name="data_type">
+                    <option value="">请选择</option>
+                    <optgroup label="币币帐户">
+                        <option value="ex_money" {if !in_array('1',$row.types)}disabled{/if}>余额</option>
+                        <option value="lock_ex_money" {if !in_array('1',$row.types)}disabled{/if}>锁定余额</option>
+                    </optgroup>
+                    <optgroup label="合约帐户">
+                        <option value="le_money" {if !in_array('2',$row.types)}disabled{/if}>余额</option>
+                        <option value="lock_le_money" {if !in_array('2',$row.types)}disabled{/if}>锁定余额</option>
+                    </optgroup>
+                    <optgroup label="期权帐户">
+                        <option value="op_money" {if !in_array('3',$row.types)}disabled{/if}>余额</option>
+                        <option value="lock_op_money" {if !in_array('3',$row.types)}disabled{/if}>锁定余额</option>
+                    </optgroup>
+                    <optgroup label="理财帐户">
+                        <option value="up_money" {if !in_array('4',$row.types)}disabled{/if}>余额</option>
+                        <option value="lock_up_money" {if !in_array('4',$row.types)}disabled{/if}>锁定余额</option>
+                    </optgroup>
+                  </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">调节方式</label>
+            <div class="layui-input-block">
+                <input type="radio" name="type" value="1" title="增加" checked>
+                <input type="radio" name="type" value="2" title="减少">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">调节值</label>
+            <div class="layui-input-block">
+                <input type="number" name="num" class="layui-input"  placeholder="请输入调节值" value="">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">调节备注</label>
+            <div class="layui-input-block">
+                <textarea name="remark" class="layui-textarea"  placeholder="请输入调节备注"></textarea>
+            </div>
+        </div>
+        <div class="hr-line"></div>
+        <div class="layui-form-item text-center">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit>确认</button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+        </div>
+
+    </form>
+</div>

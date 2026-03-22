@@ -1,0 +1,322 @@
+<div class="a-header position-re layui-rows loan-dark-header">
+    <div class="layui-col-xs4">
+        <a href="javascript:window.history.go(-1);" class="loan-dark-nav-btn"><i class="layui-icon layui-icon-left"></i></a>
+    </div>
+    <div class="layui-col-xs4 text-center loan-dark-header-title">
+        {:lang('loan.mylist_title')}
+    </div>
+    <div class="layui-col-xs4 text-right">
+        <a href="{:url('/mobile')}" class="loan-dark-nav-btn"><i class="layui-icon layui-icon-home"></i></a>
+    </div>
+</div>
+
+<div class="loan-dark-page">
+    <div class="loan-dark-content">
+
+        <div class="loan-tabs-dark-box">
+            <div class="loan-tabs-dark-scroll">
+                <span class="loan-dark-chip active" data-status="all">{:lang('loan.all')}</span>
+                <span class="loan-dark-chip" data-status="0">{:lang('loan.status_wait')}</span>
+                <span class="loan-dark-chip" data-status="1">{:lang('loan.status_pass')}</span>
+                <span class="loan-dark-chip" data-status="2">{:lang('loan.status_reject')}</span>
+                <span class="loan-dark-chip" data-status="4">{:lang('loan.status_finish')}</span>
+                <span class="loan-dark-chip" data-status="5">{:lang('loan.status_overdue')}</span>
+            </div>
+        </div>
+
+        <div id="loan-list-box"></div>
+
+        <div class="loan-loadmore-wrap-dark">
+            <button type="button" class="loan-loadmore-btn-dark" id="loadMoreBtn">{:lang('loan.load_more')}</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .loan-dark-page{
+        min-height:100vh;
+        background:#242424;
+        padding-bottom:20px;
+    }
+    .loan-dark-header{
+        background:#242424;
+        border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .loan-dark-nav-btn{
+        display:inline-block;
+        padding:10px 14px;
+        color:#f5f5f5 !important;
+        font-size:18px;
+    }
+    .loan-dark-header-title{
+        font-size:16px;
+        font-weight:600;
+        color:#f5f5f5;
+        line-height:42px;
+    }
+    .loan-dark-content{
+        padding:12px;
+    }
+    .loan-tabs-dark-box{
+        margin-bottom:14px;
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+        display: inline-block;
+        max-width: 100%;
+    }
+    .loan-tabs-dark-scroll{
+        white-space:nowrap;
+        min-width:max-content;
+    }
+    .loan-dark-chip{
+        display:inline-block;
+        padding:6px 10px;
+        border-radius:999px;
+        background:#3a3a3a;
+        color:#f0f0f0;
+        font-size:12px;
+        line-height:1;
+        border:1px solid rgba(255,255,255,.05);
+        margin-right: 6px;
+    }
+    .loan-dark-chip:last-child{
+        margin-right: 0;
+    }
+    .loan-dark-chip.active{
+        background:#ffd37a;
+        color:#2b2b2b;
+        font-weight:700;
+    }
+    .loan-order-card-dark{
+        background:#fff;
+        border-radius:16px;
+        padding:16px;
+        margin-bottom:14px;
+        box-shadow:0 4px 16px rgba(0,0,0,.14);
+    }
+    .loan-order-head-dark{
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-start;
+        gap:12px;
+        margin-bottom:12px;
+    }
+    .loan-order-title-dark{
+        flex:1;
+        min-width:0;
+        font-size:16px;
+        line-height:1.5;
+        color:#222;
+        font-weight:700;
+        word-break: break-word;
+    }
+    .loan-order-status-dark{
+        display:inline-block;
+        padding:5px 10px;
+        border-radius:999px;
+        font-size:12px;
+        line-height:1;
+        flex-shrink:0;
+    }
+    .loan-order-status-dark.status--1{background:#f3f3f3;color:#999;}
+    .loan-order-status-dark.status-0{background:#fff6dd;color:#ff9f00;}
+    .loan-order-status-dark.status-1{background:#eef9f2;color:#15a05d;}
+    .loan-order-status-dark.status-2{background:#fff0eb;color:#ff5722;}
+    .loan-order-status-dark.status-4{background:#edf6ff;color:#1e9fff;}
+    .loan-order-status-dark.status-5{background:#ffecec;color:#f56c6c;}
+
+    .loan-order-panel-dark{
+        background:#f8f8f8;
+        border-radius:12px;
+        padding:10px 12px;
+        margin-bottom:12px;
+    }
+    .loan-order-row-dark{
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-start;
+        gap:12px;
+        line-height:1.9;
+        font-size:13px;
+    }
+    .loan-order-row-dark span:first-child{
+        color:#888;
+        flex-shrink:0;
+    }
+    .loan-order-row-dark span:last-child{
+        color:#222;
+        font-weight:600;
+        text-align:right;
+        word-break:break-word;
+    }
+
+    .loan-order-foot-dark{
+        display:flex;
+        justify-content:flex-end;
+        align-items:center;
+        gap:10px;
+    }
+    .loan-order-actions-dark{
+        display:flex;
+        gap:8px;
+        flex-wrap:wrap;
+        justify-content:flex-end;
+    }
+    .loan-mini-btn-dark{
+        display:inline-block;
+        padding:8px 12px;
+        border:none;
+        border-radius:999px;
+        font-size:12px;
+        line-height:1;
+        font-weight:600;
+        text-decoration:none !important;
+    }
+    .loan-mini-btn-dark.red{
+        background:#ff6b6b;
+        color:#fff !important;
+    }
+    .loan-mini-btn-dark.gold{
+        background:#ffd37a;
+        color:#2b2b2b !important;
+    }
+    .loan-mini-btn-dark.gray{
+        background:#3a3a3a;
+        color:#fff !important;
+    }
+    .loan-loadmore-wrap-dark{
+        text-align:center;
+        margin-top:10px;
+    }
+    .loan-loadmore-btn-dark{
+        min-width:120px;
+        height:40px;
+        border:none;
+        border-radius:999px;
+        background:#ffd37a;
+        color:#2b2b2b;
+        font-weight:700;
+    }
+    .loan-empty-card-dark{
+        background:#fff;
+        border-radius:16px;
+        padding:32px 16px;
+        text-align:center;
+    }
+    .loan-empty-title-dark{
+        font-size:15px;
+        color:#222;
+        font-weight:700;
+    }
+    .loan-empty-desc-dark{
+        margin-top:8px;
+        font-size:13px;
+        color:#888;
+    }
+</style>
+
+<script>
+    var LOAN_PAGE = 1;
+    var LOAN_STATUS = 'all';
+    var LOAN_PAGES = 1;
+
+    function renderLoanList(list, reset) {
+        var html = '';
+        if (list && list.length > 0) {
+            layui.each(list, function(index, item) {
+                html += '<div class="loan-order-card-dark">';
+                html += '  <div class="loan-order-head-dark">';
+                html += '      <div class="loan-order-title-dark">' + (item.loan_name || '--') + '</div>';
+                html += '      <span class="loan-order-status-dark status-' + item.status + '">' + (item.status_text || '--') + '</span>';
+                html += '  </div>';
+
+                html += '  <div class="loan-order-panel-dark">';
+                html += '      <div class="loan-order-row-dark"><span>{:lang("loan.apply_amount")}</span><span>' + (item.amount || '0') + '</span></div>';
+                html += '      <div class="loan-order-row-dark"><span>{:lang("loan.annual_interest_rate")}</span><span>' + (item.interest_rate || '0') + '%</span></div>';
+                html += '      <div class="loan-order-row-dark"><span>{:lang("loan.repayment_period")}</span><span>' + (item.repayment_period || '0') + '{:lang("loan.days_unit")}</span></div>';
+                html += '      <div class="loan-order-row-dark"><span>{:lang("loan.total_interest")}</span><span>' + (item.total_interest || '0') + '</span></div>';
+                html += '      <div class="loan-order-row-dark"><span>{:lang("loan.total_repayment")}</span><span>' + (item.total_repayment || '0') + '</span></div>';
+                html += '      <div class="loan-order-row-dark"><span>{:lang("loan.apply_time")}</span><span>' + (item.create_time || '') + '</span></div>';
+                html += '  </div>';
+
+                html += '  <div class="loan-order-foot-dark">';
+                html += '      <div class="loan-order-actions-dark">';
+
+                if (parseInt(item.status) === 0) {
+                    html += '<button type="button" class="loan-mini-btn-dark red btn-cancel-loan" data-id="' + item.id + '">{:lang("loan.cancel_apply")}</button>';
+                }
+
+                if (parseInt(item.status) === 1 || parseInt(item.status) === 5) {
+                    html += '<button type="button" class="loan-mini-btn-dark gold btn-repay-loan" data-id="' + item.id + '">{:lang("loan.contact_kf_repay")}</button>';
+                }
+
+                html += '<a href="/mobile/loan/detail?id=' + item.id + '" class="loan-mini-btn-dark gray">{:lang("loan.view_detail")}</a>';
+                html += '      </div>';
+                html += '  </div>';
+                html += '</div>';
+            });
+        } else if (reset) {
+            html = '<div class="loan-empty-card-dark"><div class="loan-empty-title-dark">{:lang("loan.empty_record_title")}</div><div class="loan-empty-desc-dark">{:lang("loan.empty_record_desc")}</div></div>';
+        }
+
+        if (reset) {
+            $('#loan-list-box').html(html);
+        } else {
+            $('#loan-list-box').append(html);
+        }
+    }
+
+    function getLoanList(reset) {
+        $.post("{:url('loan/listOrder')}", {
+            page: LOAN_PAGE,
+            status: LOAN_STATUS
+        }, function(res) {
+            if (res.code == 1) {
+                LOAN_PAGES = res.pages || 1;
+                renderLoanList(res.data, reset);
+            }
+        });
+    }
+
+    $(function() {
+        getLoanList(true);
+
+        $('.loan-dark-chip').on('click', function() {
+            $('.loan-dark-chip').removeClass('active');
+            $(this).addClass('active');
+            LOAN_STATUS = $(this).attr('data-status');
+            LOAN_PAGE = 1;
+            getLoanList(true);
+        });
+
+        $('#loadMoreBtn').on('click', function() {
+            if (LOAN_PAGE >= LOAN_PAGES) {
+                layer.msg("{:lang('loan.no_more_data')}");
+                return;
+            }
+            LOAN_PAGE++;
+            getLoanList(false);
+        });
+
+        $(document).on('click', '.btn-cancel-loan', function() {
+            var id = $(this).attr('data-id');
+            layer.confirm("{:lang('loan.confirm_cancel')}", function(index) {
+                $.post("{:url('loan/cancelApply')}", {id: id}, function(res) {
+                    layer.msg(res.msg);
+                    if (res.code == 1) {
+                        LOAN_PAGE = 1;
+                        getLoanList(true);
+                    }
+                });
+                layer.close(index);
+            });
+        });
+
+        $(document).on('click', '.btn-repay-loan', function() {
+            var kefuUrl = "{:sysconfig('base','site_kefu')}";
+            window.location.href = kefuUrl;
+        });
+    });
+</script>
+
+{include file="./block/foot_script"}

@@ -1,0 +1,134 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-08-05 22:42:11
+ * @LastEditTime: 2021-09-27 12:00:59
+ * @Description: Forward, no stop
+-->
+<div class="header">
+	{include file="./block/block_head"}
+</div>
+
+<div class="new-bg">
+	<div class="main">
+		<div class="layui-container">
+			<div class="white-box">
+				<div class="transfer-box coinwin-bottom">
+					<div class="layui-tab layui-tab-brief" lay-filter="tabList">
+						<ul class="layui-tab-title">
+						  <li class="layui-this">{:lang('winer.lists')}</li>
+						  <li>{:lang('winer.daylists')}</li>
+						  <a class="float-right" style="font-size: 16px;" href="{:url('winer/index')}"><span class="span-margin">{:lang('public.goback')}</span><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+						</ul>
+						<div class="layui-tab-content">
+							<div class="layui-tab-item layui-show">
+								<table class="layui-table" lay-skin="nob" lay-even>
+								<thead>
+									<tr>
+									<th>{:lang('winer.table_title')}</th>
+									<th>{:lang('winer.table_nums')}</th>
+									<th>{:lang('winer.table_rates')}</th>
+									<th>{:lang('winer.table_time')}</th>
+									<th>{:lang('winer.table_lock')}</th>
+									<th>{:lang('winer.table_status')}</th>
+									</tr> 
+								</thead>
+								<tbody id="lists">
+									
+								</tbody>
+								</table>
+							</div>
+							<div class="layui-tab-item">
+								<table class="layui-table" lay-skin="nob" lay-even>
+								<thead>
+									<tr>
+										<th>{:lang('winer.table_times')}</th>
+										<th>{:lang('winer.table_title')}</th>
+										<th>{:lang('winer.table_rate')}</th>
+									</tr> 
+								</thead>
+								<tbody id="listlog">
+									
+								</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/block_bottom"}
+{include file="./block/foot_script"}
+<script>
+	layui.use(['layer','element','jquery', 'form', 'flow'], function(){
+		var layer = layui.layer
+		,element = layui.element
+		,$ = layui.jquery
+		,form = layui.form
+		var flow = layui.flow;
+
+		element.on('tab(tabList)', function(data){
+			if(data.index == 0){
+				listWiner();
+			}
+			if(data.index == 1){
+				listLog();
+			}
+		});
+
+		window.listWiner = function(){
+			$('#lists').empty();
+			flow.load({
+				elem: '#lists' //指定列表容器
+				,colSpan: 6 //列数
+				,isAuto: false
+				,end:'<td colspan="6" class="text-center load-box-fox">{:lang("finance.finance_nodata")}</td>'
+				,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+				var lis = [];
+				$.post("{:url('winer/lists')}",{page:page}, function(res){
+					layui.each(res.data, function(index, item){
+						var html = '<tr>';
+						html = html + '<td>'+item.title+'-'+item.id+'</td>';	
+						html = html + '<td>'+parseFloat(item.buy_account)+'</td>';
+						html = html + '<td>'+parseFloat(item.rate_account).toFixed(6)+'</td>';	
+						html = html + '<td>'+item.time+'</td>';
+						html = html + '<td>'+item.lock+'</td>';
+						html = html + '<td>'+item.upstatus+'</td>';	
+						html = html + '</tr>';
+						lis.push(html);
+					}); 
+					next(lis.join(''), page < res.pages);    
+					});
+				}
+			});
+		}
+
+		window.listLog = function(){
+			$('#listlog').empty();
+			flow.load({
+				elem: '#listlog' //指定列表容器
+				,colSpan: 3 //列数
+				,isAuto: false
+				,end:'<td colspan="3" class="text-center load-box-fox">{:lang("finance.finance_nodata")}</td>'
+				,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+				var lis = [];
+				$.post("{:url('winer/listlog')}",{page:page}, function(res){
+					layui.each(res.data, function(index, item){
+						var html = '<tr>';
+						html = html + '<td>'+item.create_time+'</td>';
+						html = html + '<td>'+item.title+'</td>';	
+						html = html + '<td>'+parseFloat(item.all_account)+'</td>';
+						html = html + '</tr>';
+						lis.push(html);
+					}); 
+					next(lis.join(''), page < res.pages);    
+					});
+				}
+			});
+		}
+
+		listWiner();
+	})
+</script>

@@ -1,0 +1,1348 @@
+body,.new-bg{
+	background: #0a0a0a;
+	color:#768da9;
+}
+a{
+	color:#768da9;
+}
+.layui-nav .menu-left .layui-nav-item a,.menu-right .layui-nav-item a{
+	color: #87a2cd;
+}
+.layui-nav .menu-left .layui-nav-item a:hover, .layui-nav .menu-left .layui-this a {
+  background: #233150;
+}
+.header,
+.header .layui-nav{
+        background: #242424;
+}
+.header .layui-nav .layui-nav-child{
+        border: 1px solid #242424;
+        background-color: #242424;
+}
+.post-box,.white-box,.deal-bg,.coinwin-header,.coinwin-body .layui-panel,
+.coinwin-bottom,.coinwin-box,.ieo-body .layui-panel,.ieo-bottom,.ieo-oper{
+    background: #242424;
+	border-radius: 15px;
+}
+.left-nav{
+  border-right: 1px solid #4a4a4a;
+}
+.layui-timeline-item:before, hr{
+	background-color:#4a4a4a;
+}
+#account-page .white-box,
+.account-main,
+.account-body,
+.account-safe{
+    color: #ffffff;
+}
+.account-main{
+    padding: 16px 12px;
+}
+.account-safe img{
+    width: 80px;
+    height: 80px;
+}
+.account-safe .layui-progress{
+    background: #1b1b1b;
+    height: 6px;
+    border-radius: 6px;
+    margin: 8px 0;
+}
+.account-safe .layui-progress-bar{
+    background-color: #ffd37a;
+}
+.account-body li{
+    color: #ffffff;
+    border-bottom: 1px solid #3a3a3a;
+    padding: 12px 0;
+}
+.account-body li .layui-icon{
+    color: #ffd37a;
+}
+.account-body .color-red{
+    color: #f05b5b !important;
+}
+.account-body .color-blue{
+    color: #ffd37a !important;
+}
+.account-body .form-bg{
+    background: #1e1e1e;
+    border-radius: 8px;
+    padding: 10px;
+}
+.account-body .layui-input,
+.account-body .layui-select,
+.account-body .layui-textarea{
+    background: #1e1e1e !important;
+    border-color: #333333;
+    color: #ffffff;
+}
+#banner,.box-banners{
+	border-radius: 10px !important;
+    background: #242424 !important;	
+}
+#banner .layui-carousel,
+#banner [carousel-item],
+#banner [carousel-item] > div,
+.box-banners .layui-carousel,
+.box-banners [carousel-item],
+.box-banners [carousel-item] > div {
+    background: #242424 !important;
+	border-radius: 10px !important;
+}
+.account-body li,
+.deal-top-left .layui-table thead tr,
+.deal-bottom-left .layui-table thead tr,
+.deal-top-center-title,
+.deal-top-right-box h5,
+.new-table .layui-table tr,.layui-tab-title,
+.lever-bottom-left .layui-table thead tr,
+.seconds-left-bottom .layui-table thead tr,
+.log-table .layui-table tr{
+    border-bottom: 1px solid #f5a623;
+}
+.layui-table,.new-table .layui-table thead tr,
+.log-table .layui-table thead tr{
+	background-color: unset;
+	color: #768da9;
+}
+.layui-table tbody tr:hover,
+.layui-table thead tr,
+.layui-table-click,
+.layui-table-header,
+.layui-table-hover,
+.layui-table-mend,
+.layui-table-patch,
+.layui-table-tool,
+.layui-table-total,
+.layui-table-total tr,
+.layui-table[lay-even] tr:nth-child(even),
+.deal-top-left .layui-table tbody tr:hover,
+.deal-top-right-box .layui-table tbody tr:hover,
+.lever-top-right .layui-table tbody tr:hover,
+.coinwin-bottom .layui-table[lay-even] tr:nth-child(even){
+    background-color: #242424;
+}
+.deal-top-left .layui-table tbody .active{
+	background: rgba(242, 245, 250, 0.1);
+}
+.coinwin-bottom .layui-table thead tr {
+    background: #242424;
+}
+.a-table .layui-table,
+.a-table .layui-table th,
+.a-table .layui-table td,
+.a-table .table-span,
+.market-list,
+.market-list-right,
+.market-list-right span,
+.market-list-right p{
+    color: #ffffff !important;
+}
+.market .layui-tab-brief>.layui-tab-title .layui-this,
+.lever-bottom-left .layui-tab-brief>.layui-tab-title .layui-this{
+	color:#768da9;
+}
+.layui-input, .layui-select, .layui-textarea,
+.deal-bottom-right .layui-form-item .layui-input,
+.lever-bottom-right .layui-form-item .layui-input,
+.coinwin-body .layui-panel .layui-input{
+	background: #1e1e1e;
+	border-color:#333333;
+}
+.layui-form-select dl{
+	background: #1e1e1e;
+	border: 1px solid #333333;
+}
+.layui-form-select dl dd.layui-this,.layui-form-select dl dd:hover {
+    background-color: #1e1e1e;
+}
+.layui-input, .layui-select, .layui-textarea{
+    background: #1e1e1e !important;
+}
+.assets-bottom .layui-table tbody tr:hover, .assets-bottom .layui-table[lay-even] tr:nth-child(even){
+	background: unset;
+}
+
+/* 合约/交易页深色统一 */
+.first_box,
+.lever-top,
+.lever-bottom,
+.deal-top,
+.new-bg{
+    background: #0a0a0a !important;
+}
+.deal-bg,
+.deal-top-left,
+.lever-top-left,
+.lever-top-right,
+.lever-bottom-right,
+.deal-bottom-left,
+.deal-bottom-right,
+.lever-bottom-left{
+    background: #242424 !important;
+    border-radius: 8px;
+}
+.deal-bg,
+.deal-bg p,
+.deal-bg span,
+.deal-bg label,
+.lever-top,
+.lever-bottom,
+.lever-top p,
+.lever-bottom p,
+.lever-top span,
+.lever-bottom span,
+.lever-top label,
+.lever-bottom label{
+    color: #ffffff !important;
+}
+.deal-top-center-title,
+.lever-top-right h5{
+    color: #ffffff;
+}
+.lever-bottom-left .layui-tab-brief>.layui-tab-title .layui-this,
+.deal-bottom-left .layui-tab-brief>.layui-tab-title .layui-this{
+    color: #ffd37a !important;
+}
+.lever-bottom-left .layui-tab-brief>.layui-tab-title .layui-this:after,
+.deal-bottom-left .layui-tab-brief>.layui-tab-title .layui-this:after{
+    border-bottom: 2px solid #ffd37a !important;
+}
+
+/*登录注册*/
+.login-bg {
+  background: url("../imgn/table-bg.png") no-repeat  #1e1e1e;
+    background-size: 100% 100%;
+    background-size: cover;
+    background-attachment: fixed;
+	color:#768da9;
+}
+.login-bg .layui-input, .layui-select, .layui-textarea{
+	background: #1e1e1e;
+	border-color:#333333;
+	color:#c0c4cc;
+}
+.login-box .v-send {
+	border-left: 1px solid #535a75;
+}
+.info-list-box{background: rgba(42, 53, 87, 0.2);}
+.form-bg{
+	background: #2a405c;
+}
+.time-range{background: #141822;border-bottom: 1px solid #303241;}
+.time-range span.active{
+	color:#768da9;
+}
+.depth-box{text-align: center;font-size: 14px !important;padding:10px !important;color: rgba(157, 219, 198,.5) !important;
+	background-color: #1e1e1e !important;}
+.lever-top-right h5{
+	border-bottom: 1px solid #4a4a4a;
+}
+
+.layui-layer-msg{color:#999 !important;}
+.layui-slider{background: #9db2bd;}
+.show-deal td{background: #0c2731 !important;font-size: 12px;}
+.deal-price-input{background: #1e1e1e !important;border: 1px solid #333333;padding-left: 8px;}
+.fox-form .layui-form-radio {
+	background: -webkit-linear-gradient(bottom,#282d2e,#bfc0c0);
+    background: linear-gradient(0deg,#282d2e,#bfc0c0);
+	border-color: #bfc0c0;
+}
+.fox-form .layui-form-radioed { 
+    background: -webkit-linear-gradient(bottom,#f5a623,#f7b84a);
+    background: linear-gradient(0deg,#f5a623,#f7b84a);
+    border-color: #f5a623;
+}
+.play-tab{
+	background-color: #1e1e1e;
+}
+.seconds-right-head{
+	border-bottom: 1px solid;
+	padding: 10px 0 20px;
+}
+.user-box-img p{
+	background: #242424;
+    line-height: 36px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50px;
+	color:#768da9;
+	border-radius: 90px 90px 0 0;
+	background-image: radial-gradient(farthest-corner at 50% 10%, #3a3a3a, #242424);
+}
+.i5scroll-con .content {
+    background-color: unset;
+}
+.notice,
+.a-box-left,
+.a-box-right p{
+    background: #242424;
+    border-radius: 15px;
+}
+.notice,
+.notice a,
+.a-box-left,
+.a-box-left span,
+.a-box-left p,
+.center-banner,
+.center-banner a,
+.center-banner p{
+    color: #9aa3ad;
+}
+.a-box-left span,
+.a-box-left p{
+    color: #ffffff !important;
+}
+.notice .link-b,
+.notice .link-c,
+.notice .content,
+.notice .scroll,
+.notice .scroll li,
+.notice i{
+    color: #f5a623 !important;
+}
+.asset-card{
+    background: #242424;
+    border-radius: 12px;
+    padding: 18px 18px;
+    margin: 12px 0 14px;
+    min-height: 96px;
+    display: block;
+}
+.asset-card-top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.asset-card-title{
+    color: #9aa3ad;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+.asset-card-value{
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+.asset-card-sub{
+    color: #9aa3ad;
+    font-size: 12px;
+    margin-top: 10px;
+}
+.asset-card-btn{
+    display: inline-block;
+    background: #ffd37a;
+    color: #1a1a1a;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 18px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.market-top{
+    display: flex;
+    gap: 10px;
+    margin: 12px 0 0;
+}
+.market-card{
+    flex: 1;
+    background: #0f0f0f;
+    border-radius: 12px;
+    padding: 12px 10px 10px;
+    border: 1px solid #2b2b2b;
+    box-shadow: none;
+    min-height: 110px;
+}
+.market-card-title{
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffffff;
+}
+.market-card-quote{
+    color: #9aa3ad;
+    font-weight: 500;
+}
+.market-card-price{
+    margin-top: 6px;
+    font-size: 14px;
+    color: #ffffff;
+}
+.market-card-change{
+    margin-top: 4px;
+    font-size: 12px;
+    color: #9aa3ad;
+}
+.market-card-approx{
+    margin-top: 4px;
+    font-size: 12px;
+    color: #9aa3ad;
+}
+.market-card-change.bg-green,
+.bg-green{
+    color: #2fc77a !important;
+}
+.market-card-change.bg-red,
+.bg-red{
+    color: #f05b5b !important;
+}
+.market-card-action{
+    margin-top: 6px;
+    font-size: 12px;
+    color: #ffffff;
+}
+.box-shadow-a{
+	box-shadow:0 10px 10px 0 rgb(10 16 23 / 40%)
+}
+.box-shadow-b{
+    box-shadow: 0 1px 35px 0 rgb(245 166 35 / 30%);
+}
+.box-shadow-foot{
+    box-shadow: none !important;
+    background: #242424 !important;
+    border-radius: 0;
+}
+.link-a{color: #e2e8e4;}
+.link-b{color: #ffd37a;}
+
+/* 登录页 */
+.login-btn .layui-btn{
+    background: #ffd37a !important;
+    color: #1a1a1a !important;
+    border: none;
+}
+.login-phone p:first-child a{
+    color: #ffffff !important;
+}
+.wicket-btn-box{
+    background: #1e1e1e !important;
+}
+.wicket-btn-box .wicket-btn{
+    color: #9aa3ad;
+}
+.wicket-btn-box .btn-this{
+    background: #ffd37a !important;
+    color: #1a1a1a !important;
+}
+.wicket-btn-box .wicket-btn::after,
+.wicket-btn-box .wicket-btn::before{
+    content: none !important;
+}
+.link-c{color: #768da9;}
+.table-span{
+	width: 96%;
+    height: 24px;
+    margin: 0 auto;
+    display: inline-block;
+	color: #768da9;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+	font-size: 12px;
+}
+.table-span-list{
+	width: 100%;
+    height: 24px;
+    margin: 10px auto;
+    display: inline-block;
+	color: #768da9;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+	font-size: 12px;
+}
+.white-box,.coinwin-bottom{
+    background: #1e1e1e;
+}
+.coinwin-bottom .layui-table thead tr {
+    background: unset;
+    color: #f5a623;
+}
+.table-tr tbody tr{
+	border-top: 4px solid #2a405c;
+}
+
+.kline-box-depth{
+	background-color: #1e1e1e;
+}
+.fox-table thead tr{
+    border-bottom: 0px solid #f5a623 !important;
+}
+.fox-table tbody tr{
+    border-top: 1px solid #f5a623 !important;
+}
+.ieo-top{
+    background: unset;
+}
+.ieo-bottom, .ieo-oper {
+    background: #242424;
+}
+.up-top {
+    width: 100%;
+    background: linear-gradient(#f5a623,#f7b84a);
+    color: #ffffff;
+    text-align: center;
+    padding: 20px 0;
+}
+.coinwin-header{
+    background: #242424;
+	position: relative;
+	padding:40px 5px 0 5px;
+}
+.coinwin-body .layui-panel{
+    background: #242424;
+}
+.seconds-left-bottom{
+    background: #242424;
+}
+.finance-box{
+	padding-bottom: 15px !important;
+	color:#adc9ea;
+}
+.finance-bg{
+	background: #242424 !important;
+}
+.finance-box span{font-size:18px}
+.finance-box{
+    border-radius: 8px;
+    padding: 14px 12px 12px;
+}
+.finance-box,
+.finance-box p,
+.finance-box span,
+.finance-box a,
+.finance-box .mt-10,
+.finance-box .mt-10-all,
+.finance-box .mt-10-uid,
+.finance-box .all_finance_header{
+    color: #ffffff !important;
+}
+.finance-nav ul{
+    background: #242424;
+    border-radius: 8px;
+    padding: 6px 6px;
+}
+.finance-nav ul li a{
+    color: #ffffff;
+}
+.finance-nav .layui-this a{
+    color: #ffd37a;
+}
+.finance-nav .layui-this{
+    border-bottom: 1px solid #ffd37a;
+}
+.user-box-imgn{
+    margin: 10px 12px 0;
+    background: #242424;
+    border-radius: 8px;
+    padding: 10px 0;
+}
+.user-box-imgn i{
+    font-size: 24px;
+    color: #ffd37a;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+.user-box-imgn a{
+    color: #9aa3ad;
+}
+.assets-bottom .layui-table tr td{
+    background: #242424;
+    border-top: 8px solid #0a0a0a;
+    border-radius: 8px;
+}
+.assets-bottom .layui-table tr td,
+.assets-bottom .layui-table tr td p,
+.assets-bottom .layui-table tr td span,
+.assets-bottom .color-l-blue,
+.assets-bottom .color-blue,
+.assets-bottom .layui-icon{
+    color: #ffffff !important;
+}
+.assets-bottom .layui-table tr th{
+    border-top: 8px solid #0a0a0a;
+}
+.assets-bottom .layui-table tbody tr:hover,
+.assets-bottom .layui-table[lay-even] tr:nth-child(even){
+    background: #242424;
+    opacity: 0.9;
+}
+.coinwin-list .layui-panel {
+    background: #242424;}
+
+/* 图标模块样式 - 整体圆角背景 */
+.center-banner {
+    background: #242424 !important;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 15px 12px;
+    margin: 10px 0 0;
+    width: 100%;
+    box-shadow: none !important;
+}
+.center-banner.layui-row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+.center-banner .layui-col-xs3 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    text-align: center;
+}
+.center-banner img {
+    width: 40px !important;
+    height: 40px !important;
+    filter: none;
+}
+
+/* 充值/快捷卡片铺满左右 */
+.a-box {
+    box-sizing: border-box;
+    margin: 10px 0 0;
+    width: 100%;
+}
+.a-box-left {
+    background: #242424 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    box-sizing: border-box;
+    padding: 12px !important;
+}
+
+/* 首页模块统一左右边距 */
+.main.padding-l-r > .box-banners,
+.main.padding-l-r > .notice,
+.main.padding-l-r > .a-table,
+.main.padding-l-r > .center-banner,
+.main.padding-l-r > .a-box {
+    box-sizing: border-box;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* 底部导航贴边且无阴影/底色干扰 */
+.footer {
+    background: #242424 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 10px 0 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.footer .footer-tab {
+    width: auto !important;
+    flex: 1 1 20%;
+    display: flex;
+    justify-content: center;
+}
+.footer button {
+    background: #242424 !important;
+    border: none !important;
+    color: #768da9 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* 左侧“我的”弹层 */
+.fox-user-left{
+    background: #1b1b1b !important;
+}
+.left-user-box.my-left{
+    padding: 0;
+    color: #ffffff;
+}
+.my-left-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid #2b2b2b;
+}
+.my-left-title{
+    font-size: 16px;
+    font-weight: 600;
+}
+.my-left-close,
+.my-left-setting{
+    color: #ffffff;
+    font-size: 14px;
+    width: 50px;
+}
+.my-left-setting{
+    text-align: right;
+}
+.my-left-body{
+    padding: 16px;
+}
+.my-left-user{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #2b2b2b;
+}
+.my-left-avatar{
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #ffffff;
+}
+.my-left-user-name{
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+}
+.my-left-user-sub{
+    color: #9aa3ad;
+    font-size: 12px;
+    margin-top: 4px;
+}
+.my-left-user-status{
+    margin-left: auto;
+    color: #ffffff;
+    border: 1px solid #2b2b2b;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+.my-left-list{
+    margin-top: 10px;
+}
+.my-left-item{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 4px;
+    color: #ffffff;
+    border-bottom: 1px solid #2b2b2b;
+}
+.my-left-item i:first-child{
+    color: #f7b84a;
+    font-size: 16px;
+}
+.my-left-item span{
+    flex: 1;
+    font-size: 14px;
+}
+.my-left-item i:last-child{
+    color: #9aa3ad;
+    font-size: 14px;
+}
+.my-left-logout{
+    display: block;
+    margin-top: 18px;
+    background: #f59f2f;
+    color: #ffffff;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* ===== 全局统一风格 - 消除所有蓝色残留 ===== */
+
+/* 所有 header 统一黑灰背景 */
+.a-header {
+    background: #242424 !important;
+}
+
+/* footer 底部导航统一 */
+.footer {
+    background: #242424 !important;
+    border-top: none !important;
+}
+.footer button,
+.footer .menuBtn {
+    background: #242424 !important;
+    border: none !important;
+    color: #768da9 !important;
+}
+
+/* 交易页底部 */
+.footer-seconds .footer-box {
+    background: #0a0a0a !important;
+}
+.foot-boxs {
+    border-top: 1px solid #333333 !important;
+    background: #0a0a0a !important;
+}
+
+/* 交易页颜色统一 */
+.trade-body-left .layui-tab-title {
+    background: #242424 !important;
+    color: #9aa3ad !important;
+    border: 0 !important;
+}
+.trade-body-left .layui-tab-title .layui-this {
+    color: #ffffff !important;
+}
+.trade-body-left .layui-form {
+    color: #9aa3ad !important;
+}
+.trade-body-left .layui-form .layui-input {
+    background-color: #1e1e1e !important;
+    border-color: #333333 !important;
+}
+.num-btn .layui-btn {
+    border-color: #333333 !important;
+    color: #9aa3ad !important;
+}
+
+/* 引用框 */
+.quote-box {
+    background: #1e1e1e !important;
+    border-left: 4px solid #ffd37a !important;
+}
+
+/* IEO 选择 */
+.ieo-select {
+    background: #242424 !important;
+}
+
+/* 各区块、卡片背景统一 */
+.a-body, .dark-box {
+    background: #242424 !important;
+}
+.a-box-left {
+    background: #242424 !important;
+}
+.a-box-right p {
+    background: #242424 !important;
+}
+.notice {
+    background: #242424 !important;
+}
+.a-form .layui-form-select dl {
+    background: #1e1e1e !important;
+    border: 1px solid #333333 !important;
+}
+.a-form .layui-form-select dl dd.layui-this,
+.a-form .layui-form-select dl dd:hover {
+    background-color: #242424 !important;
+}
+
+/* 合约页tab统一金色 */
+.a-layui-tab .layui-tab-title {
+    border-color: #333333 !important;
+}
+.a-layui-tab .layui-tab-brief > .layui-tab-title .layui-this {
+    color: #ffd37a !important;
+}
+.a-layui-tab .layui-tab-brief > .layui-tab-more li.layui-this:after,
+.a-layui-tab .layui-tab-brief > .layui-tab-title .layui-this:after {
+    border-bottom: 2px solid #ffd37a !important;
+}
+
+/* 资产 tab 统一金色 */
+.assets .layui-tab-title {
+    border-color: #333333 !important;
+}
+.assets .layui-tab-brief > .layui-tab-title .layui-this {
+    color: #ffd37a !important;
+}
+.assets .layui-tab-brief > .layui-tab-more li.layui-this:after,
+.assets .layui-tab-brief > .layui-tab-title .layui-this:after {
+    border-bottom: 2px solid #ffd37a !important;
+}
+
+/* 登录页 */
+.login-bg {
+    background: #0a0a0a !important;
+}
+.login-box .layui-input,
+.login-box .layui-select,
+.login-box .layui-textarea {
+    background: #1e1e1e !important;
+    border-color: #333333 !important;
+}
+
+/* c-table 合约表格 */
+.c-table .layui-table thead tr {
+    background: #242424 !important;
+    color: #ffd37a !important;
+}
+.c-table .layui-table[lay-even] tr:nth-child(even) {
+    background-color: #1a1a1a !important;
+}
+
+/* wicket 按钮 */
+.wicket-btn-box {
+    background: #1e1e1e !important;
+}
+
+/* 行情页统一 */
+.market .layui-tab-brief > .layui-tab-title .layui-this {
+    color: #ffd37a !important;
+}
+
+/* IEO 页面 */
+.ieo-bottom .layui-tab-title {
+    border-color: #333333 !important;
+}
+.ieo-bottom .layui-tab-brief > .layui-tab-title .layui-this {
+    color: #ffd37a !important;
+}
+.ieo-bottom .layui-tab-brief > .layui-tab-more li.layui-this:after,
+.ieo-bottom .layui-tab-brief > .layui-tab-title .layui-this:after {
+    border-bottom: 2px solid #ffd37a !important;
+}
+
+/* 划转按钮统一金色边框 */
+.assets-bottom .layui-btn-normal {
+    background: transparent !important;
+    border: 1px dashed #ffd37a !important;
+    color: #ffd37a !important;
+}
+
+/* fox-layer弹窗 */
+.fox-layer-black .layui-layer,
+.fox-layer-black .layui-layer-title {
+    background: #242424 !important;
+    border-bottom: 1px solid #333333 !important;
+}
+
+/* 分页加载 */
+.layui-flow-more a cite {
+    background: #242424 !important;
+}
+
+/* 期权交易底部按钮区统一 */
+.seconds-right-body {
+    border-top: 1px solid #333333 !important;
+}
+
+/* 时间选择栏 */
+.time-range {
+    background: #1e1e1e !important;
+    border-bottom: 1px solid #333333 !important;
+}
+
+/* 蓝色按钮/图标统一为金色主题 */
+.layui-btn-normal {
+    background-color: #2a2a2a !important;
+}
+.trade-check span.active img {
+    border: 1px solid #ffd37a !important;
+}
+.trade-check span img {
+    border-color: #333333 !important;
+}
+.a-form .layui-input {
+    border-color: #333333 !important;
+}
+
+/* 行内样式替代类 */
+.cursor-pointer { cursor: pointer; }
+.lh-18 { line-height: 18px; }
+.head-username { max-width: 120px; overflow: hidden; }
+.head-username-icon { font-size: 18px; }
+.usdt-balance-box { margin-bottom: 5px; padding: 6px 0; border-bottom: 1px dashed #333; }
+.usdt-balance-row { margin-bottom: 8px; padding: 6px 0; border-bottom: 1px dashed #333; }
+.lever-chart-nopad { padding: 0 !important; }
+
+/* 合约/期权 tab按钮 - 选中与未选中明确区分 */
+.play-tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 10px 0;
+}
+.play-tab .layui-btn {
+    min-width: 100px;
+    text-align: center;
+    border-radius: 20px !important;
+    font-size: 14px;
+    height: 34px;
+    line-height: 34px;
+    padding: 0 24px;
+}
+.play-tab .layui-btn-normal {
+    background-color: #ffd37a !important;
+    color: #000 !important;
+    border: 1px solid #ffd37a !important;
+    font-weight: bold;
+}
+.play-tab .layui-btn-primarys {
+    background-color: transparent !important;
+    color: #9aa3ad !important;
+    border: 1px solid #555 !important;
+    font-weight: normal;
+}
+
+/* ==========================================
+   合约交易页 - 紧凑模块化美化
+   ========================================== */
+
+/* --- 整体容器 --- */
+.first_box.lever-bottom,
+.first_box .lever-bottom {
+    padding: 0 10px !important;
+    background: #0a0a0a !important;
+}
+
+/* --- Play-tab 微调 --- */
+.play-tab {
+    padding: 8px 0 6px !important;
+    margin-bottom: 0 !important;
+    background: transparent !important;
+}
+
+/* --- 币种信息头 --- */
+.first_box .a-header {
+    background: #1a1a1a !important;
+    border-radius: 10px !important;
+    height: 40px !important;
+    line-height: 40px !important;
+    padding: 0 12px !important;
+    margin-top: 4px !important;
+}
+.first_box .a-header .kline_coin_left {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff !important;
+}
+.first_box .a-header .fa-bars {
+    color: #ffd37a !important;
+    margin-right: 6px;
+}
+.first_box .a-header .fa-line-chart {
+    color: #ffd37a !important;
+    font-size: 16px;
+}
+
+/* --- 主交易区卡片 --- */
+.first_box .lever-bottom-right.deal-bg {
+    background: #171717 !important;
+    border-radius: 12px !important;
+    padding: 10px !important;
+    margin-top: 8px !important;
+    border: 1px solid #222 !important;
+}
+/* 覆盖 mt-20 pd-10 */
+.first_box .lever-bottom-right.mt-20 {
+    margin-top: 8px !important;
+}
+.first_box .lever-bottom-right.pd-10 {
+    padding: 10px !important;
+}
+
+/* --- 深度表卡片 --- */
+.first_box .kline-box-depth {
+    background: #111 !important;
+    border-radius: 8px !important;
+    padding: 4px 2px !important;
+}
+.first_box .depth-table {
+    margin: 0 !important;
+    border: none !important;
+}
+.first_box .depth-table td {
+    padding: 3px 2px !important;
+    font-size: 11px !important;
+    border: none !important;
+}
+.first_box .depth-box {
+    background: #0d0d0d !important;
+    padding: 6px !important;
+    border-radius: 4px !important;
+}
+.first_box .depth-box .font-25,
+.first_box #right_price {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+}
+
+/* --- 买卖区卡片 --- */
+.first_box .kline-box-trade-level {
+    padding-left: 8px !important;
+}
+.first_box .kline-box-trade-level .layui-tab {
+    margin: 0 !important;
+}
+.first_box .kline-box-trade-level .layui-tab-title {
+    display: flex !important;
+    border-bottom: 1px solid #2a2a2a !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 6px !important;
+    height: 32px !important;
+}
+.first_box .kline-box-trade-level .layui-tab-title li {
+    flex: 1 !important;
+    text-align: center !important;
+    line-height: 30px !important;
+    min-width: unset !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #666 !important;
+    border-bottom: 2px solid transparent !important;
+    transition: all 0.2s ease !important;
+    padding: 0 !important;
+}
+.first_box .kline-box-trade-level .layui-tab-title li.layui-this {
+    color: #ffd37a !important;
+    border-bottom: 2px solid #ffd37a !important;
+}
+
+/* --- USDT余额行 --- */
+.first_box .usdt-balance-box {
+    background: #111 !important;
+    border-radius: 6px !important;
+    padding: 6px 8px !important;
+    margin-bottom: 6px !important;
+    font-size: 11px !important;
+    color: #9aa3ad !important;
+    border-bottom: none !important;
+    line-height: 1.5 !important;
+}
+
+/* --- 手续费等信息行 --- */
+.first_box .kline-box-trade-level > .layui-tab > .layui-tab-content > .font-14 {
+    font-size: 11px !important;
+    color: #666 !important;
+    margin-bottom: 4px !important;
+    padding: 0 2px;
+}
+
+/* --- 表单项紧凑 --- */
+.first_box .kline-box-trade-level .layui-form-item {
+    margin-bottom: 4px !important;
+}
+.first_box .kline-box-trade-level .layui-form-label {
+    font-size: 11px !important;
+    padding: 6px 0 !important;
+    width: auto !important;
+    color: #9aa3ad !important;
+    white-space: nowrap !important;
+}
+.first_box .kline-box-trade-level .layui-input-block {
+    margin-left: 60px !important;
+}
+.first_box .kline-box-trade-level .layui-input {
+    height: 32px !important;
+    line-height: 32px !important;
+    font-size: 12px !important;
+    border-radius: 6px !important;
+    background: #0d0d0d !important;
+    border-color: #2a2a2a !important;
+    color: #ffffff !important;
+}
+.first_box .kline-box-trade-level .layui-form-select .layui-input {
+    height: 32px !important;
+    line-height: 32px !important;
+}
+.first_box .kline-box-trade-level .layui-form-select dl {
+    background: #1a1a1a !important;
+    border: 1px solid #2a2a2a !important;
+    border-radius: 6px !important;
+}
+.first_box .kline-box-trade-level .layui-form-select dl dd {
+    font-size: 12px !important;
+    line-height: 30px !important;
+}
+
+/* --- 统计行 (最大数量/当前价格/保证金/手续费) --- */
+.first_box .kline-box-trade-level .layui-form-item p {
+    font-size: 11px !important;
+    line-height: 1.6 !important;
+    color: #9aa3ad !important;
+    margin: 0 !important;
+}
+.first_box .kline-box-trade-level .layui-form-item .text-right {
+    color: #ffffff !important;
+    font-size: 11px !important;
+}
+
+/* --- mt-30 滑块区间缩小 --- */
+.first_box .kline-box-trade-level .mt-30 {
+    margin-top: 10px !important;
+}
+
+/* --- 买入/卖出按钮 --- */
+.first_box .btn-green {
+    background: linear-gradient(135deg, #0da88b, #0bbf9f) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    width: 100% !important;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(13, 168, 139, 0.25);
+}
+.first_box .btn-red {
+    background: linear-gradient(135deg, #ef5656, #ff6b6b) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    width: 100% !important;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(239, 86, 86, 0.25);
+}
+
+/* --- 订单历史卡片 --- */
+.first_box .deal-bottom-left {
+    background: #171717 !important;
+    border-radius: 12px !important;
+    padding: 10px 10px !important;
+    margin-top: 8px !important;
+    border: 1px solid #222 !important;
+}
+.first_box .deal-bottom-left.mt-20 {
+    margin-top: 8px !important;
+}
+.first_box .deal-bottom-left.padding-l-r {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+/* tab栏 */
+.first_box .deal-bottom-left .layui-tab-title {
+    display: flex !important;
+    border-bottom: 1px solid #2a2a2a !important;
+    margin-bottom: 6px !important;
+    height: 32px !important;
+}
+.first_box .deal-bottom-left .layui-tab-title li {
+    flex: 1 !important;
+    text-align: center !important;
+    line-height: 30px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #666 !important;
+    border-bottom: 2px solid transparent !important;
+    padding: 0 !important;
+}
+.first_box .deal-bottom-left .layui-tab-title li.layui-this {
+    color: #ffd37a !important;
+    border-bottom: 2px solid #ffd37a !important;
+}
+/* 订单表格 */
+.first_box .deal-bottom-left .fox-table {
+    margin: 0 !important;
+}
+.first_box .deal-bottom-left .fox-table th {
+    padding: 4px 2px !important;
+    font-size: 10px !important;
+    color: #666 !important;
+}
+.first_box .deal-bottom-left .fox-table td {
+    padding: 6px 2px !important;
+    font-size: 11px !important;
+}
+.first_box .deal-bottom-left .fox-table tbody tr {
+    border-top: 1px solid #1e1e1e !important;
+}
+.first_box .deal-bottom-left .table-span-list {
+    background-color: #111 !important;
+    border-radius: 6px !important;
+    font-size: 10px !important;
+    height: 22px !important;
+    color: #9aa3ad !important;
+}
+.first_box .deal-bottom-left .mobile-layui-tab-content {
+    padding: 0 !important;
+}
+
+/* --- layui滑块美化 --- */
+.first_box .layui-slider {
+    background: #2a2a2a !important;
+    height: 4px !important;
+}
+.first_box .layui-slider-bar {
+    background: #ffd37a !important;
+    height: 4px !important;
+}
+.first_box .layui-slider-wrap {
+    top: -6px !important;
+}
+.first_box .layui-slider-wrap-btn {
+    width: 14px !important;
+    height: 14px !important;
+    border: 2px solid #ffd37a !important;
+    background: #0a0a0a !important;
+}
+
+/* --- 全局layui table在first_box中的行分隔 --- */
+.first_box .layui-table tr {
+    border-bottom: none !important;
+}
+.first_box .fox-table thead tr {
+    border-bottom: 1px solid #222 !important;
+}
+
+/* --- 隐藏layui-tab的默认边框线 --- */
+.first_box .layui-tab-brief > .layui-tab-title {
+    border-bottom: 1px solid #2a2a2a !important;
+}
+.first_box .layui-tab-brief > .layui-tab-title .layui-this:after {
+    border: none !important;
+}
+
+/* --- 余额信息区 --- */
+.lever-info-box {
+    background: #111 !important;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+}
+.lever-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+    font-size: 12px;
+    line-height: 1.6;
+}
+.lever-info-label {
+    color: #9aa3ad !important;
+}
+.lever-info-value {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+/* --- 统计行 (最大手数/合约市值/保证金/手续费) --- */
+.lever-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #9aa3ad !important;
+}
+.lever-stat-row span:last-child {
+    color: #ffffff !important;
+    text-align: right;
+}

@@ -1,0 +1,625 @@
+<!DOCTYPE html><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><!-- saved from url=(0176)https://www.compasshop.vip/download/static/js/layui/css/m466.496-126.62400000000002l-1.056%200.064c-25.184%202.08-47.456%2022.368-51.744%2047.232l-17.344%20102.4c-0.602c97e4aea --><meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>系统发生错误</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <style>
+        /* Base */
+        body {
+            color: #333;
+            font: 16px Verdana, "Helvetica Neue", helvetica, Arial, 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0 20px 20px;
+        }
+        h1{
+            margin: 10px 0 0;
+            font-size: 28px;
+            font-weight: 500;
+            line-height: 32px;
+        }
+        h2{
+            color: #4288ce;
+            font-weight: 400;
+            padding: 6px 0;
+            margin: 6px 0 0;
+            font-size: 18px;
+            border-bottom: 1px solid #eee;
+        }
+        h3{
+            margin: 12px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        abbr{
+            cursor: help;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+        a{
+            color: #868686;
+            cursor: pointer;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+        .line-error{
+            background: #f8cbcb;
+        }
+
+        .echo table {
+            width: 100%;
+        }
+
+        .echo pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f7f7f7;
+            border: 0;
+            border-radius: 3px;
+            font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        }
+
+        .echo pre > pre {
+            padding: 0;
+            margin: 0;
+        }
+    
+        /* Exception Info */
+        .exception {
+            margin-top: 20px;
+        }
+        .exception .message{
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-bottom: 0 none;
+            line-height: 18px;
+            font-size:16px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            font-family: Consolas,"Liberation Mono",Courier,Verdana,"微软雅黑";
+        }
+
+        .exception .code{
+            float: left;
+            text-align: center;
+            color: #fff;
+            margin-right: 12px;
+            padding: 16px;
+            border-radius: 4px;
+            background: #999;
+        }
+        .exception .source-code{
+            padding: 6px;
+            border: 1px solid #ddd;
+
+            background: #f9f9f9;
+            overflow-x: auto;
+
+        }
+        .exception .source-code pre{
+            margin: 0;
+        }
+        .exception .source-code pre ol{
+            margin: 0;
+            color: #4288ce;
+            display: inline-block;
+            min-width: 100%;
+            box-sizing: border-box;
+        font-size:14px;
+            font-family: "Century Gothic",Consolas,"Liberation Mono",Courier,Verdana;
+            padding-left: 48px;
+        }
+        .exception .source-code pre li{
+            border-left: 1px solid #ddd;
+            height: 18px;
+            line-height: 18px;
+        }
+        .exception .source-code pre code{
+            color: #333;
+            height: 100%;
+            display: inline-block;
+            border-left: 1px solid #fff;
+        font-size:14px;
+            font-family: Consolas,"Liberation Mono",Courier,Verdana,"微软雅黑";
+        }
+        .exception .trace{
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-top: 0 none;
+            line-height: 16px;
+        font-size:14px;
+            font-family: Consolas,"Liberation Mono",Courier,Verdana,"微软雅黑";
+        }
+        .exception .trace ol{
+            margin: 12px;
+        }
+        .exception .trace ol li{
+            padding: 2px 4px;
+        }
+        .exception div:last-child{
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        /* Exception Variables */
+        .exception-var table{
+            width: 100%;
+            margin: 12px 0;
+            box-sizing: border-box;
+            table-layout:fixed;
+            word-wrap:break-word;            
+        }
+        .exception-var table caption{
+            text-align: left;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 6px 0;
+        }
+        .exception-var table caption small{
+            font-weight: 300;
+            display: inline-block;
+            margin-left: 10px;
+            color: #ccc;
+        }
+        .exception-var table tbody{
+            font-size: 13px;
+            font-family: Consolas,"Liberation Mono",Courier,"微软雅黑";
+        }
+        .exception-var table td{
+            padding: 0 6px;
+            vertical-align: top;
+            word-break: break-all;
+        }
+        .exception-var table td:first-child{
+            width: 28%;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .exception-var table td pre{
+            margin: 0;
+        }
+
+        /* Copyright Info */
+        .copyright{
+            margin-top: 24px;
+            padding: 12px 0;
+            border-top: 1px solid #eee;
+        }
+
+        /* SPAN elements with the classes below are added by prettyprint. */
+        pre.prettyprint .pln { color: #000 }  /* plain text */
+        pre.prettyprint .str { color: #080 }  /* string content */
+        pre.prettyprint .kwd { color: #008 }  /* a keyword */
+        pre.prettyprint .com { color: #800 }  /* a comment */
+        pre.prettyprint .typ { color: #606 }  /* a type name */
+        pre.prettyprint .lit { color: #066 }  /* a literal value */
+        /* punctuation, lisp open bracket, lisp close bracket */
+        pre.prettyprint .pun, pre.prettyprint .opn, pre.prettyprint .clo { color: #660 }
+        pre.prettyprint .tag { color: #008 }  /* a markup tag name */
+        pre.prettyprint .atn { color: #606 }  /* a markup attribute name */
+        pre.prettyprint .atv { color: #080 }  /* a markup attribute value */
+        pre.prettyprint .dec, pre.prettyprint .var { color: #606 }  /* a declaration; a variable name */
+        pre.prettyprint .fun { color: red }  /* a function name */
+    </style>
+</head>
+<body>
+    <div class="echo">
+            </div>
+        <div class="exception">
+    <div class="message">
+        
+            <div class="info">
+                <div>
+                    <h2>[0]&nbsp;<abbr title="think\exception\HttpException">HttpException</abbr> in <a class="toggle" title="/www/wwwroot/www.wwtshop.cc/thinkphp/library/think/route/dispatch/Module.php line 62">Module.php line 62</a></h2>
+                </div>
+                <div><h1>模块不存在:download</h1></div>
+            </div>
+        
+    </div>
+	        <div class="source-code">
+            <pre class="prettyprint lang-php"><ol start="53"><li class="line-53"><code>                $available = true;
+</code></li><li class="line-54"><code>            }
+</code></li><li class="line-55"><code>
+</code></li><li class="line-56"><code>            // 模块初始化
+</code></li><li class="line-57"><code>            if ($module &amp;&amp; $available) {
+</code></li><li class="line-58"><code>                // 初始化模块
+</code></li><li class="line-59"><code>                $this-&gt;request-&gt;setModule($module);
+</code></li><li class="line-60"><code>                $this-&gt;app-&gt;init($module);
+</code></li><li class="line-61"><code>            } else {
+</code></li><li class="line-62"><code>                throw new HttpException(404, 'module not exists:' . $module);
+</code></li><li class="line-63"><code>            }
+</code></li><li class="line-64"><code>        }
+</code></li><li class="line-65"><code>
+</code></li><li class="line-66"><code>        // 是否自动转换控制器和操作名
+</code></li><li class="line-67"><code>        $convert = is_bool($this-&gt;convert) ? $this-&gt;convert : $this-&gt;rule-&gt;getConfig('url_convert');
+</code></li><li class="line-68"><code>        // 获取控制器名
+</code></li><li class="line-69"><code>        $controller = strip_tags($result[1] ?: $this-&gt;rule-&gt;getConfig('default_controller'));
+</code></li><li class="line-70"><code>
+</code></li><li class="line-71"><code>        $this-&gt;controller = $convert ? strtolower($controller) : $controller;
+</code></li></ol></pre>
+        </div>
+	        <div class="trace">
+            <h2>Call Stack</h2>
+            <ol>
+                <li>in <a class="toggle" title="/www/wwwroot/www.wwtshop.cc/thinkphp/library/think/route/dispatch/Module.php line 62">Module.php line 62</a></li>
+                                <li>
+                at <abbr title="think\route\dispatch\Module">Module</abbr>->init() in <a class="toggle" title="/www/wwwroot/www.wwtshop.cc/thinkphp/library/think/route/dispatch/Url.php line 25">Url.php line 25</a>                </li>
+                                <li>
+                at <abbr title="think\route\dispatch\Url">Url</abbr>->init() in <a class="toggle" title="/www/wwwroot/www.wwtshop.cc/thinkphp/library/think/App.php line 402">App.php line 402</a>                </li>
+                                <li>
+                at <abbr title="think\App">App</abbr>->run() in <a class="toggle" title="/www/wwwroot/www.wwtshop.cc/public/index.php line 43">index.php line 43</a>                </li>
+                            </ol>
+        </div>
+    </div>
+        
+    
+        <div class="exception-var">
+        <h2>Environment Variables</h2>
+                <table>
+                        <caption>GET Data<small>empty</small></caption>
+                    </table>
+                <table>
+                        <caption>POST Data<small>empty</small></caption>
+                    </table>
+                <table>
+                        <caption>Files<small>empty</small></caption>
+                    </table>
+                <table>
+                        <caption>Cookies<small>empty</small></caption>
+                    </table>
+                <table>
+                        <caption>Session<small>empty</small></caption>
+                    </table>
+                <table>
+                        <caption>Server/Request Data</caption>
+            <tbody>
+                                <tr>
+                    <td>USER</td>
+                    <td>
+                        www                    </td>
+                </tr>
+                                <tr>
+                    <td>HOME</td>
+                    <td>
+                        /home/www                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_X_ALICDN_DA_VIA</td>
+                    <td>
+                        47.246.1.47,47.90.31.114                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_ALI_TPROXY_UREQUEST_TIMEOUT</td>
+                    <td>
+                        300                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_ALI_SWIFT_UKEEPALIVE_TIMEOUT</td>
+                    <td>
+                        300                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_ALI_SWIFT_UREQUEST_TIMEOUT</td>
+                    <td>
+                        300                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_ALI_CDN_APPVIEW_NAME</td>
+                    <td>
+                        cdn-tengine                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_REFERER</td>
+                    <td>
+                        https://www.compasshop.vip/download/static/js/layui/font/iconfont.svg?v=250                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_USER_AGENT</td>
+                    <td>
+                        Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.2; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_ACCEPT</td>
+                    <td>
+                        */*                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_X_CLIENT_SCHEME</td>
+                    <td>
+                        https                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_X_FORWARDED_FOR</td>
+                    <td>
+                        120.239.137.240                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_ALI_SWIFT_STAT_HOST</td>
+                    <td>
+                        www.compasshop.vip                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_ALI_SWIFT_LOG_HOST</td>
+                    <td>
+                        www.compasshop.vip                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_ALI_CDN_REAL_IP</td>
+                    <td>
+                        120.239.137.240                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_ALI_CDN_REAL_PORT</td>
+                    <td>
+                        9872                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_EAGLEEYE_TRACEID</td>
+                    <td>
+                        2ff6019e16178134042573449e                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_VIA</td>
+                    <td>
+                        sg4.l1, l2hk71.l2                    </td>
+                </tr>
+                                <tr>
+                    <td>HTTP_HOST</td>
+                    <td>
+                        www.compasshop.vip                    </td>
+                </tr>
+                                <tr>
+                    <td>PATH_INFO</td>
+                    <td>
+                                            </td>
+                </tr>
+                                <tr>
+                    <td>REDIRECT_STATUS</td>
+                    <td>
+                        200                    </td>
+                </tr>
+                                <tr>
+                    <td>SERVER_NAME</td>
+                    <td>
+                        www.compasshop.vip                    </td>
+                </tr>
+                                <tr>
+                    <td>SERVER_PORT</td>
+                    <td>
+                        80                    </td>
+                </tr>
+                                <tr>
+                    <td>SERVER_ADDR</td>
+                    <td>
+                        172.31.242.138                    </td>
+                </tr>
+                                <tr>
+                    <td>REMOTE_PORT</td>
+                    <td>
+                        33084                    </td>
+                </tr>
+                                <tr>
+                    <td>REMOTE_ADDR</td>
+                    <td>
+                        47.244.73.54                    </td>
+                </tr>
+                                <tr>
+                    <td>SERVER_SOFTWARE</td>
+                    <td>
+                        nginx/1.19.6                    </td>
+                </tr>
+                                <tr>
+                    <td>GATEWAY_INTERFACE</td>
+                    <td>
+                        CGI/1.1                    </td>
+                </tr>
+                                <tr>
+                    <td>REQUEST_SCHEME</td>
+                    <td>
+                        http                    </td>
+                </tr>
+                                <tr>
+                    <td>SERVER_PROTOCOL</td>
+                    <td>
+                        HTTP/1.1                    </td>
+                </tr>
+                                <tr>
+                    <td>DOCUMENT_ROOT</td>
+                    <td>
+                        /www/wwwroot/www.wwtshop.cc/public                    </td>
+                </tr>
+                                <tr>
+                    <td>DOCUMENT_URI</td>
+                    <td>
+                        /index.php                    </td>
+                </tr>
+                                <tr>
+                    <td>REQUEST_URI</td>
+                    <td>
+                        /download/static/js/layui/css/M466.496-126.62400000000002l-1.056%200.064c-25.184%202.08-47.456%2022.368-51.744%2047.232l-17.344%20102.4c-0.672%204.064-6.624%2011.04-10.56%2012.416l-30.336%2012.416c-5.44%202.496-15.424%200.8-17.472-0.64l-84.992-60.16c-19.584-14.016-51.456-12.736-70.08%203.168l-64.288%2064c-17.952%2020.48-19.488%2050.592-4.736%2071.296l60.416%2084.672c2.176%203.072%202.784%2011.52%201.024%2015.04l0%200c0%200-1.664%203.104-7.264%2016.608-6.176%2014.848-6.816%2017.44-6.816%2017.44-0.992%203.04-7.456%208.672-11.36%209.376l-102.56%2017.248c-25.152%204.288-45.44%2026.624-47.168%2052L0%20428.288c2.112%2027.36%2022.496%2049.6%2047.52%2053.728l102.528%2017.344c4.128%200.672%2011.008%206.56%2012.416%2010.496l12.608%2030.336c2.368%204.992%201.6%2014.112-0.8%2017.504L113.984%20642.24C99.36%20662.88%20100.704%20692.896%20117.056%20712.192l64.416%2064.224c20.672%2018.208%2051.296%2018.784%2071.36%204.64l84.992-60.16c1.952-1.376%2013.28-2.016%2015.04-1.056%200.384%200.192%202.528%201.344%2016.704%207.168%2014.24%205.92%2016.576%206.592%2016.576%206.592%203.84%201.184%209.504%207.648%2010.144%2011.424l17.44%20102.4c4.32%2025.152%2026.752%2045.376%2052.128%2047.104l90.528%200.064c27.328-2.112%2049.632-22.368%2053.952-47.232l17.344-102.432c0.672-4.064%206.656-11.04%2010.624-12.48l30.304-12.352c6.24-2.784%2015.456-0.8%2017.44%200.608l85.024%2060.16c19.52%2014.016%2051.392%2012.704%2070.08-3.136l64.288-64.032c17.952-20.48%2019.456-50.56%204.736-71.264l-60.416-84.672c-2.208-3.136-2.848-11.616-1.056-15.04%200.16-0.352%201.376-2.56%207.232-16.672%205.856-14.112%206.592-16.512%206.592-16.512%201.248-4.032%207.712-9.6%2011.648-10.304l102.56-17.248c25.152-4.224%2045.44-26.592%2047.168-52l0.096-90.304c-2.112-27.392-22.528-49.6-47.552-53.728l-102.528-17.376c-4.128-0.672-10.944-6.496-12.32-10.432l-12.736-30.432c-2.336-4.928-1.568-14.112%200.832-17.472l60.288-84.512c14.624-20.736%2013.216-50.816-3.232-70.048l-64.192-64.096c-11.328-9.92-24.64-14.72-38.784-14.72l0%200c-11.904%200-23.52%203.552-32.704%2010.016l-84.992%2060.16c-1.952%201.408-13.312%202.016-15.072%201.056-0.288-0.16-2.432-1.312-16.608-7.2-14.08-5.792-16.384-6.496-16.384-6.496-4.16-1.28-9.792-7.776-10.432-11.52l-17.408-102.4c-4.352-25.152-26.72-45.344-52.032-47.104L466.496-126.62400000000002zM347.84%20100.60799999999995c10.368%200%2020.192-2.112%2028.48-6.112l27.648-11.296c20.416-7.072%2038.976-28.992%2042.848-51.584l17.344-102.336c0.288-1.6%203.136-4.32%205.056-4.832l87.296%200.064c-0.032%200.064%203.04%202.944%203.328%204.672l17.408%20102.368c3.872%2022.656%2023.328%2044.832%2045.28%2051.584%200%200%200%200%200%200-0.096%200%202.976%201.152%2012.448%205.056%209.472%203.936%2012.384%205.248%2013.12%205.568%2018.208%209.6%2049.44%208.032%2067.776-4.96l84.928-60.16c0.192-0.128%201.312-0.64%203.104-0.64l0%200c2.048%200%203.52%200.672%203.872%200.96l61.536%2061.408%200%200c-0.16%200%200.064%204.416-0.992%205.952l-60.224%2084.448c-13.248%2018.624-15.68%2047.168-5.792%2067.872l11.648%2027.84c6.944%2019.968%2029.408%2038.912%2051.68%2042.496l102.464%2017.376c1.824%200.384%204.736%203.648%204.864%205.408L972.8%20428.288l0%200c-0.096%200-2.88%203.072-4.576%203.424l-102.72%2017.28c-23.168%204.032-44.896%2022.976-51.776%2045.056l0%200c-0.032%200-1.216%203.04-5.12%2012.512-3.968%209.568-5.28%2012.512-5.632%2013.248-10.24%2019.36-8.288%2048.736%204.96%2067.456L868.448%20672c0.96%201.408%200.736%205.6-0.384%206.912l-61.408%2061.184c0.704-0.8-0.768-0.192-2.848-0.192-1.728%200-2.784-0.416-3.008-0.576l-85.024-60.16c-17.824-12.8-47.776-15.36-68-5.664l-27.712%2011.296c-20.512%207.2-39.04%2029.088-42.88%2051.584l-17.344%20102.336c-0.288%201.76-3.616%204.704-5.504%204.864L467.616%20843.52c0-0.064-3.104-2.944-3.392-4.672l-17.408-102.336c-3.84-22.624-23.264-44.8-45.216-51.584%200-0.032-3.008-1.184-12.416-5.088-9.568-3.936-12.512-5.248-13.248-5.568-17.984-9.568-49.344-8.032-67.744%204.992L223.264%20739.36c-0.416%200.32-6.176%200.288-6.848-0.224L154.688%20677.6320000000001c0%200%200%200%200%200%200.224%200%200.032-4.384%201.056-5.856L216%20587.264c13.312-18.752%2015.744-47.296%205.76-67.968l-11.52-27.648c-6.976-20.032-29.472-38.944-51.776-42.624L55.968%20431.68c-1.824-0.384-4.704-3.648-4.832-5.408l0.096-86.56%200%200c0.096%200%202.912-3.104%204.608-3.424l102.656-17.28c23.04-4%2044.704-22.912%2051.712-44.928%200.256-0.736%201.44-3.84%205.088-12.64%203.68-8.832%205.024-11.84%205.472-12.736%2010.592-20.288%208.672-48.96-4.672-67.904l-60.512-84.768c-0.96-1.408-0.736-5.632%200.384-6.912l61.408-61.184c-0.736%200.8%200.736%200.224%202.816%200.192%201.728%200%202.784%200.416%203.008%200.576l84.992%2060.16C318.624%2096.32000000000005%20333.088%20100.60799999999995%20347.84%20100.60799999999995zM512.032%20133.856c-138.336%200-250.848%20112.224-250.848%20250.176%200%20137.92%20112.544%20250.144%20250.848%20250.144s250.848-112.224%20250.848-250.144C762.88%20246.08000000000004%20650.336%20133.856%20512.032%20133.856zM512.032%20583.136c-110.08%200-199.648-89.312-199.648-199.104s89.568-199.136%20199.648-199.136%20199.648%2089.344%20199.648%20199.136S622.112%20583.136%20512.032%20583.136z                    </td>
+                </tr>
+                                <tr>
+                    <td>SCRIPT_NAME</td>
+                    <td>
+                        /index.php                    </td>
+                </tr>
+                                <tr>
+                    <td>CONTENT_LENGTH</td>
+                    <td>
+                                            </td>
+                </tr>
+                                <tr>
+                    <td>CONTENT_TYPE</td>
+                    <td>
+                                            </td>
+                </tr>
+                                <tr>
+                    <td>REQUEST_METHOD</td>
+                    <td>
+                        GET                    </td>
+                </tr>
+                                <tr>
+                    <td>QUERY_STRING</td>
+                    <td>
+                        s=/download/static/js/layui/css/M466.496-126.62400000000002l-1.056%200.064c-25.184%202.08-47.456%2022.368-51.744%2047.232l-17.344%20102.4c-0.672%204.064-6.624%2011.04-10.56%2012.416l-30.336%2012.416c-5.44%202.496-15.424%200.8-17.472-0.64l-84.992-60.16c-19.584-14.016-51.456-12.736-70.08%203.168l-64.288%2064c-17.952%2020.48-19.488%2050.592-4.736%2071.296l60.416%2084.672c2.176%203.072%202.784%2011.52%201.024%2015.04l0%200c0%200-1.664%203.104-7.264%2016.608-6.176%2014.848-6.816%2017.44-6.816%2017.44-0.992%203.04-7.456%208.672-11.36%209.376l-102.56%2017.248c-25.152%204.288-45.44%2026.624-47.168%2052L0%20428.288c2.112%2027.36%2022.496%2049.6%2047.52%2053.728l102.528%2017.344c4.128%200.672%2011.008%206.56%2012.416%2010.496l12.608%2030.336c2.368%204.992%201.6%2014.112-0.8%2017.504L113.984%20642.24C99.36%20662.88%20100.704%20692.896%20117.056%20712.192l64.416%2064.224c20.672%2018.208%2051.296%2018.784%2071.36%204.64l84.992-60.16c1.952-1.376%2013.28-2.016%2015.04-1.056%200.384%200.192%202.528%201.344%2016.704%207.168%2014.24%205.92%2016.576%206.592%2016.576%206.592%203.84%201.184%209.504%207.648%2010.144%2011.424l17.44%20102.4c4.32%2025.152%2026.752%2045.376%2052.128%2047.104l90.528%200.064c27.328-2.112%2049.632-22.368%2053.952-47.232l17.344-102.432c0.672-4.064%206.656-11.04%2010.624-12.48l30.304-12.352c6.24-2.784%2015.456-0.8%2017.44%200.608l85.024%2060.16c19.52%2014.016%2051.392%2012.704%2070.08-3.136l64.288-64.032c17.952-20.48%2019.456-50.56%204.736-71.264l-60.416-84.672c-2.208-3.136-2.848-11.616-1.056-15.04%200.16-0.352%201.376-2.56%207.232-16.672%205.856-14.112%206.592-16.512%206.592-16.512%201.248-4.032%207.712-9.6%2011.648-10.304l102.56-17.248c25.152-4.224%2045.44-26.592%2047.168-52l0.096-90.304c-2.112-27.392-22.528-49.6-47.552-53.728l-102.528-17.376c-4.128-0.672-10.944-6.496-12.32-10.432l-12.736-30.432c-2.336-4.928-1.568-14.112%200.832-17.472l60.288-84.512c14.624-20.736%2013.216-50.816-3.232-70.048l-64.192-64.096c-11.328-9.92-24.64-14.72-38.784-14.72l0%200c-11.904%200-23.52%203.552-32.704%2010.016l-84.992%2060.16c-1.952%201.408-13.312%202.016-15.072%201.056-0.288-0.16-2.432-1.312-16.608-7.2-14.08-5.792-16.384-6.496-16.384-6.496-4.16-1.28-9.792-7.776-10.432-11.52l-17.408-102.4c-4.352-25.152-26.72-45.344-52.032-47.104L466.496-126.62400000000002zM347.84%20100.60799999999995c10.368%200%2020.192-2.112%2028.48-6.112l27.648-11.296c20.416-7.072%2038.976-28.992%2042.848-51.584l17.344-102.336c0.288-1.6%203.136-4.32%205.056-4.832l87.296%200.064c-0.032%200.064%203.04%202.944%203.328%204.672l17.408%20102.368c3.872%2022.656%2023.328%2044.832%2045.28%2051.584%200%200%200%200%200%200-0.096%200%202.976%201.152%2012.448%205.056%209.472%203.936%2012.384%205.248%2013.12%205.568%2018.208%209.6%2049.44%208.032%2067.776-4.96l84.928-60.16c0.192-0.128%201.312-0.64%203.104-0.64l0%200c2.048%200%203.52%200.672%203.872%200.96l61.536%2061.408%200%200c-0.16%200%200.064%204.416-0.992%205.952l-60.224%2084.448c-13.248%2018.624-15.68%2047.168-5.792%2067.872l11.648%2027.84c6.944%2019.968%2029.408%2038.912%2051.68%2042.496l102.464%2017.376c1.824%200.384%204.736%203.648%204.864%205.408L972.8%20428.288l0%200c-0.096%200-2.88%203.072-4.576%203.424l-102.72%2017.28c-23.168%204.032-44.896%2022.976-51.776%2045.056l0%200c-0.032%200-1.216%203.04-5.12%2012.512-3.968%209.568-5.28%2012.512-5.632%2013.248-10.24%2019.36-8.288%2048.736%204.96%2067.456L868.448%20672c0.96%201.408%200.736%205.6-0.384%206.912l-61.408%2061.184c0.704-0.8-0.768-0.192-2.848-0.192-1.728%200-2.784-0.416-3.008-0.576l-85.024-60.16c-17.824-12.8-47.776-15.36-68-5.664l-27.712%2011.296c-20.512%207.2-39.04%2029.088-42.88%2051.584l-17.344%20102.336c-0.288%201.76-3.616%204.704-5.504%204.864L467.616%20843.52c0-0.064-3.104-2.944-3.392-4.672l-17.408-102.336c-3.84-22.624-23.264-44.8-45.216-51.584%200-0.032-3.008-1.184-12.416-5.088-9.568-3.936-12.512-5.248-13.248-5.568-17.984-9.568-49.344-8.032-67.744%204.992L223.264%20739.36c-0.416%200.32-6.176%200.288-6.848-0.224L154.688%20677.6320000000001c0%200%200%200%200%200%200.224%200%200.032-4.384%201.056-5.856L216%20587.264c13.312-18.752%2015.744-47.296%205.76-67.968l-11.52-27.648c-6.976-20.032-29.472-38.944-51.776-42.624L55.968%20431.68c-1.824-0.384-4.704-3.648-4.832-5.408l0.096-86.56%200%200c0.096%200%202.912-3.104%204.608-3.424l102.656-17.28c23.04-4%2044.704-22.912%2051.712-44.928%200.256-0.736%201.44-3.84%205.088-12.64%203.68-8.832%205.024-11.84%205.472-12.736%2010.592-20.288%208.672-48.96-4.672-67.904l-60.512-84.768c-0.96-1.408-0.736-5.632%200.384-6.912l61.408-61.184c-0.736%200.8%200.736%200.224%202.816%200.192%201.728%200%202.784%200.416%203.008%200.576l84.992%2060.16C318.624%2096.32000000000005%20333.088%20100.60799999999995%20347.84%20100.60799999999995zM512.032%20133.856c-138.336%200-250.848%20112.224-250.848%20250.176%200%20137.92%20112.544%20250.144%20250.848%20250.144s250.848-112.224%20250.848-250.144C762.88%20246.08000000000004%20650.336%20133.856%20512.032%20133.856zM512.032%20583.136c-110.08%200-199.648-89.312-199.648-199.104s89.568-199.136%20199.648-199.136%20199.648%2089.344%20199.648%20199.136S622.112%20583.136%20512.032%20583.136z                    </td>
+                </tr>
+                                <tr>
+                    <td>SCRIPT_FILENAME</td>
+                    <td>
+                        /www/wwwroot/www.wwtshop.cc/public/index.php                    </td>
+                </tr>
+                                <tr>
+                    <td>FCGI_ROLE</td>
+                    <td>
+                        RESPONDER                    </td>
+                </tr>
+                                <tr>
+                    <td>PHP_SELF</td>
+                    <td>
+                        /index.php                    </td>
+                </tr>
+                                <tr>
+                    <td>REQUEST_TIME_FLOAT</td>
+                    <td>
+                        1617813404.3131                    </td>
+                </tr>
+                                <tr>
+                    <td>REQUEST_TIME</td>
+                    <td>
+                        1617813404                    </td>
+                </tr>
+                            </tbody>
+                    </table>
+                <table>
+                        <caption>Environment Variables<small>empty</small></caption>
+                    </table>
+                <table>
+                        <caption>ThinkPHP Constants</caption>
+            <tbody>
+                                <tr>
+                    <td>SITE_URL</td>
+                    <td>
+                        http://www.compasshop.vip                    </td>
+                </tr>
+                                <tr>
+                    <td>APP_PATH</td>
+                    <td>
+                        /www/wwwroot/www.wwtshop.cc/public/../application/                    </td>
+                </tr>
+                                <tr>
+                    <td>BIND_MODULE</td>
+                    <td>
+                        index                    </td>
+                </tr>
+                                <tr>
+                    <td>PHPEXCEL_ROOT</td>
+                    <td>
+                        /www/wwwroot/www.wwtshop.cc/public/../extend/PHPExcel/                    </td>
+                </tr>
+                                <tr>
+                    <td>QINIU_FUNCTIONS_VERSION</td>
+                    <td>
+                        7.2.9                    </td>
+                </tr>
+                            </tbody>
+                    </table>
+            </div>
+    
+    <div class="copyright">
+        <a title="官方网站" href="../../../../../../www.thinkphp.cn/default.htm">ThinkPHP</a> 
+        <span>V5.1.38 LTS</span> 
+        <span>{ 十年磨一剑-为API开发设计的高性能框架 }</span>
+    </div>
+        <script>
+        var LINE = 62;
+
+        function $(selector, node){
+            var elements;
+
+            node = node || document;
+            if(document.querySelectorAll){
+                elements = node.querySelectorAll(selector);
+            } else {
+                switch(selector.substr(0, 1)){
+                    case '#':
+                        elements = [node.getElementById(selector.substr(1))];
+                        break;
+                    case '.':
+                        if(document.getElementsByClassName){
+                            elements = node.getElementsByClassName(selector.substr(1));
+                        } else {
+                            elements = get_elements_by_class(selector.substr(1), node);
+                        }
+                        break;
+                    default:
+                        elements = node.getElementsByTagName();
+                }
+            }
+            return elements;
+
+            function get_elements_by_class(search_class, node, tag) {
+                var elements = [], eles, 
+                    pattern  = new RegExp('(^|\\s)' + search_class + '(\\s|$)');
+
+                node = node || document;
+                tag  = tag  || '*';
+
+                eles = node.getElementsByTagName(tag);
+                for(var i = 0; i < eles.length; i++) {
+                    if(pattern.test(eles[i].className)) {
+                        elements.push(eles[i])
+                    }
+                }
+
+                return elements;
+            }
+        }
+
+        $.getScript = function(src, func){
+            var script = document.createElement('script');
+            
+            script.async  = 'async';
+            script.src    = src;
+            script.onload = func || function(){};
+            
+            $('head')[0].appendChild(script);
+        }
+
+        ;(function(){
+            var files = $('.toggle');
+            var ol    = $('ol', $('.prettyprint')[0]);
+            var li    = $('li', ol[0]);   
+
+            // 短路径和长路径变换
+            for(var i = 0; i < files.length; i++){
+                files[i].ondblclick = function(){
+                    var title = this.title;
+
+                    this.title = this.innerHTML;
+                    this.innerHTML = title;
+                }
+            }
+
+            // 设置出错行
+            var err_line = $('.line-' + LINE, ol[0])[0];
+            err_line.className = err_line.className + ' line-error';
+
+            $.getScript('../../../../../../https@cdn.bootcss.com\prettify\r298\prettify.min.js', function(){
+                prettyPrint();
+
+                // 解决Firefox浏览器一个很诡异的问题
+                // 当代码高亮后，ol的行号莫名其妙的错位
+                // 但是只要刷新li里面的html重新渲染就没有问题了
+                if(window.navigator.userAgent.indexOf('Firefox') >= 0){
+                    ol[0].innerHTML = ol[0].innerHTML;
+                }
+            });
+
+        })();
+    </script>
+    </body>
+</html>

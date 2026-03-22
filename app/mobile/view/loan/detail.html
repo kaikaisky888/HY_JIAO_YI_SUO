@@ -1,0 +1,252 @@
+<div class="a-header position-re layui-rows loan-dark-header">
+    <div class="layui-col-xs4">
+        <a href="javascript:window.history.go(-1);" class="loan-dark-nav-btn"><i class="layui-icon layui-icon-left"></i></a>
+    </div>
+    <div class="layui-col-xs4 text-center loan-dark-header-title">
+        {:lang('loan.detail_title')}
+    </div>
+    <div class="layui-col-xs4 text-right">
+        <a href="{:url('/mobile')}" class="loan-dark-nav-btn"><i class="layui-icon layui-icon-home"></i></a>
+    </div>
+</div>
+
+<div class="loan-dark-page">
+    <div class="loan-dark-content">
+
+        <div class="loan-detail-hero-dark">
+            <div class="loan-detail-hero-top-dark">
+                <div>
+                    <div class="loan-detail-name-dark">{$row.loan_name}</div>
+                    <div class="loan-detail-sub-dark">{:lang('loan.order_no')} #{$row.id}</div>
+                </div>
+                <div class="loan-detail-status-dark">{$row.status_text}</div>
+            </div>
+            <div class="loan-detail-money-dark">
+                <div class="loan-detail-money-label-dark">{:lang('loan.total_repayment')}</div>
+                <div class="loan-detail-money-value-dark">{$row.total_repayment}</div>
+            </div>
+        </div>
+
+        <div class="loan-white-card">
+            <div class="loan-section-title-dark">{:lang('loan.loan_info')}</div>
+            <div class="loan-info-line"><span>{:lang('loan.apply_amount')}</span><span>{$row.amount}</span></div>
+            <div class="loan-info-line"><span>{:lang('loan.annual_interest_rate')}</span><span>{$row.interest_rate}%</span></div>
+            <div class="loan-info-line"><span>{:lang('loan.repayment_period')}</span><span>{$row.repayment_period}{:lang('loan.days_unit')}</span></div>
+            <div class="loan-info-line"><span>{:lang('loan.total_interest')}</span><span>{$row.total_interest}</span></div>
+            <div class="loan-info-line"><span>{:lang('loan.total_repayment')}</span><span style="color:#ff9800;font-weight:700;">{$row.total_repayment}</span></div>
+        </div>
+
+        <div class="loan-white-card">
+            <div class="loan-section-title-dark">{:lang('loan.applicant_info')}</div>
+            <div class="loan-info-line"><span>{:lang('loan.real_name')}</span><span>{$row.real_name}</span></div>
+            <div class="loan-info-line"><span>{:lang('loan.id_number')}</span><span>{$row.id_number}</span></div>
+            <div class="loan-info-line"><span>{:lang('loan.phone')}</span><span>{$row.phone}</span></div>
+        </div>
+
+        <div class="loan-white-card">
+            <div class="loan-section-title-dark">{:lang('loan.time_info')}</div>
+            <div class="loan-info-line"><span>{:lang('loan.apply_time')}</span><span>{if $row.create_time}{$row.create_time|date='Y-m-d H:i:s'}{/if}</span></div>
+            <div class="loan-info-line"><span>{:lang('loan.review_time')}</span><span>{if $row.review_time}{$row.review_time|date='Y-m-d H:i:s'}{/if}</span></div>
+            <div class="loan-info-line"><span>{:lang('loan.loan_time')}</span><span>{if $row.loan_time}{$row.loan_time|date='Y-m-d H:i:s'}{/if}</span></div>
+            <div class="loan-info-line"><span>{:lang('loan.due_time')}</span><span>{if $row.due_time}{$row.due_time|date='Y-m-d H:i:s'}{/if}</span></div>
+            <div class="loan-info-line"><span>{:lang('loan.repayment_time')}</span><span>{if $row.repayment_time}{$row.repayment_time|date='Y-m-d H:i:s'}{/if}</span></div>
+        </div>
+
+        <div class="loan-white-card">
+            <div class="loan-section-title-dark">{:lang('loan.id_card_photos')}</div>
+            <div class="loan-upload-grid-dark">
+                <div class="loan-upload-box-dark">
+                    <img src="{if $row.id_card_front}{$row.id_card_front}{else}__STATIC__/index/img/sf_zm.png{/if}" alt="{:lang('loan.id_card_front')}">
+                    <div class="loan-upload-text-dark">{:lang('loan.id_card_front')}</div>
+                </div>
+                <div class="loan-upload-box-dark">
+                    <img src="{if $row.id_card_back}{$row.id_card_back}{else}__STATIC__/index/img/sf_fm.png{/if}" alt="{:lang('loan.id_card_back')}">
+                    <div class="loan-upload-text-dark">{:lang('loan.id_card_back')}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loan-white-card">
+            <div class="loan-detail-btn-wrap-dark">
+                {if $row.status == 0}
+                <button type="button" class="loan-action-btn-dark red" id="btnCancelLoan" data-id="{$row.id}">{:lang('loan.cancel_apply')}</button>
+                {/if}
+
+                {if $row.status == 1 || $row.status == 5}
+                <button type="button" class="loan-action-btn-dark gold" id="btnRepayLoan" data-id="{$row.id}">{:lang('loan.contact_kf_repay')}</button>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .loan-dark-page{
+        min-height:100vh;
+        background:#242424;
+        padding-bottom:20px;
+    }
+    .loan-dark-header{
+        background:#242424;
+        border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .loan-dark-nav-btn{
+        display:inline-block;
+        padding:10px 14px;
+        color:#f5f5f5 !important;
+        font-size:18px;
+    }
+    .loan-dark-header-title{
+        font-size:16px;
+        font-weight:600;
+        color:#f5f5f5;
+        line-height:42px;
+    }
+    .loan-dark-content{
+        padding:12px;
+    }
+    .loan-detail-hero-dark{
+        background:linear-gradient(135deg,#303030 0%,#3a3a3a 100%);
+        border-radius:16px;
+        padding:18px 16px;
+        margin-bottom:14px;
+        box-shadow:0 8px 20px rgba(0,0,0,.25);
+    }
+    .loan-detail-hero-top-dark{
+        display:flex;
+        justify-content:space-between;
+        gap:12px;
+    }
+    .loan-detail-name-dark{
+        font-size:18px;
+        color:#fff7e5;
+        font-weight:700;
+        line-height:1.4;
+    }
+    .loan-detail-sub-dark{
+        margin-top:4px;
+        font-size:12px;
+        color:rgba(255,255,255,.68);
+    }
+    .loan-detail-status-dark{
+        padding:5px 10px;
+        border-radius:999px;
+        background:rgba(255,255,255,.12);
+        color:#fff7e5;
+        font-size:12px;
+        align-self:flex-start;
+    }
+    .loan-detail-money-dark{
+        margin-top:18px;
+    }
+    .loan-detail-money-label-dark{
+        font-size:12px;
+        color:rgba(255,255,255,.68);
+    }
+    .loan-detail-money-value-dark{
+        margin-top:6px;
+        font-size:26px;
+        color:#ffd37a;
+        font-weight:700;
+    }
+    .loan-white-card{
+        background:#fff;
+        border-radius:16px;
+        padding:16px;
+        margin-bottom:14px;
+        box-shadow:0 4px 16px rgba(0,0,0,.14);
+    }
+    .loan-section-title-dark{
+        font-size:16px;
+        color:#222;
+        font-weight:700;
+        margin-bottom:14px;
+    }
+    .loan-info-line{
+        display:flex;
+        justify-content:space-between;
+        gap:12px;
+        line-height:1.9;
+        padding:8px 0;
+        border-bottom:1px solid #f1f1f1;
+        font-size:13px;
+    }
+    .loan-info-line:last-child{border-bottom:none;}
+    .loan-info-line span:first-child{color:#888;}
+    .loan-info-line span:last-child{
+        color:#222;
+        font-weight:600;
+        text-align:right;
+        word-break:break-all;
+    }
+    .loan-upload-grid-dark{
+        display:flex;
+        gap:12px;
+    }
+    .loan-upload-box-dark{
+        flex:1;
+        background:#fafafa;
+        border:1px solid #ededed;
+        border-radius:14px;
+        padding:10px;
+        text-align:center;
+    }
+    .loan-upload-box-dark img{
+        width:100%;
+        height:120px;
+        object-fit:cover;
+        border-radius:10px;
+        background:#f2f2f2;
+    }
+    .loan-upload-text-dark{
+        margin-top:8px;
+        font-size:12px;
+        color:#666;
+    }
+    .loan-detail-btn-wrap-dark{
+        display:flex;
+        gap:12px;
+    }
+    .loan-action-btn-dark{
+        flex:1;
+        height:44px;
+        border:none;
+        border-radius:999px;
+        font-size:14px;
+        font-weight:700;
+    }
+    .loan-action-btn-dark.red{
+        background:#ff6b6b;
+        color:#fff;
+    }
+    .loan-action-btn-dark.gold{
+        background:#ffd37a;
+        color:#2b2b2b;
+    }
+</style>
+
+<script>
+    $(function() {
+        $('#btnCancelLoan').on('click', function() {
+            var id = $(this).attr('data-id');
+            layer.confirm("{:lang('loan.confirm_cancel')}", function(index) {
+                $.post("{:url('loan/cancelApply')}", {id: id}, function(res) {
+                    layer.msg(res.msg);
+                    if (res.code == 1) {
+                        setTimeout(function() {
+                            window.location.href = "{:url('loan/mylist')}";
+                        }, 1000);
+                    }
+                });
+                layer.close(index);
+            });
+        });
+
+        $('#btnRepayLoan').on('click', function() {
+            var kefuUrl = "{:sysconfig('base','site_kefu')}";
+            window.location.href = kefuUrl;
+        });
+    });
+</script>
+
+{include file="./block/foot_script"}

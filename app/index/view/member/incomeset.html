@@ -1,0 +1,92 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-11 22:08:23
+ * @LastEditTime: 2021-08-21 18:52:56
+ * @Description: Forward, no stop
+-->
+<div class="header">
+    {include file="./block/block_head"}
+</div>
+<div class="new-bg">
+	<!--主体-->
+	<div class="main">
+		<div class="layui-container">
+			<div class="layui-row layui-col-space30 white-box">
+				<div class="layui-col-xs3">
+					{include file="./block/member_left"}
+				</div>
+				<div class="layui-col-xs9">
+					<div class="set-form">
+						<form class="layui-form" action="">
+							{volist name="wlist" id="vo"}
+							<div class="layui-form-item">
+								<label class="layui-form-label" style="width: 190px;">{$vo.title}{:lang('incomeset.set_title')}：</label>
+								<div class="layui-input-block" style="margin-left:220px;">
+								<input type="text" name="withdraw[{$vo.type}]" lay-verify="required" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),$vo.title)}{:lang('incomeset.set_title')}" placeholder="{:fox_all_replace(lang('wicket_page.please_input'),$vo.title)}{:lang('incomeset.set_title')}" autocomplete="off" class="layui-input" value="{$vo.withdraw_address}">
+								</div>
+							</div>
+							{/volist}
+							<div class="layui-form-item">
+								<label class="layui-form-label" style="width: 190px;">{:lang('incomeset.paypwd')}：</label>
+								<div class="layui-input-block" style="margin-left:220px;">
+								<input type="password" name="paypwd" lay-verify="required" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('incomeset.paypwd'))}" placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('incomeset.paypwd'))}" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"></label>
+								<div class="layui-input-block">
+									{if $member['withdraw_time']}
+									<p class="color-blue">{:fox_all_replace(lang('incomeset.set_time_at'),date('Y-m-d H:i:s',$member['withdraw_time']))}</p>
+									{/if}
+									<p>{:fox_all_replace(lang('incomeset.set_time'),sysconfig('base','withdraw_time'))}</p>
+								</div>
+							</div>
+							<div class="layui-form-item set-btn">
+								 <button class="layui-btn layui-btn-normal layui-btn-lg" lay-submit lay-filter="setWithdraw">{:lang('incomeset.set_btn')}</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/block_bottom"}
+{include file="./block/foot_script"}
+<script>
+	layui.use(['layer', 'jquery', 'form'], function(){
+		var layer = layui.layer
+		,$ = layui.jquery
+		,form = layui.form;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		form.on('submit(setWithdraw)', function(data){
+			if(data.field.paypwd){
+				loading =layer.load(1, {shade: [0.1,'#fff']});
+				$.post("", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						}else{
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		})
+	})
+</script>

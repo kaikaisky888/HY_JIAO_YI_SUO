@@ -1,0 +1,182 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-08-05 14:49:53
+ * @LastEditTime: 2021-10-13 10:23:44
+ * @Description: Forward, no stop
+-->
+<div class="header">
+	{include file="./block/block_head"}
+</div>
+
+<div class="new-bg">
+	<div class="main">
+		<div class="layui-container">
+			<div class="white-box">
+				<div class="transfer-box">
+					<h5>
+						<span class="layui-inline">{:lang('winer.title')}</span>
+						<div class="layui-inline float-right">
+							<a href="{:url('show/news',['id'=>16])}" class="color-yellow mr-10">{:lang('winer.rules')}</a>
+							<a href="{:url('winer/lists')}" class="color-blue">{:lang('winer.lists')}</a>
+						</div>
+					</h5>
+					<hr >
+					<div class="set-form">
+						<form class="layui-form" action="" lay-filter="test2">
+						  <div class="layui-form-item">
+								<label class="layui-form-label">{:lang('winer.products')}</label>
+								<div class="layui-input-block">
+									<select id="winer_id" name="winer_id" lay-verify="required" lay-filter="winerSec">
+										{volist name="winers" id="vo"}
+										<option value="{$vo.id}">{$vo.coin}</option>
+										{/volist}
+									</select>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">{:lang('winer.times')}：</label>
+								<div class="layui-input-block">
+									<select name="time" id="time" lay-verify="required">
+										
+									</select>
+								</div>
+							</div>
+							<div class="layui-form-item">
+							  <label class="layui-form-label">{:lang('winer.nums')}：</label>
+							  <div class="layui-input-block">
+							    <input type="number" id="buy_account" name="buy_account" lay-verify="required|account" lay-verType="tips" placeholder="{:lang('public.please_input')}{:lang('winer.nums')}" autocomplete="off" class="layui-input">
+							  </div>
+							</div>
+							<div class="layui-form-item">
+							  <label class="layui-form-label">{:lang('winer.paypwd')}：</label>
+							  <div class="layui-input-block">
+							    <input type="password" name="paypwd" required  lay-verType="tips" lay-verify="required" placeholder="{:lang('public.please_input')}{:lang('winer.paypwd')}" autocomplete="off" class="layui-input">
+							  </div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">{:lang('winer.rates')}：</label>
+								<div class="layui-input-block"><span class="set-span" id="this_rate"></span><span class="span-margin">%</span></div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">{:lang('winer.rates_gs')}：</label>
+								<div class="layui-input-block"><span class="set-span" id="guess_rate"></span></div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">{:lang('winer.moneys')}：</label>
+								<div class="layui-input-block"><span class="set-span" id="user_wallet">{$user_wallet.ex_money}</span><span class="span-margin">{$user_wallet.title}</span></div>
+							</div>
+							<div class="layui-form-item set-btn">
+								 <button class="layui-btn layui-btn-normal layui-btn-lg" lay-submit lay-filter="buyForm">{:lang('winer.btn_sub')}</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/block_bottom"}
+{include file="./block/foot_script"}
+<script>
+	layui.use(['layer','element','jquery', 'form', 'flow'], function(){
+		var layer = layui.layer
+		,element = layui.element
+		,$ = layui.jquery
+		,form = layui.form
+		var flow = layui.flow;
+	
+		form.verify({
+			account: [
+				/^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/
+				,"{:lang('winer.check_buy_number')}"
+			] 
+		});
+	
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		form.on('select(winerSec)', function(data){
+			$("#buy_account").val('');
+			$("#guess_rate").html('');
+			findRate();
+		});
+
+		window.findRate = function(){
+			var winer_id = $("#winer_id").val();
+			if(!winer_id){
+				winer_id = "{$pro_id}";
+			}
+			if(winer_id){
+				$.post("{:url('winer/get_rate')}",{winer_id:winer_id},function(res){
+					if(res.code == 1){
+						var data =res.data
+						var html = '';
+						$("#this_rate").html(floatMul(data.rate,100));
+						$.each(data.play_time,function(i,item){
+                            html += '<option value="' + item +'">' + item + '</option>';
+                        });
+                        $('#time').html(html);
+						form.render('select', 'test2');
+					}
+				})
+			}
+		}
+
+		$("input[name='buy_account']").on("input", function () {
+			var num =$(this).val();
+			var winer_id = $("#winer_id").val();
+			var time = $("#time").val();
+			if(!winer_id){
+				winer_id = "{$pro_id}";
+			}
+			if(num && winer_id){
+				$.post("{:url('winer/get_num')}",{num:num,winer_id:winer_id,time:time},function(res){
+					if(res.code == 1){
+						var data =res.data
+						$("#guess_rate").html(data.guess_rate);
+					}
+				})
+			}
+		});
+
+		form.on('submit(buyForm)', function(data){
+			if(data.field.buy_account){
+				var winer_id = $("#winer_id").val();
+				if(!winer_id){
+					winer_id = "{$pro_id}";
+				}
+				data.field.winer_id = winer_id;
+				loading =layer.load(1, {shade: [0.1,'#fff']});
+				$.post("{:url('winer/orderdo')}", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function () {
+							if(res.url){
+								location.href = res.url;
+							}else{
+								window.location.reload();
+							}
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						}else{
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		});
+
+	})
+	window.onload=function(){
+		findRate();
+	}
+</script>

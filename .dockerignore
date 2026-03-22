@@ -1,0 +1,14 @@
+.git
+.gitignore
+.idea
+.vscode
+runtime/*
+!runtime/.gitkeep
+backup
+bak
+*.md
+docker-compose.yml
+Dockerfile
+*.log
+ssl
+node_modules

@@ -1,0 +1,549 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-22 14:17:12
+ * @LastEditTime: 2021-10-08 17:52:40
+ * @Description: Forward, no stop
+-->
+<div class="a-header position-re finance-bg">
+	<div class="layui-row">
+		<div class="layui-col-xs3">
+			<!--<a href="javascript:window.history.go(-1);"><i class="layui-icon layui-icon-left"></i></a>-->
+		</div>
+		<div class="layui-col-xs6 text-center all_finance_header">
+			{:lang('public_memu.finance')}
+		</div>
+	</div>
+</div>
+	<!--主体-->
+	<div class="main">
+		<div class="finance-box finance-bg padding-l-r">
+			<div class="finance-nav">
+				{include file="./finance/mobile_menu"}
+			</div>
+			<div class="mt-10 mt-10-all">
+				{:lang('finance.all_sum_usd')}：<span>$ {$all_sum_usd}</span>
+			</div>
+			<div class="mt-10">
+				<!--{:lang('tradelog.tab_list_a')}-->{:lang('finance.ex_title')}：<span>$ {$sum_usd}</span>
+			</div>
+			<div class="mt-10">
+			<span class="uid-label">	UID：</span> <span class="mt-10-uid">{$UID}</span>
+			</div>
+		</div>
+		<div class="layui-row mt-10 user-box-imgn">
+    <div class="layui-col-xs4 text-center">
+      <a class="link-b" href="{:url('dealings/recharge')}">
+		<i class="fa fa-download"></i>
+        <p>{:lang('mobile_home.user_recharge')}</p>
+      </a>
+    </div>
+    <div class="layui-col-xs4 text-center">
+      <a class="link-b" href="{:url('dealings/withdraw')}">
+		<i class="fa fa-upload"></i>
+        <p>{:lang('mobile_home.user_withdraw')}</p>
+      </a>
+    </div>
+    <div class="layui-col-xs4 text-center">
+      <a class="link-b" href="{:url('finance/transfer')}">
+		<i class="fa fa-exchange"></i>
+        <p>{:lang('mobile_finance.tf_title')}</p>    
+      </a>
+    </div>
+  </div>
+		<div class="assets-bottom">
+			<table class="layui-table" lay-skin="nob">
+				<tbody>
+					{volist name="walletlist" id="vo"}
+					<tr id="list_{$vo.title|strtolower}">
+					<td><span class="color-blue font-18">{$vo.title}</span>
+						<p class="color-l-blue mt-10">{:lang('finance.top_can')}</p>
+						<p class="mt-10">{$vo.ex_money}</p>
+					</td>
+					<td><span>&nbsp;</span>
+						<p class="color-l-blue mt-10">{:lang('finance.top_lock')}</p>
+						<p class="mt-10">{$vo.lock_ex_money}</p>
+					</td>
+					<td class="text-right">
+						<a href="javascript:void(0);" onclick='show_memu(this,"{$vo.title|strtolower}");' class="color-l-blue" title="Menu"><i class="layui-box layui-icon layui-icon-right"></i></a>
+						<p class="color-l-blue mt-10">{:lang('finance.top_usd')}</p>
+						<p class="mt-10">{$vo.ex_usd}</p>
+					</td>
+					</tr>
+					<tr class='memu_{$vo.title|strtolower} hidebox memu_box'>
+						<td colspan="3" class="text-center">
+							<!-- <a href="javascript:void(0) ;" onclick='recharge_show("{$vo.title|strtolower}","rechage","{$vo.id}");' class="layui-btn layui-btn-normal">{:lang('finance.right_recharge')}</a>
+							<a href="javascript:void(0) ;" onclick='recharge_show("{$vo.title|strtolower}","withdraw","{$vo.id}");' class="layui-btn layui-btn-normal">{:lang('finance.right_withdraw')}</a> -->
+							<a href="javascript:void(0) ;" onclick='recharge_show("{$vo.title|strtolower}","log","{$vo.id}");' class="layui-btn layui-btn-normal">{:lang('finance.right_log')}</a>
+							<a href="{:url('finance/transfer',['type'=>1])}" class="layui-btn layui-btn-normal">{:lang('finance.right_transfer')}</a>
+						</td>
+					</tr>
+					<tr class='{$vo.title|strtolower} hidebox'>
+						<td colspan="3">
+							<div class="rechage hidebox">
+								{if $vo.base == 0}
+								{if !empty($vo.pay_address)}
+								<form class="layui-form a-form" action="">
+									<input type="hidden" name="wallet_id" value="{$vo.id}">
+									<input type="hidden" name="product_id" value="{$vo.product_id}">
+									<div class="layui-form-item">
+										<button type="button" onclick='copy("{$vo.pay_address}");' class="layui-btn layui-btn-xs layui-btn-normal float-right">{:lang('public.copy')}</button>
+										<label class="a-label">{$vo.title}{:lang('finance.recharge_address')}</label>
+										<div class="">
+											<input type="text" name="pay_address" placeholder="{$vo.title}{:lang('finance.recharge_address')}" autocomplete="off" class="layui-input" value="{$vo.pay_address}">
+										</div>
+									</div>
+									<!-- <div class="layui-form-item">
+										<label class="a-label">{$vo.title}{:lang('finance.recharge_qrcode')}</label>
+										<div class="">
+											<img src='{:phpqrcode($vo.pay_address,$vo.title."_address")}' width="150px" title="QR Code" alt="QR Code">
+										</div>
+									</div> -->
+									<div class="layui-form-item">
+										<label class="a-label">{$vo.title}{:lang('finance.recharge_num')}</label>
+										<div class="">
+											<input type="text" name="recharge_account" lay-verify="required|recharge" lay-verType="tips" lay-reqText="{:lang('finance.recharge_num_must')}" placeholder="{$vo.title}{:lang('finance.recharge_num')}" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="a-label">{$vo.title}{:lang('finance.recharge_pic')}</label>
+										<div class="">
+											<input type="text" name="recharge_pic" readonly lay-verify="required" lay-verType="tips" lay-reqText="{:lang('finance.recharge_pic_must')}" placeholder="{$vo.title}{:lang('finance.recharge_pic')}" autocomplete="off" class="layui-input">
+										</div>
+										<button type="button" class="layui-btn layui-btn-fluid up-pic" >
+											<i class="layui-icon">&#xe67c;</i>{:lang('finance.recharge_uppic')}
+											</button>
+									</div>
+									<div class="layui-form-item">
+										<div class="">
+											<button type="submit" class="layui-btn layui-btn-fluid layui-btn-normal" lay-submit lay-filter="{$vo.title|strtolower}Form">{:lang('finance.recharge_btn')}</button>
+										</div>
+									</div>
+								</form>
+								{else}
+								<a href="javascript:void(0) ;" onclick='recharge_show("usdt","rechage","{$vo.id}");' class="color-blue">{:lang('finance.to_usdt_address')}</a>
+								{/if}
+								{else}
+								<form class="layui-form usdt-recharge" action="">
+									<input type="hidden" name="wallet_id" value="{$vo.id}">
+									<input type="hidden" name="product_id" value="{$vo.product_id}">
+									<div class="layui-form-item">
+										<div class="layui-tab" lay-filter="usdtTabBrief">
+											<ul class="layui-tab-title mobile-layui-tab-titles">
+												{if $vo.trc_address}<li lay-id="2">{:lang('finance.trc_address')}</li>{/if}
+												{if $vo.erc_address}<li lay-id="3">{:lang('finance.erc_address')}</li>{/if}
+												{if $vo.omni_address}<li lay-id="1">{:lang('finance.omni_address')}</li>{/if}
+												{if $vo.bsc_address}<li lay-id="5">BSC</li>{/if}
+												{if $vo.pol_address}<li lay-id="6">POL</li>{/if}
+												{if $vo.base_address}<li lay-id="7">Base</li>{/if}
+											</ul>
+											<div class="layui-tab-content a-form">
+												{if $vo.trc_address}
+												<div class="layui-tab-item">
+													<div class="layui-form-item">
+														<button type="button" onclick='copy("{$vo.trc_address}");' class="layui-btn layui-btn-xs layui-btn-normal float-right">{:lang('public.copy')}</button>
+														<label class="a-label">{$vo.title}{:lang('finance.recharge_address')}</label>
+														<div class="">
+															<input type="text" name="trc_address" placeholder="{$vo.title}{:lang('finance.recharge_address')}" autocomplete="off" class="layui-input" value="{$vo.trc_address}">
+														</div>
+													</div>
+												</div>
+												{/if}
+												{if $vo.erc_address}
+												<div class="layui-tab-item">
+													<div class="layui-form-item">
+														<button type="button" onclick='copy("{$vo.erc_address}");' class="layui-btn layui-btn-xs layui-btn-normal float-right">{:lang('public.copy')}</button>
+														<label class="a-label">{$vo.title}{:lang('finance.recharge_address')}</label>
+														<div class="">
+															<input type="text" name="erc_address" placeholder="{$vo.title}{:lang('finance.recharge_address')}" autocomplete="off" class="layui-input" value="{$vo.erc_address}">
+														</div>
+													</div>
+												</div>
+												{/if}
+												{if $vo.omni_address}
+												<div class="layui-tab-item">
+												<div class="layui-form-item">
+													<button type="button" onclick='copy("{$vo.omni_address}");' class="layui-btn layui-btn-xs layui-btn-normal float-right">{:lang('public.copy')}</button>
+													<label class="a-label">{$vo.title}{:lang('finance.recharge_address')}</label>
+													<div class="">
+														<input type="text" name="omni_address" placeholder="{$vo.title}{:lang('finance.recharge_address')}" autocomplete="off" class="layui-input" value="{$vo.omni_address}">
+													</div>
+												</div>
+												</div>
+												{/if}
+												{if $vo.bsc_address}
+												<div class="layui-tab-item">
+													<div class="layui-form-item">
+														<button type="button" onclick='copy("{$vo.bsc_address}");' class="layui-btn layui-btn-xs layui-btn-normal float-right">{:lang('public.copy')}</button>
+														<label class="a-label">{$vo.title}{:lang('finance.recharge_address')}</label>
+														<div class="">
+															<input type="text" name="bsc_address" placeholder="{$vo.title}{:lang('finance.recharge_address')}" autocomplete="off" class="layui-input" value="{$vo.bsc_address}">
+														</div>
+													</div>
+												</div>
+												{/if}
+												{if $vo.pol_address}
+												<div class="layui-tab-item">
+													<div class="layui-form-item">
+														<button type="button" onclick='copy("{$vo.pol_address}");' class="layui-btn layui-btn-xs layui-btn-normal float-right">{:lang('public.copy')}</button>
+														<label class="a-label">{$vo.title}{:lang('finance.recharge_address')}</label>
+														<div class="">
+															<input type="text" name="pol_address" placeholder="{$vo.title}{:lang('finance.recharge_address')}" autocomplete="off" class="layui-input" value="{$vo.pol_address}">
+														</div>
+													</div>
+												</div>
+												{/if}
+												{if $vo.base_address}
+												<div class="layui-tab-item">
+													<div class="layui-form-item">
+														<button type="button" onclick='copy("{$vo.base_address}");' class="layui-btn layui-btn-xs layui-btn-normal float-right">{:lang('public.copy')}</button>
+														<label class="a-label">{$vo.title}{:lang('finance.recharge_address')}</label>
+														<div class="">
+															<input type="text" name="base_address" placeholder="{$vo.title}{:lang('finance.recharge_address')}" autocomplete="off" class="layui-input" value="{$vo.base_address}">
+														</div>
+													</div>
+												</div>
+												{/if}
+											</div>
+											</div>
+									</div>
+									<input type="hidden" id="usdt_recharge_type" name="usdt_recharge_type" value="{if $vo.trc_address}2{elseif $vo.erc_address}3{elseif $vo.bsc_address}5{elseif $vo.pol_address}6{elseif $vo.base_address}7{else}1{/if}">
+									<div class="layui-form-item">
+										<label class="a-label">{$vo.title}{:lang('finance.recharge_num')}</label>
+										<div class="">
+											<input type="text" name="recharge_account" lay-verify="required|recharge" lay-verType="tips" lay-reqText="{:lang('finance.recharge_num_must')}" placeholder="{$vo.title}{:lang('finance.recharge_num')}" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="a-label">{$vo.title}{:lang('finance.recharge_pic')}</label>
+										<div class="">
+											<input type="text" name="recharge_pic" readonly lay-verify="required" lay-verType="tips" lay-reqText="{:lang('finance.recharge_pic_must')}" placeholder="{$vo.title}{:lang('finance.recharge_pic')}" autocomplete="off" class="layui-input">
+										</div>
+										<button type="button" class="layui-btn layui-btn-fluid up-pic" >
+											<i class="layui-icon">&#xe67c;</i>{:lang('finance.recharge_uppic')}
+											</button>
+									</div>
+									<div class="layui-form-item">
+										<div class="">
+											<button type="submit" class="layui-btn layui-btn-fluid layui-btn-normal" lay-submit lay-filter="{$vo.title|strtolower}Form">{:lang('finance.recharge_btn')}</button>
+										</div>
+									</div>
+								</form>
+								{/if}
+							</div>
+							<div class="withdraw layui-row layui-col-space20 hidebox">
+								{if $vo.withdraw_member ==0}
+								<a href="javascript:void(0) ;" onclick='recharge_show("usdt","withdraw","{$vo.id}");' class="color-blue">{:lang('finance.to_usdt_address_w')}</a>
+								{else}
+								{if empty($vo.withdraw_erc_address) && empty($vo.withdraw_trc_address) && empty($vo.withdraw_omni_address)}
+								<a href="{:url('member/incomeset')}" class="color-blue">{:lang('finance.withdraw_address_nomsg')}</a>
+								{else}
+								<div class="layui-col-sm8">
+									<form class="layui-form a-form" action="">
+										<input type="hidden" name="wallet_id" value="{$vo.id}">
+										<input type="hidden" name="product_id" value="{$vo.product_id}">
+										<input type="hidden" name="type" value="">
+										<input type="hidden" name="sxf" value="0">
+										<!-- <a href="{:url('show/news',['id'=>17])}" class="layui-btn layui-btn-sm float-right">{:lang('finance.withdraw_ads')}</a> -->
+										<div class="layui-tab {$vo.title|strtolower}-tab layui-tab-brief" lay-filter="tabWithdraw">
+											<ul class="layui-tab-title">
+											{if $vo.withdraw_erc_address}
+											<li>ERC</li>
+											{/if}
+											{if $vo.withdraw_trc_address}
+											<li>TRC</li>
+											{/if}
+											{if $vo.withdraw_omni_address}
+											<li>OMNI</li>
+											{/if}
+											</ul>
+											<div class="layui-tab-content">
+												{if $vo.withdraw_erc_address}
+												<div class="layui-tab-item">
+													<div class="layui-form-item">
+														<label class="alabel text-right">{$vo.title}{:lang('finance.withdraw_address')}</label>
+														<div class="layui-input-inlines text-left {$vo.title|strtolower}-item" data-type="erc" data-sxf="{$vo.withdraw_erc_sxf}">
+														<input type="text" name="withdraw_address" readonly placeholder="{$vo.title}{:lang('finance.withdraw_address')}" autocomplete="off" class="layui-input" value="{$vo.withdraw_erc_address}">
+														</div>
+													</div>
+												</div>
+												{/if}
+												{if $vo.withdraw_trc_address}
+												<div class="layui-tab-item">
+													<div class="layui-form-item">
+														<label class="a-label text-right">{$vo.title}{:lang('finance.withdraw_address')}</label>
+														<div class="layui-input-inlines text-left {$vo.title|strtolower}-item" data-type="trc" data-sxf="{$vo.withdraw_trc_sxf}">
+														<input type="text" name="withdraw_address" readonly placeholder="{$vo.title}{:lang('finance.withdraw_address')}" autocomplete="off" class="layui-input" value="{$vo.withdraw_trc_address}">
+														</div>
+													</div>
+												</div>
+												{/if}
+												{if $vo.withdraw_omni_address}
+												<div class="layui-tab-item">
+													<div class="layui-form-item">
+														<label class="a-label text-right">{$vo.title}{:lang('finance.withdraw_address')}</label>
+														<div class="layui-input-inlines text-left {$vo.title|strtolower}-item" data-type="omni" data-sxf="{$vo.withdraw_omni_sxf}">
+														<input type="text" name="withdraw_address" readonly placeholder="{$vo.title}{:lang('finance.withdraw_address')}" autocomplete="off" class="layui-input" value="{$vo.withdraw_omni_address}">
+														</div>
+													</div>
+												</div>
+												{/if}
+											</div>
+										</div> 
+										<div class="layui-form-item">
+											<label class="a-label text-right">{$vo.title}{:lang('finance.withdraw_num')}</label>
+											<div class="layui-input-inlines">
+												<input type="text" name="withdraw_account" onblur='check_num(this);' lay-verify="required|withdraw" lay-verType="tips" lay-reqText="{:lang('finance.withdraw_num_must')}" placeholder="{$vo.title}{:lang('finance.withdraw_num')}" autocomplete="off" class="layui-input">
+												<div class="layui-input-inline text-left show-sxf lh-36"></div>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="a-label text-right">{:lang('finance.withdraw_paypwd')}</label>
+											<div class="layui-input-inlines text-left">
+											<input type="password" name="paypwd" lay-verify="required" lay-verType="tips" lay-reqText="{:lang('finance.withdraw_paypwd_must')}" placeholder="{:lang('finance.withdraw_paypwd')}" autocomplete="off" class="layui-input" value="">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<button type="submit" class="layui-btn layui-btn-fluid layui-btn-warm" lay-submit lay-filter="{$vo.title|strtolower}Withdraw">{:lang('finance.withdraw_btn')}</button>
+										</div>
+									</form>
+								</div>
+								<div class="layui-col-sm4 withdraw-rule">
+									<h5>{:lang('withdrwa_rule.title')}</h5>
+									<div class="content">{:lang('withdrwa_rule.content')}</div>
+								</div>
+								{/if}
+								{/if}
+							</div>
+							<div class="log hidebox">
+								<table class="layui-table flow-table">
+									<thead>
+										<tr>
+										<th>{:lang('finance.flow_time')}<br>{:lang('finance.flow_title')}</th>
+										<th>{:lang('finance.flow_all')}<br>{:lang('finance.flow_sxf')}</th>
+										<th>{:lang('finance.flow_type')}<br>{:lang('finance.flow_resault')}</th>
+										</tr> 
+									</thead>
+									<tbody id="{$vo.title|strtolower}_log">
+									</tbody>
+								</table>
+							</div>
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+		</div>
+		
+	</div>
+</div>
+<!--footer-->
+{include file="./block/mobile_footmenu"}
+{include file="./block/foot_script"}
+<style>
+.uid-label, .mt-10-uid { font-size: 17px; }
+.memu_box { border-top: 0 !important; }
+.layui-tab-content.a-form { padding: 0; }
+.rechage_box .layui-tab-item,
+.rechage_box .layui-form-item { margin-bottom: 0; }
+.alabel, .a-label { width: 150px; }
+.layui-input-inlines { width: 300px; }
+.lh-36 { line-height: 36px; }
+</style>
+<script>
+	var cando = "{$cando}";
+	function clipBoard(text) {
+		const body = document.body;
+		const input = document.createElement("input");
+		body.append(input);
+		input.style.opacity = 0;
+		input.value = text;
+		input.select();
+		input.setSelectionRange(0, input.value.length);
+		document.execCommand("Copy");
+		input.blur();
+		input.remove();
+	}
+	function copy(t) {
+		var codeurl = t;
+		clipBoard(codeurl);
+		layer.msg("{:lang('public.copyok')}");
+	}
+	layui.use(['layer', 'jquery', 'form', 'element', 'flow', 'upload'], function(){
+		var layer = layui.layer
+		,$ = layui.jquery
+		,form = layui.form;
+		var element = layui.element;
+		var flow = layui.flow;
+		var upload = layui.upload;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		var currentUploadButton = null;
+		upload.render({
+			elem: '.up-pic'
+			,url: "{:url('finance/upload_pic')}"
+			,exts: 'jpg|png|jpeg'
+			,choose: function(obj){
+				currentUploadButton = this.item;
+			}
+			,done: function(res){
+				if(res.code !== 0){
+                    return layer.msg(res.msg);
+                }
+                //上传成功
+                if(res.data.url){
+                    $(currentUploadButton).closest('.layui-form-item').find('input[name="recharge_pic"]').val(res.data.src);
+                    layer.msg(res.msg);
+                }
+			}
+		});
+
+		form.verify({
+			recharge: [
+				/^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/,
+				"{:lang('finance.recharge_num_check')}"
+			],
+			withdraw: [
+				/^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/,
+				"{:lang('finance.withdraw_num_check')}"
+			]
+		})
+
+		{volist name="walletlist" id="vo"}
+		{if (!empty($vo.pay_address) || $vo.base ==1)}
+		form.on('submit({$vo.title|strtolower}Form)', function(data){
+			if(data.field.recharge_account){
+				loading =layer.load(1, {shade: [0.1,'#fff']});
+				$.post("{:url('finance/recharge')}", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						}else{
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		});
+		{/if}
+		{if ($vo.withdraw_member ==1)}
+		form.on('submit({$vo.title|strtolower}Withdraw)', function(data){
+			if(data.field.withdraw_account){
+				loading =layer.load(1, {shade: [0.1,'#fff']});
+				$.post("{:url('finance/withdraw')}", data.field, function (res) {
+					layer.close(loading);
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					} else {
+						if(res.url){
+							layer.msg(res.msg, {time: 1800}, function () {
+								location.href = res.url;
+							});
+						}else{
+							layer.msg(res.msg, {time: 1800});
+						}
+					}
+				});
+			}
+			return false;
+		});
+		{/if}
+		{/volist}
+
+		element.on('tab(usdtTabBrief)', function(data){
+			var type = this.getAttribute('lay-id');
+			$("#usdt_recharge_type").val(type);
+		});
+
+		window.findlog = function(a,b,id){
+			$('#'+a+'_'+b).empty();
+			flow.load({
+				elem: '#'+a+'_'+b //指定列表容器
+				,colSpan:3 //列数
+				,end:'<td colspan="3" class="text-center">{:lang("finance.finance_nodata")}</td>'
+				,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+				var lis = [];
+				$.post("{:url('finance/findlog')}",{id:id,page:page,type:1}, function(res){
+					layui.each(res.data, function(index, item){
+					lis.push('<tr><td>'+ item.create_time +'<br>'+ item.title +'</td><td>'+ item.all_account +'</br>'+ item.account_sxf +'</td><td>'+ item.type +'<br>'+ item.status +'</td></tr>');
+					}); 
+					next(lis.join(''), page < res.pages);    
+				});
+				}
+			});
+		}
+		$(document).ready(function(){ 
+			if(cando ==1){
+				$("body").find(".memu_usdt").fadeIn();
+				$("body").find(".usdt").fadeIn();
+				$("body").find(".usdt .rechage").fadeIn();
+			}
+			if(cando ==2){
+				$("body").find(".memu_usdt").fadeIn();
+				$("body").find(".usdt").fadeIn();
+				$("body").find(".usdt .withdraw").fadeIn();
+			}
+		})
+		element.on('tab(tabWithdraw)', function(data){
+			var type = $(data.elem).find(".layui-show .layui-input-inlines").data("type");
+			var sxf = $(data.elem).find(".layui-show .layui-input-inlines").data("sxf");
+			$('input[name="type"').val(type);
+			$('input[name="sxf"').val(sxf);
+			$('input[name="withdraw_account"]').val('');
+		});
+	})
+	function show_memu(_this,a){
+		$("body").find(".hidebox").hide();
+		$(".memu_"+a).fadeIn();
+		$("body").find(".layui-box").removeClass("layui-icon-down").addClass("layui-icon-right");
+		$(_this).find("i").removeClass("layui-icon-right").addClass("layui-icon-down");
+	}
+	function recharge_show(a,b,c){
+		$("."+a).fadeIn().siblings(".hidebox").hide();
+		$("."+b).fadeIn().siblings(".hidebox").hide();
+		$(".memu_"+a).fadeIn();
+		if(b=='withdraw'){
+			$("."+b).find("."+a+"-tab li").eq(0).addClass("layui-this");
+			$("."+b).find("."+a+"-tab .layui-tab-item").eq(0).addClass("layui-show");
+			var type = $("."+b).find("."+a+"-item").data("type");
+			var sxf = $("."+b).find("."+a+"-item").data("sxf");
+			$('input[name="type"').val(type);
+			$('input[name="sxf"').val(sxf);
+		}
+		if(b==='log'){
+			findlog(a,b,c);
+		}
+	}
+	$(".close-hide").click(function() {
+		$(".hidebox").hide()
+	});
+	function check_num(a){
+		var n = a.value;
+		var reg = /^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/;
+		if (!reg.test(n)) {
+			$(a).parent().parent().find('.show-sxf').html("{:lang('finance.withdraw_num_check')}");
+			return false;
+		}
+		b = $('input[name="sxf"]').val();
+		if(n && b > 0){
+			var sxf = floatMul(n,b);
+			var end = floatSub(n,sxf);
+			$(a).parent().parent().find('.show-sxf').html("{:lang('finance.withdraw_num_sxf')}"+sxf+",{:lang('finance.withdraw_num_end')}"+end);
+		}
+	}
+	
+</script>

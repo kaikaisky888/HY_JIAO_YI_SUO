@@ -1,0 +1,287 @@
+<link rel="stylesheet" href="__STATIC__/plugs/lay-module/layuimini/layuimini.css?v={:time()}" media="all">
+<link rel="stylesheet" href="__STATIC__/plugs/lay-module/layuimini/themes/default.css?v={:time()}" media="all">
+
+<style id="layuimini-bg-color">
+</style>
+<body class="layui-layout-body layuimini-all">
+<div class="layui-layout layui-layout-admin">
+
+    <div class="layui-header header">
+        <div class="layui-logo layuimini-logo"></div>
+
+        <div class="layuimini-header-content">
+            <a>
+                <div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div>
+            </a>
+
+            <!--电脑端头部菜单-->
+            <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-menu-header-pc layuimini-pc-show">
+            </ul>
+
+            <!--手机端头部菜单-->
+            <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-mobile-show">
+                <li class="layui-nav-item">
+                    <a href="javascript:;"><i class="fa fa-list-ul"></i> 选择模块</a>
+                    <dl class="layui-nav-child layuimini-menu-header-mobile">
+                    </dl>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-layout-right">
+
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
+                </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;" data-clear="清理" class="layuimini-clear"><i class="fa fa-trash-o"></i></a>
+                </li>
+                <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
+                </li>
+                <li class="layui-nav-item layuimini-setting">
+                    <a href="javascript:;">
+                        <img src="{:session('admin.head_img')}" class="layui-nav-img" width="50" height="50">
+                        <cite class="adminName">{:session('admin.username')}</cite>
+                        <span class="layui-nav-more"></span>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;" layuimini-content-href="{:__url('index/editAdmin')}" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" layuimini-content-href="{:__url('index/editPassword')}" data-title="修改密码" data-icon="fa fa-gears">修改密码</a>
+                        </dd>
+                        <dd>
+                            <hr>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" class="login-out">退出登录</a>
+                        </dd>
+                    </dl>
+                </li>
+                <!-- 提示音开关 -->
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;" id="notifyToggle" title="提示音开关">
+                        <i class="fa fa-bell" id="notifyIcon"></i>
+                        <span id="notifyBadge" class="layui-badge-dot layui-hide"></span>
+                    </a>
+                </li>
+                <li class="layui-nav-item layuimini-select-bgcolor" lay-unselect>
+                    <a href="javascript:;" data-bgcolor="配色方案"><i class="fa fa-ellipsis-v"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--无限极左侧菜单-->
+    <div class="layui-side layui-bg-black layuimini-menu-left">
+    </div>
+
+    <!--初始化加载层-->
+    <div class="layuimini-loader">
+        <div class="layuimini-loader-inner"></div>
+    </div>
+
+    <!--手机端遮罩层-->
+    <div class="layuimini-make"></div>
+
+    <!-- 移动导航 -->
+    <div class="layuimini-site-mobile"><i class="layui-icon"></i></div>
+
+    <div class="layui-body">
+        <div class="layuimini-tab layui-tab-rollTool layui-tab" lay-filter="layuiminiTab" lay-allowclose="true">
+            <ul class="layui-tab-title">
+                <li class="layui-this" id="layuiminiHomeTabId" lay-id=""></li>
+            </ul>
+            <div class="layui-tab-control">
+                <li class="layuimini-tab-roll-left layui-icon layui-icon-left"></li>
+                <li class="layuimini-tab-roll-right layui-icon layui-icon-right"></li>
+                <li class="layui-tab-tool layui-icon layui-icon-down">
+                    <ul class="layui-nav close-box">
+                        <li class="layui-nav-item">
+                            <a href="javascript:;"><span class="layui-nav-more"></span></a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="javascript:;" layuimini-tab-close="current">关 闭 当 前</a></dd>
+                                <dd><a href="javascript:;" layuimini-tab-close="other">关 闭 其 他</a></dd>
+                                <dd><a href="javascript:;" layuimini-tab-close="all">关 闭 全 部</a></dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+            <div class="layui-tab-content">
+                <div id="layuiminiHomeTabIframe" class="layui-tab-item layui-show"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 提示音通知脚本 -->
+<audio id="audio_chongzhi" preload="auto" src="/static/tishiyin/chongzhi.269d0dc0.wav"></audio>
+<audio id="audio_tixian" preload="auto" src="/static/tishiyin/tixian.99fbffc9.wav"></audio>
+<audio id="audio_shiming" preload="auto" src="/static/tishiyin/shiming.a6928b03.wav"></audio>
+<script>
+(function() {
+    // 提示音状态（从localStorage读取）
+    var notifyEnabled = localStorage.getItem('notifySound') !== 'off';
+    var notifyIcon = document.getElementById('notifyIcon');
+    var notifyBadge = document.getElementById('notifyBadge');
+    var notifyToggle = document.getElementById('notifyToggle');
+    
+    // 音频元素
+    var audioChongzhi = document.getElementById('audio_chongzhi');
+    var audioTixian = document.getElementById('audio_tixian');
+    var audioShiming = document.getElementById('audio_shiming');
+    
+    // 更新图标状态
+    function updateIcon() {
+        if (notifyEnabled) {
+            notifyIcon.className = 'fa fa-bell';
+            notifyToggle.title = '提示音已开启（点击关闭）';
+        } else {
+            notifyIcon.className = 'fa fa-bell-slash';
+            notifyToggle.title = '提示音已关闭（点击开启）';
+        }
+    }
+    
+    // 播放提示音（按类型）
+    function playNotifySound(type) {
+        if (!notifyEnabled) return;
+        
+        try {
+            var audio = null;
+            if (type === 'chongzhi') {
+                audio = audioChongzhi;
+            } else if (type === 'tixian') {
+                audio = audioTixian;
+            } else if (type === 'shiming') {
+                audio = audioShiming;
+            } else {
+                audio = audioChongzhi; // 默认使用充值提示音
+            }
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(function(e) {
+                    console.log('无法播放提示音:', e);
+                });
+            }
+        } catch (e) {
+            console.log('无法播放提示音:', e);
+        }
+    }
+    
+    // 显示通知
+    function showNotification(message) {
+        if (typeof layer !== 'undefined') {
+            layer.msg(message, {
+                icon: 1,
+                time: 3000,
+                offset: 'rt',
+                anim: 6
+            });
+        }
+    }
+    
+    // 检查新通知
+    function checkNewNotify() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/{$adminModuleName|default="admin"}/index/checkNewNotify', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                try {
+                    var res = JSON.parse(xhr.responseText);
+                    if (res.code === 0 && res.data.hasNew) {
+                        notifyBadge.className = 'layui-badge-dot';
+
+                        var msg = [];
+                        // 充值通知
+                        if (res.data.newRecharge > 0) {
+                            msg.push('新充值 ' + res.data.newRecharge + ' 条');
+                            playNotifySound('chongzhi');
+                        }
+                        // 提现通知
+                        if (res.data.newWithdraw > 0) {
+                            msg.push('新提现 ' + res.data.newWithdraw + ' 条');
+                            if (res.data.newRecharge <= 0) {
+                                playNotifySound('tixian');
+                            }
+                        }
+                        // 普通实名认证通知
+                        if (res.data.newKyc > 0) {
+                            msg.push('新实名认证 ' + res.data.newKyc + ' 条');
+                            if (res.data.newRecharge <= 0 && res.data.newWithdraw <= 0) {
+                                playNotifySound('shiming');
+                            }
+                        }
+                        // 高级认证通知
+                        if (res.data.newAdvancedKyc > 0) {
+                            msg.push('新高级认证 ' + res.data.newAdvancedKyc + ' 条');
+                            if (res.data.newRecharge <= 0 && res.data.newWithdraw <= 0 && res.data.newKyc <= 0) {
+                                // 最小改动：先复用实名认证音效
+                                playNotifySound('shiming');
+                                // 如果你后面单独做音频，也可以改成：
+                                // playNotifySound('gaoji');
+                            }
+                        }
+
+                        if (res.data.newSeconds > 0) {
+                            msg.push('新期权订单 ' + res.data.newSeconds + ' 条');
+                        }
+                        if (res.data.newLeverdeal > 0) {
+                            msg.push('新合约订单 ' + res.data.newLeverdeal + ' 条');
+                        }
+                        if (res.data.newDeal > 0) {
+                            msg.push('新币币订单 ' + res.data.newDeal + ' 条');
+                        }
+
+                        // 如果只有订单通知没有充值/提现/实名/高级认证，播放默认音
+                        if (res.data.newRecharge <= 0
+                            && res.data.newWithdraw <= 0
+                            && res.data.newKyc <= 0
+                            && res.data.newAdvancedKyc <= 0
+                            && res.data.totalOrders > 0) {
+                            playNotifySound('chongzhi');
+                        }
+
+                        if (msg.length > 0) {
+                            showNotification(msg.join('，'));
+                        }
+                    } else {
+                        notifyBadge.className = 'layui-badge-dot layui-hide';
+                    }
+                } catch (e) {
+                    console.log('解析通知数据失败:', e);
+                }
+            }
+        };
+        xhr.send();
+    }
+    
+    // 初始化
+    updateIcon();
+    
+    // 点击开关
+    notifyToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        notifyEnabled = !notifyEnabled;
+        localStorage.setItem('notifySound', notifyEnabled ? 'on' : 'off');
+        updateIcon();
+        
+        if (typeof layer !== 'undefined') {
+            layer.msg(notifyEnabled ? '提示音已开启' : '提示音已关闭', {icon: 1, time: 1500});
+        }
+        
+        if (notifyEnabled) {
+            setTimeout(function() { playNotifySound('chongzhi'); }, 500);
+        }
+    });
+    
+    // 每30秒检查一次新通知
+    setInterval(checkNewNotify, 30000);
+    
+    // 页面加载后5秒开始第一次检查
+    setTimeout(checkNewNotify, 5000);
+    
+})();
+</script>
+</body>

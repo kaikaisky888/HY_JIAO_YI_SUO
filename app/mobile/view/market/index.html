@@ -1,0 +1,61 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-12 16:20:09
+ * @LastEditTime: 2021-08-29 15:28:50
+ * @Description: Forward, no stop
+-->
+
+	<div class="a-header text-center finance-bg">
+		{:lang('market.title')}
+	</div>
+	<!--主体-->
+	<div class="main padding-l-r">
+		<div class="a-table">
+			<!-- <h4><span>{:lang('market.USDT')}</span></h4> -->
+			<table class="layui-table fox-table" lay-skin="nob">
+				<thead>
+					<tr>
+						<th><span class="table-span">{:lang('market.symbol')}/{:lang('market.amount')}</span></th>
+						<th><span class="table-span">{:lang('market.price')}</span></th>
+						<th class="text-right"><span class="table-span">{:lang('home_page.coin_updown')}</span></th>
+					</tr> 
+				</thead>
+				<tbody>
+				   {volist name="product" id="vo"}
+					<tr onclick='go_kline("{$vo.code}");' class="cursor-pointer">
+						<td><div class="market-list">
+							<img src="{$vo.logo}" width="24" height="24" alt="{$vo.title}" title="{$vo.title}">
+								<div class="market-list-right">
+									<span class="link-b">{$vo.title}</span><span class="font-14">/{:lang('market.USDT')}</span>
+									<p class="font-14 lh-18">{:lang('market.amount')}<br><span id="amount_{$vo.code}">{$vo.volume|floatVal}</span></p>
+								</div>
+							</div>
+						</td>
+						<td>
+						   <span id="price_{$vo.code}">{$vo.last_price|floatVal}</span>
+					   </td>
+						<td class="text-right"><span id="change_{$vo.code}" {if $vo.change>0}class="layui-btn layui-btn-sm btn-green"{else}class="layui-btn layui-btn-sm btn-red"{/if}>{$vo.change|floatVal|fox_nums}%</span></td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{include file="./block/mobile_footmenu"}
+	{include file="./block/foot_script"}
+	<script src="__STATIC__/mobile/js/index/d3.v4.min.js?v={$version}"></script>
+	<script src="__STATIC__/mobile/js/index/index.js?v={$version}"></script>
+	<script>var page_out="market";</script>
+	<script src="__STATIC__/mobile/js/websocket.js?v={$version}"></script>
+	<script>
+		$(function(){
+			socket.sendData({
+				type: 'kline',
+				find: 'market',
+			},null,null)
+		})
+		function go_kline(a){
+			storage.setItem("tobol",a);
+			location.href="{:url('deal/index')}";
+		}
+	</script>

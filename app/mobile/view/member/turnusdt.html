@@ -1,0 +1,94 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-08 21:39:08
+ * @LastEditTime: 2021-10-11 23:00:30
+ * @Description: Forward, no stop
+-->
+<div class="a-header position-re">
+	<a href="javascript:window.history.go(-1);"><i class="layui-icon layui-icon-left"></i></a>
+	<div class="layui-inline h-span">{:lang('public_memu.member_turn_usdt')}</div>
+</div>
+<div class="new-bg">
+	<!--主体-->
+	<div class="main mt-30">
+		<div class="layui-container">
+			<div class="layui-row white-box">
+				<div class="layui-col-xs12">
+					<div class="account-main coinwin-bottom" style="padding: 0px;margin-top:0px;">
+						<div class="layui-tab layui-tab-brief">
+							<ul class="layui-tab-title">
+							  <li class="layui-this">{:lang('public_memu.member_turn_usdt')}</li>
+							</ul>
+							<div class="layui-tab-content">
+								<div class="layui-tab-item layui-show" style="padding: 20px;">
+									<table class="layui-table" lay-even lay-skin="nob">
+										<tbody>
+											{volist name="money_list" id="vo"}
+											{if $vo.ex_money > 0 || $vo.op_money > 0 || $vo.le_money > 0 || $vo.up_money > 0 || $vo.cm_money > 0}
+											<tr>
+												<td>{$vo.title}</td>
+												<td>
+													{if $vo.ex_money > 0}<div>{$vo.ex_title}:{$vo.ex_money}</div>{/if}
+													{if $vo.op_money > 0}<div>{$vo.op_title}:{$vo.op_money}</div>{/if}
+													{if $vo.le_money > 0}<div>{$vo.le_title}:{$vo.le_money}</div>{/if}
+													{if $vo.up_money > 0}<div>{$vo.up_title}:{$vo.up_money}</div>{/if}
+													{if $vo.cm_money > 0}<div>{$vo.cm_title}:{$vo.cm_money}</div>{/if}
+												</td>
+												{if $vo.base ==0}
+												<td><i class="fa fa-check-square-o" aria-hidden="true"></i></td>
+												{else}
+												<td><i class="fa fa-ban" aria-hidden="true"></i></td>
+												{/if}
+											</tr>
+											{/if}
+											{/volist}
+										</tbody>
+									</table>
+								</div>
+								{if $counts > 1}
+								<form class="layui-form">
+								<div class="layui-form-item mt-10">
+									<button class="layui-btn layui-btn-normal layui-btn-fluid" lay-submit lay-filter="turnUsdt">{:lang('public_memu.member_turn_btn')}</button>
+								</div>
+								</form>
+								{/if}
+								<div class="layui-form-item site-memo mt-10">
+									{:lang('public_memu.member_turn_title')}
+									{:lang('public_memu.member_turn_content')}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--footer-->
+{include file="./block/foot_script"}
+<script>
+	layui.use('form', function(){
+		var form = layui.form;
+		form.on('submit(turnUsdt)', function(data){
+			loading =layer.load(1, {shade: [0.1,'#fff']});
+			$.post("{:url('member/doturnusdt')}", {}, function (res) {
+				layer.close(loading);
+				if (res.code > 0) {
+					layer.msg(res.msg, {time: 1800}, function () {
+						location.href = res.url;
+					});
+				} else {
+					if(res.url){
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					}else{
+						layer.msg(res.msg, {time: 1800});
+					}
+				}
+			});
+			return false; 
+		});
+	});
+	</script>

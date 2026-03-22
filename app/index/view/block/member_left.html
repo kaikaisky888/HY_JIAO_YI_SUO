@@ -1,0 +1,20 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-08 21:51:47
+ * @LastEditTime: 2021-10-10 13:38:14
+ * @Description: Forward, no stop
+-->
+<div class="left-nav">
+    <ul>
+        <li {if $leftmenu == 'account'}class="layui-this"{/if}><a href="{:url('member/account')}"><i class="layui-icon layui-icon-set-fill"></i>{:lang('public_memu.member_account')}</a></li>
+        <li {if $leftmenu == 'team'}class="layui-this"{/if}><a href="{:url('member/team')}"><i class="layui-icon layui-icon-diamond"></i>{:lang('public_memu.member_team')}</a></li>
+        <li {if $leftmenu == 'tradelog'}class="layui-this"{/if}><a href="{:url('member/tradelog')}"><i class="layui-icon layui-icon-menu-fill"></i>{:lang('public_memu.member_tradelog')}</a></li>
+        <li {if $leftmenu == 'setaddress'}class="layui-this"{/if}><a href="{:url('dealings/setaddress')}"><i class="layui-icon layui-icon-set-fill"></i>{:lang('public_memu.member_incomeset')}</a></li>
+        <li {if $leftmenu == 'authset'}class="layui-this"{/if}><a href="{:url('member/authset')}"><i class="layui-icon layui-icon-friends"></i>{:lang('public_memu.member_authset')}</a></li>
+        <li {if $leftmenu == 'recharge'}class="layui-this"{/if}><a href="{:url('dealings/recharge')}"><i class="fa fa-share"></i>{:lang('public_memu.member_recharge')}</a></li>
+        <li {if $leftmenu == 'withdraw'}class="layui-this"{/if}><a href="{:url('dealings/withdraw')}"><i class="fa fa-reply"></i>{:lang('public_memu.member_withdraw')}</a></li>
+        {if sysconfig('member','turn_usdt')=='open'}
+        <li {if $leftmenu == 'turnusdt'}class="layui-this"{/if}><a href="{:url('member/turnusdt')}"><i class="fa fa fa-transgender-alt"></i>{:lang('public_memu.member_turn_usdt')}</a></li>
+        {/if}
+    </ul>
+</div>

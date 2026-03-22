@@ -1,0 +1,48 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-05-31 13:44:29
+ * @LastEditTime: 2021-06-13 06:07:39
+ * @Description: Forward, no stop
+-->
+<div class="layuimini-container" id="app">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-sm3">
+            <div class="layuimini-main">
+                <table id="currentTable" class="layui-table layui-hide"
+                        data-auth-edit="{:auth('system.config/edit')}"
+                        data-auth-delete="{:auth('system.config/delete')}"
+                        lay-filter="currentTable">
+                </table>
+                <script type="text/html" id="toolbar">
+                    <button class="layui-btn layui-btn-sm layuimini-btn-primary" data-treetable-refresh><i class="fa fa-refresh"></i> </button>
+                    <button class="layui-btn layui-btn-normal layui-btn-sm {if !auth('system.config/add')}layui-hide{/if}" data-open="system.config/add" data-title="添加" data-full="true"><i class="fa fa-plus"></i> 添加</button>
+                </script>
+            </div>
+        </div>
+        <div class="layui-col-sm9">
+            <div class="layuimini-main">
+                <div class="layui-tab layui-tab-brief" lay-filter="docTabBrief">
+                    <ul class="layui-tab-title" id="docTitle">
+                        <li class="layui-this">所有配置</li>
+                    </ul>
+                
+                    <div class="layuimini-main">
+                        <table id="currentTableId" class="layui-table layui-hide"
+                                data-auth-edit="{:auth('system.config/editconfig')}"
+                                data-auth-delete="{:auth('system.config/deleteconfig')}"
+                                lay-filter="currentTableId">
+                        </table>
+                        <script type="text/html" id="toolbarId">
+                            <button class="layui-btn layui-btn-sm layuimini-btn-primary" data-treetable-refresh><i class="fa fa-refresh"></i> </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm {if !auth('system.config/addconfig')}layui-hide{/if}" data-open="system.config/addconfig" data-title="添加" data-full="true"><i class="fa fa-plus"></i> 添加</button>
+                        </script>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="remark">
+    <a href="javascript:configbox('{{d.remark}}','{{d.name}}');" class="layui-table-link config-name" data-name="{{d.name}}" data-remark="{{d.remark}}">{{d.remark}}</a>
+</script>

@@ -1,0 +1,53 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-06 16:46:46
+ * @LastEditTime: 2021-07-06 20:42:02
+ * @Description: Forward, no stop
+-->
+<div class="footer">
+    <div class="layui-container">
+        <div class="layui-row layui-col-space30">
+            <div class="layui-col-xs4">
+                <img src="__STATIC__/index/img/footer_logo.png" alt="Logo" title="Logo">
+                <p class="font-12 mt-10 color-grey">© <?php echo date('Y')-4;?>-<?php echo date('Y')+6;?> Copyright {:sysconfig('site','domain_url')}</p>
+            </div>
+            <div class="layui-col-xs1">
+                <h5>{:lang('bottom_page.about')}</h5>
+                <ul>
+                    {:get_bottom(13,$lang)}
+                </ul>
+            </div>
+            <div class="layui-col-xs1">
+                <h5>{:lang('bottom_page.help')}</h5>
+                <ul>
+                    {:get_bottom(16,$lang)}
+                </ul>
+            </div>
+            <div class="layui-col-xs1">
+                <h5>{:lang('bottom_page.service')}</h5>
+                <ul>
+                    {:get_bottom(14,$lang)}
+                </ul>
+            </div>
+            <div class="layui-col-xs1">
+                <h5>{:lang('bottom_page.tool')}</h5>
+                <ul>
+                    {:get_bottom(15,$lang)}
+                </ul>
+            </div>
+            <div class="layui-col-xs4 footer-icon">
+                <h5>{:lang('bottom_page.town')}</h5>
+                <div>
+                    <a title="WeChat"><img src="__STATIC__/index/img/footer_wx.png" alt="WeChat" title="WeChat"></a>
+                    <a title="Facebook"><img src="__STATIC__/index/img/footer_fb.png" alt="Facebook" title="Facebook"></a>
+                </div>			
+                <ul class="mt-10">
+                    <li>{:lang('bottom_page.buss')}：<span>{:sysconfig('base','bottom_buss')}</span></li>
+                    <li>{:lang('bottom_page.mark')}：<span>{:sysconfig('base','bottom_mark')}</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="layui-clear"></div>
+        <div class="font-12 mt-10 color-grey">{:lang('bottom_page.notice')}</div>
+    </div>
+</div>

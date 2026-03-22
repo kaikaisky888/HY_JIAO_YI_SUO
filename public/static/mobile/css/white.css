@@ -1,0 +1,322 @@
+body {
+    background: #ffffff;
+    color: #5a5a5a;
+}
+.header,.header .layui-nav {
+    background: #ffffff;
+    color: #5a5a5a;
+}
+.header .layui-nav-item a,body a {
+    color: #5a5a5a;
+}
+.header .layui-nav .layui-nav-child {
+    border: 1px solid #f6f8fc;
+    background-color: #f6f8fc;
+}
+.a-header a{
+    color:#5a5a5a;
+}
+.a-box{
+    background:#f6f8fc;
+}
+.footer{
+    background:#ffffff;
+}
+.footer p{
+    background:#ffffff;
+}
+.footer{
+    border-top: 1px solid #e7fdf9;
+}
+.fox-user-left {
+    background: #ffffff !important;
+    box-shadow: 1px 1px 50px #f2f5fa !important;
+}
+.layui-border-blue {
+    border-color: #1E9FFF!important;
+    color: #1E9FFF!important;
+    background-color: #ffffff !important;
+}
+.new-bg {
+    background: #ffffff !important;
+}
+.a-header{
+    background: #ffffff !important;
+    color: #444;
+}
+.notice{
+    background: #e7fef9 !important;
+}
+.center-banner {
+    margin: 10px 0;
+    background: unset;
+    box-shadow:0 1px 25px 0 rgb(76 202 169 / 30%)
+}
+.box-shadow-a{
+	box-shadow: 0 1px 5px 0 rgb(76 202 169 / 10%);
+}
+.a-table {
+    background: #ffffff;
+}
+.a-table .layui-table tr {
+    border-bottom: 0px solid #ddd;
+}
+.a-box-left {
+    background: #e7fdf9;
+}
+
+.link-a{color: #e2e8e4;}
+.link-b{color: #ffd37a;}
+.link-c{color: #768da9;}
+.table-span{
+	width: 96%;
+    height: 24px;
+    margin: 0 auto;
+    display: inline-block;
+	color: #202020;
+    background-color: #e7fef9;
+    border-radius: 10px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+	font-size: 12px;
+}
+.user-box-center .user-info {
+    background-image: url("../imgn/user_bg_white.png");
+}
+.login-bg {
+    background: #ffffff;
+}
+.wicket-btn-box {
+    background: #e7fef9 !important;
+}
+input::placeholder {
+	color: #c0c4cc;
+}
+.login-box .layui-input, .login-box .layui-select, .login-box .layui-textarea {
+    background: #edfefb;
+    border-color: #d5f3ed;
+    border:0;
+}
+.login-box .layui-input, .login-box .layui-select, .login-box .layui-textarea {
+    color: #444444;
+}
+.wicket-btn-box .btn-this {
+    background: -webkit-linear-gradient(bottom,#c99400,#ffd37a);
+    background: linear-gradient(0deg,#c99400,#ffd37a);
+}
+.login-logo {
+    background: -webkit-linear-gradient(bottom,#ffffff,#e7fdf9);
+    background: linear-gradient(0deg,#ffffff,#e7fdf9);
+    border-radius: 6px;
+}
+.foot-boxs {
+    border-top: 1px solid #ffd37a;
+}
+.login-box .layui-form h5 {
+    margin-bottom: 5px;
+}
+.a-table h4 span {
+    border-bottom: 2px solid #ffd37a;
+    color: #ffd37a;
+}
+.assets-bottom .layui-table tr td {
+    background: #ffffff;
+    border-top: 8px solid #edfefb;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.a-form .layui-input {
+    background: #edfefb;
+    color: #5a5a5a;
+    border-color: #e6e6e6;
+    border:0;
+}
+.assets-bottom .layui-table tr th {
+    background: unset;
+    border-top: 8px solid #ffffff;
+    border-radius: 4px;
+}
+.layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click, .layui-table-header, .layui-table-hover, .layui-table-mend, .layui-table-patch, .layui-table-tool, .layui-table-total, .layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {
+    background-color: #e7fdf9;
+}
+.login-phone {
+    color: #999;
+}
+.layui-input, .layui-select, .layui-textarea{
+    background: #edfefb;
+    color:#5a5a5a;
+    border:0;
+}
+.account-body li, .deal-top-left .layui-table thead tr, .deal-bottom-left .layui-table thead tr, .deal-top-center-title, .deal-top-right-box h5, .new-table .layui-table tr, .layui-tab-title, .lever-bottom-left .layui-table thead tr, .seconds-left-bottom .layui-table thead tr, .log-table .layui-table tr{
+    border-bottom: 1px solid #c99400;
+}
+.assets-bottom .layui-table tbody tr:hover, .assets-bottom .layui-table[lay-even] tr:nth-child(even){
+    background: unset;
+}
+.white-box,.coinwin-bottom{
+    background: #ffffff;
+}
+.coinwin-bottom .layui-table thead tr {
+    background: #ffffff;
+    color: #ffd37a;
+}
+.coinwin-bottom .layui-table[lay-even] tr:nth-child(even) {
+    background: #edfefb;
+}
+.sfz-box img {
+    border: 1px solid #edfefb;
+    padding: 10px;
+    border-radius: 2px;
+    max-width: 88px;
+}
+.first_box {
+    background: #ffffff;
+}
+.depth-box {
+    text-align: center;
+    font-size: 14px !important;
+    padding: 10px !important;
+    color: rgba(122, 226, 207, 0.78) !important;
+    background-color: #ffffff !important;
+}
+.deal-price-input {
+    line-height: 38px;
+    font-size: 14px;
+    background: #edfefb;
+    padding-left: 8px;
+}
+.deal-bg {
+    background: #ffffff;
+}
+
+.deal-top-left .layui-table tbody .active {
+    background: #dafcef;
+}
+.table-span-list{
+	width: 100%;
+    height: 24px;
+    margin: 10px auto;
+    display: inline-block;
+	color: #768da9;
+    background-color: #edfefb;
+    border-radius: 10px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+	font-size: 12px;
+}
+.fox-table thead tr{
+	border-bottom: 0px solid #ffd37a !important;
+}
+.fox-table tbody tr{
+	border-top: 1px solid #edfefb !important;
+}
+.fox-form .layui-form-radio {
+	background: -webkit-linear-gradient(bottom,#a4bfba,#bfc0c0);
+    background: linear-gradient(0deg,#a4bfba,#bfc0c0);
+	border-color: #888;
+}
+.fox-form .layui-form-radioed { 
+	background: -webkit-linear-gradient(bottom,#3cbc98,#a3eed2);
+    background: linear-gradient(0deg,#3cbc98,#a3eed2);
+	border-color: #ffd37a;
+}
+.footer-seconds .footer-box {
+    background: #ffffff;
+}
+.order-box .closea a{
+	color: #e01c1c;
+}
+.order-box{
+	border-top: 1px solid #5bcba9;
+}
+.login-wrap{
+    color: #22415e;
+}
+.header .layui-nav .layui-nav-child {
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
+    box-shadow: none;
+}
+.show-deal td {
+    background: #f4fffd !important;
+    font-size: 12px;
+}
+.layui-nav .layui-nav-item a:hover, .layui-nav .layui-this a {
+    color: #666;
+}
+.header .layui-nav .layui-nav-child a {
+    color: #666;
+}
+.ieo-body ,.ieo-body .layui-panel, .ieo-bottom, .ieo-oper{
+    background: #ffffff;
+}
+.ieo-top{
+    background: unset;
+}
+.ieo-body .layui-panel {
+    background: #ecfcf6;
+}
+.ieo-bottom .layui-tab-title {
+    border-color: #c99400;
+}
+.ieo-top p {
+    border-top: 1px solid #c99400;
+}
+.up-top {
+    width: unset;
+    background: linear-gradient(#ecfdf0,#c7f8da);
+    color: #444;
+    text-align: center;
+    margin: 20px;
+}
+.coinwin-header .layui-col-xs6 {
+    background: #ffffff;
+}
+.coinwin-header {
+    background: #ffffff;
+    position: relative;
+    border-top: 1px solid #68e8c3;
+    border-radius: 0;
+    padding: 40px 5px 0 5px;
+}
+.coinwin-body .layui-panel {
+    background: #e9fdef;
+}
+.form-bg {
+    background: #fcfffe;
+}
+.a-form .layui-form-select dl {
+    background: #ffffff;
+    border: 1px solid #ffffff;
+}
+.a-form .layui-form-select dl dd.layui-this, .a-form .layui-form-select dl dd:hover {
+    background-color: #3f958a;
+}
+.finance-box{
+	padding-bottom: 15px !important;
+	color:#444;
+}
+.finance-bg{
+	background: #ffffff !important;
+}
+.finance-box span{font-size:18px}
+.v-charge-head,.v-charge-head .head-item {
+    background-color: #edfefb !important;
+}
+.dealings-bg {
+    background: #ffffff;
+}

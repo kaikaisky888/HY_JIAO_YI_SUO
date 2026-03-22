@@ -1,0 +1,89 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-11 17:08:35
+ * @LastEditTime: 2021-07-11 17:16:04
+ * @Description: Forward, no stop
+-->
+<div class="layuimini-container">
+    <form id="app-form" class="layui-form layuimini-form">
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属用户</label>
+            <div class="layui-input-block">
+                <input type="text" name="uid" disabled class="layui-input" lay-verify="required" placeholder="请输入所属用户" value="{$row.uid|default=''}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" disabled class="layui-input"  placeholder="请输入姓名" value="{$row.name|default=''}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">证件号</label>
+            <div class="layui-input-block">
+                <input type="text" name="card" disabled class="layui-input"  placeholder="请输入证件号" value="{$row.card|default=''}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">证件A</label></label>
+            <div class="layui-input-block">
+                <img src="{$row.card_a}" width="100%">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">证件B</label></label>
+            <div class="layui-input-block">
+                <img src="{$row.card_b}" width="100%">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="status" value="0" title="审核中" {if $row.status == 0}checked{/if}>
+                <input type="radio" name="status" value="1" title="已审核" {if $row.status == 1}checked{/if}>
+                <input type="radio" name="status" value="2" title="拒绝" {if $row.status == 2}checked{/if}>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">拒绝原因</label></label></label>
+            <div class="layui-input-block">
+                <textarea name="remark" class="layui-textarea"  placeholder="请输入备注说明">{$row.remark|raw|default=''}</textarea>
+            </div>
+        </div>
+
+        {if $row.advanced_video}
+        <div class="hr-line"></div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color:#ff6600;font-weight:bold;">高级认证</label>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">认证视频</label>
+            <div class="layui-input-block">
+                <video src="{$row.advanced_video}" controls style="max-width:100%;max-height:300px;"></video>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">高级状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="advanced_status" value="0" title="未申请" {if !$row.advanced_status || $row.advanced_status == 0}checked{/if}>
+                <input type="radio" name="advanced_status" value="1" title="审核中" {if $row.advanced_status == 1}checked{/if}>
+                <input type="radio" name="advanced_status" value="2" title="已通过" {if $row.advanced_status == 2}checked{/if}>
+                <input type="radio" name="advanced_status" value="3" title="拒绝" {if $row.advanced_status == 3}checked{/if}>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">高级拒绝原因</label>
+            <div class="layui-input-block">
+                <textarea name="advanced_remark" class="layui-textarea" placeholder="请输入高级认证拒绝原因">{$row.advanced_remark|raw|default=''}</textarea>
+            </div>
+        </div>
+        {/if}
+        <div class="hr-line"></div>
+        <div class="layui-form-item text-center">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit>确认</button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+        </div>
+
+    </form>
+</div>

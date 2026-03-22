@@ -1,0 +1,75 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-27 01:22:50
+ * @LastEditTime: 2021-08-27 10:49:18
+ * @Description: Forward, no stop
+-->
+<div class="a-header position-re">
+	<div class="layui-row">
+		<div class="layui-col-xs3">
+			<a href="javascript:window.history.go(-1);"><i class="layui-icon layui-icon-left"></i></a>
+		</div>
+		<div class="layui-col-xs6 text-center">
+			{:lang('finance.transfer_logs')}
+		</div>
+		<div class="layui-col-xs3 text-right">
+			<a href="{:url('/mobile')}"><i class="layui-icon layui-icon-home"></i></a>
+		</div>
+	</div>
+</div>
+<div class="new-bg">
+	<div class="main padding-l-r">
+			<div class="white-box">
+				<div class="transfer-box">
+					<div class="assets-bottom">
+						<table class="layui-table" lay-skin="nob">
+						  <thead>
+						    <tr>
+								<th><span class="table-span-list">{:lang('finance.flow_time')}/{:lang('finance.flow_title')}</span></th>
+								<th><span class="table-span-list">{:lang('finance.flow_all')}/{:lang('finance.flow_resault')}</span></th>
+						    </tr> 
+						  </thead>
+						  <tbody id="loglist">
+						    
+						  </tbody>
+						</table>
+					</div>
+				</div>
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/foot_script"}
+<script>
+	layui.use(['layer', 'jquery', 'form', 'element', 'flow'], function(){
+		var layer = layui.layer
+		,$ = layui.jquery
+		,form = layui.form;
+		var element = layui.element;
+		var flow = layui.flow;
+
+		window.findlog = function(){
+			$('#loglist').empty();
+				flow.load({
+				elem: '#loglist' //指定列表容器
+				,colSpan:2 //列数
+				,end:'<td colspan="2" class="text-center">{:lang("finance.finance_nodata")}</td>'
+				,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+				var lis = [];
+				$.post("{:url('finance/findalllog')}",{page:page}, function(res){
+					layui.each(res.data, function(index, item){
+					lis.push('<tr><td>'+ item.create_time +'<br>'+ item.title +'</td><td>'+ item.all_account +'<br>'+ item.status +'</td></tr>');
+					}); 
+					next(lis.join(''), page < res.pages);    
+					});
+				}
+			});
+		}
+
+		$(function(){
+			findlog();
+		})
+		
+	})
+	
+</script>

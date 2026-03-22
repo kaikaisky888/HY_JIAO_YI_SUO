@@ -1,0 +1,116 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-08-17 17:54:58
+ * @LastEditTime: 2021-10-11 21:10:09
+ * @Description: Forward, no stop
+-->
+<div class="header">
+  <ul class="layui-nav">
+    <li class="layui-nav-item" id="userLeft">
+      <img src="{if session('member') && $Think.session.member.head_img}{$Think.session.member.head_img}{else}__STATIC__/mobile/imgn/topuser.png{/if}" alt="User" title="User">
+    </li>
+    <li class="layui-nav-item float-right">
+      {include file="./block/mobile_lang"}
+    </li>
+    <li class="layui-nav-item float-right">{include file="./block/mobile_day"}</li>
+  </ul>
+  <div class="asset-card box-shadow-a">
+    <div class="asset-card-top">
+      <div class="asset-card-left">
+        <div class="asset-card-title">{:lang('mobile_drawer_total_asset_valuation')}</div>
+        <div class="asset-card-value">{$all_sum_usd|default='0.00'}</div>
+        <div class="asset-card-sub">≈$ {$all_sum_usd|default='0.00'}</div>
+      </div>
+      <div class="asset-card-right">
+        <a class="asset-card-btn" href="{:url('dealings/recharge')}">{:lang('mobile_drawer_recharge')}</a>
+      </div>
+    </div>
+    <div class="market-top">
+      {volist name="top_product" id="vo"}
+      <div class="market-card" onclick='go_kline("{$vo.code}");'>
+        <div class="market-card-title">
+          <span class="market-card-symbol">{$vo.title}</span>
+          <span class="market-card-quote">/{:lang('market.USDT')}</span>
+        </div>
+        <div class="market-card-price" id="price_top_{$vo.code}">{$vo.last_price|floatVal}</div>
+        <div class="market-card-change {if $vo.change>0}bg-green{elseif $vo.change<0}bg-red{/if}" id="change_top_{$vo.code}">{if $vo.change>0}+{/if}{$vo.change|floatVal|fox_nums}%</div>
+        <div class="market-card-approx" id="approx_top_{$vo.code}">≈$ {$vo.last_price|floatVal}</div>
+        <div class="market-card-action">{:lang('mobile_drawer_trade')}</div>
+      </div>
+      {/volist}
+    </div>
+  </div>
+</div>
+
+<div id="leftUser" class="hidebox left-user-box my-left">
+  <div class="my-left-header">
+    <a class="my-left-close" href="javascript:void(0);" title="Back"><i class="layui-icon layui-icon-left"></i></a>
+    <div class="my-left-title">{:lang('mobile_drawer_my')}</div>
+    <a class="my-left-setting" href="{:url('member/account')}">{:lang('mobile_drawer_setting')}</a>
+  </div>
+  <div class="my-left-body">
+    {if session('member')}
+    <div class="my-left-user">
+      <img class="my-left-avatar" src="{if session('member') && $Think.session.member.head_img}{$Think.session.member.head_img}{else}__STATIC__/mobile/imgn/topuser.png{/if}" alt="avatar">
+      <div class="my-left-user-info">
+        <div class="my-left-user-name">{if session('member')}{$Think.session.member.username}{else}--{/if}</div>
+        <div class="my-left-user-sub">{if session('member')}{$Think.session.member.phone}{else}--{/if}</div>
+      </div>
+      <?php $__cs = \app\admin\model\MemberCard::where('uid',session('member.id'))->value('status'); ?>
+      <?php if($__cs != 1): ?><div class="my-left-user-status">{:lang('mobile_drawer_unverified')}</div><?php endif; ?>
+    </div>
+    {else}
+    <a class="my-left-user" href="{:url('wicket/login')}">
+      <img class="my-left-avatar" src="{if session('member') && $Think.session.member.head_img}{$Think.session.member.head_img}{else}__STATIC__/mobile/imgn/topuser.png{/if}" alt="avatar">
+      <div class="my-left-user-info">
+        <div class="my-left-user-name">{:lang('mobile_drawer_click_login')}</div>
+        <div class="my-left-user-sub">{:lang('mobile_drawer_welcome_site',['site'=>sysconfig('site','site_name')])}</div>
+      </div>
+      <div class="my-left-user-status">{:lang('mobile_drawer_unverified')}</div>
+    </a>
+    {/if}
+
+    <div class="my-left-list">
+<!--      <a class="my-left-item" href="{:url('member/account')}">-->
+<!--        <i class="layui-icon layui-icon-password"></i>-->
+<!--        <span>{:lang('mobile_drawer_login_password')}</span>-->
+<!--        <i class="layui-icon layui-icon-right"></i>-->
+<!--      </a>-->
+<!--      <a class="my-left-item" href="{:url('member/account')}">-->
+<!--        <i class="layui-icon layui-icon-key"></i>-->
+<!--        <span>{:lang('mobile_drawer_trade_password')}</span>-->
+<!--        <i class="layui-icon layui-icon-right"></i>-->
+<!--      </a>-->
+<!--      <a class="my-left-item" href="{:url('member/account')}">-->
+<!--        <i class="layui-icon layui-icon-cellphone"></i>-->
+<!--        <span>{:lang('mobile_drawer_phone_bind')}</span>-->
+<!--        <i class="layui-icon layui-icon-right"></i>-->
+<!--      </a>-->
+      <a class="my-left-item" href="{:url('member/account')}">
+        <i class="layui-icon layui-icon-cellphone"></i>
+        <span>{:lang('public_memu.member_account')}</span>
+        <i class="layui-icon layui-icon-right"></i>
+      </a>
+      <a class="my-left-item" href="{:url('member/authset')}">
+        <i class="layui-icon layui-icon-username"></i>
+        <span>{:lang('mobile_drawer_identity_auth')}</span>
+        <i class="layui-icon layui-icon-right"></i>
+      </a>
+      <a class="my-left-item" href="{:url('dealings/setaddress')}">
+        <i class="layui-icon layui-icon-location"></i>
+        <span>{:lang('mobile_drawer_address_manage')}</span>
+        <i class="layui-icon layui-icon-right"></i>
+      </a>
+      <a class="my-left-item" href="{:sysconfig('base','site_kefu')}">
+        <i class="layui-icon layui-icon-service"></i>
+        <span>{:lang('mobile_drawer_online_service')}</span>
+        <i class="layui-icon layui-icon-right"></i>
+      </a>
+    </div>
+
+    {if session('member')}
+    <a class="my-left-logout" href="{:url('index/loginout')}">{:lang('mobile_drawer_logout')}</a>
+    {/if}
+  </div>
+</div>
+<div class="layui-clear"></div>

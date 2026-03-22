@@ -1,0 +1,223 @@
+<style>
+	body, html {
+		background: #242424;
+	}
+	.coinwin-dark-header {
+		background: #242424;
+		color: #fff;
+		padding: 14px 12px;
+		border-bottom: 1px solid rgba(255,255,255,0.05);
+	}
+	.coinwin-dark-nav-btn {
+		color: #fff;
+		display: inline-block;
+		font-size: 20px;
+		line-height: 24px;
+		padding: 2px 4px;
+	}
+	.coinwin-dark-header-title {
+		color: #fff;
+		font-size: 18px;
+		font-weight: 600;
+	}
+	.coinwin-dark-page {
+		background: #242424;
+		min-height: calc(100vh - 52px);
+		padding: 14px 12px 24px;
+	}
+	.coinwin-rule-wrap {
+		margin-bottom: 14px;
+	}
+	.coinwin-rule-card {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		background: linear-gradient(135deg, #2e2e2e 0%, #383838 100%);
+		border: 1px solid rgba(255, 211, 122, 0.18);
+		border-radius: 12px;
+		padding: 14px 14px;
+		text-decoration: none;
+	}
+	.coinwin-rule-left {
+		flex: 1;
+		min-width: 0;
+	}
+	.coinwin-rule-title {
+		color: #ffd37a;
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 1.2;
+		margin-bottom: 6px;
+	}
+	.coinwin-rule-desc {
+		color: #b8b8b8;
+		font-size: 12px;
+		line-height: 1.4;
+	}
+	.coinwin-rule-right {
+		color: #ffd37a;
+		font-size: 18px;
+		margin-left: 10px;
+	}
+	.coinwin-list-wrap {
+		display: block;
+	}
+	.coinwin-item-card {
+		background: #2d2d2d;
+		border-radius: 14px;
+		padding: 14px 12px;
+		margin-bottom: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+		border: 1px solid rgba(255,255,255,0.04);
+	}
+	.coinwin-item-left {
+		flex: 1;
+		min-width: 0;
+		padding-right: 12px;
+	}
+	.coinwin-item-top {
+		display: flex;
+		align-items: center;
+		min-width: 0;
+		margin-bottom: 10px;
+	}
+	.coinwin-item-logo {
+		width: 34px;
+		height: 34px;
+		flex-shrink: 0;
+		border-radius: 50%;
+		overflow: hidden;
+		background: rgba(255,255,255,0.06);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 10px;
+	}
+	.coinwin-item-logo img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+	.coinwin-item-title {
+		color: #fff;
+		font-size: 16px;
+		font-weight: 600;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.coinwin-item-tags {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	.coinwin-tag {
+		display: inline-block;
+		padding: 4px 8px;
+		border-radius: 6px;
+		font-size: 12px;
+		line-height: 1.2;
+	}
+	.coinwin-tag-rate {
+		background: rgba(255, 211, 122, 0.12);
+		color: #ffd37a;
+	}
+	.coinwin-tag-time {
+		background: rgba(45, 214, 158, 0.12);
+		color: #42d39b;
+	}
+	.coinwin-item-right {
+		flex-shrink: 0;
+	}
+	.coinwin-buy-btn {
+		display: inline-block;
+		min-width: 72px;
+		text-align: center;
+		background: #ffd37a;
+		color: #2a2a2a !important;
+		border-radius: 22px;
+		padding: 10px 16px;
+		font-size: 14px;
+		font-weight: 600;
+		text-decoration: none !important;
+		box-shadow: 0 4px 10px rgba(255, 211, 122, 0.18);
+	}
+	.coinwin-empty-box {
+		background: #2d2d2d;
+		border-radius: 14px;
+		padding: 40px 12px;
+		text-align: center;
+		margin-top: 10px;
+	}
+	.coinwin-empty-text {
+		color: #999;
+		font-size: 14px;
+	}
+</style>
+
+<div class="a-header position-re layui-rows coinwin-dark-header">
+	<div class="layui-col-xs4">
+		<a href="{:url('/mobile')}" class="coinwin-dark-nav-btn">
+			<i class="layui-icon layui-icon-left"></i>
+		</a>
+	</div>
+	<div class="layui-col-xs4 text-center coinwin-dark-header-title">
+		{:lang('coinwin.title')}
+	</div>
+	<div class="layui-col-xs4 text-right">
+		<a href="{:url('/mobile')}" class="coinwin-dark-nav-btn">
+			<i class="layui-icon layui-icon-home"></i>
+		</a>
+	</div>
+</div>
+
+<div class="coinwin-dark-page">
+	<div class="coinwin-rule-wrap">
+		<a href="{:url('show/news',['id'=>15])}" class="coinwin-rule-card">
+			<div class="coinwin-rule-left">
+				<div class="coinwin-rule-title">{:lang('coinwin.ad_a')}</div>
+				<div class="coinwin-rule-desc">{:lang('coinwin.ad_b')}</div>
+			</div>
+			<div class="coinwin-rule-right">
+				<i class="layui-icon layui-icon-right"></i>
+			</div>
+		</a>
+	</div>
+
+	<div class="coinwin-list-wrap">
+		{volist name="goods" id="vo"}
+		<div class="coinwin-item-card">
+			<div class="coinwin-item-left">
+				<div class="coinwin-item-top">
+					<div class="coinwin-item-logo">
+						<img src="{$vo.show_logo}" alt="{$vo.show_title}">
+					</div>
+					<div class="coinwin-item-title">{$vo.show_title}</div>
+				</div>
+				<div class="coinwin-item-tags">
+					<span class="coinwin-tag coinwin-tag-rate">{:lang('coinwin.annual_rate')} {$vo.annual_rate_text}</span>
+					<span class="coinwin-tag coinwin-tag-time">{$vo.play_time_text}{:lang('coinwin.day_unit')}</span>
+				</div>
+			</div>
+			<div class="coinwin-item-right">
+				<a href="{:url('coinwin/detail',['id'=>$vo.id])}" class="coinwin-buy-btn">
+					{:lang('coinwin.btn_buy')}
+				</a>
+			</div>
+		</div>
+		{/volist}
+
+		{empty name="goods"}
+		<div class="coinwin-empty-box">
+			<div class="coinwin-empty-text">{:lang('finance.finance_nodata')}</div>
+		</div>
+		{/empty}
+	</div>
+</div>
+
+{include file="./block/foot_script"}

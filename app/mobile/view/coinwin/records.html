@@ -1,0 +1,275 @@
+<div class="a-header position-re layui-rows coinwin-dark-header">
+    <div class="layui-col-xs4">
+        <a href="javascript:window.history.go(-1);" class="coinwin-dark-nav-btn">
+            <i class="layui-icon layui-icon-left"></i>
+        </a>
+    </div>
+    <div class="layui-col-xs4 text-center coinwin-dark-header-title">
+        {:lang('coinwin.record_title')}
+    </div>
+    <div class="layui-col-xs4 text-right">
+        <a href="{:url('/mobile')}" class="coinwin-dark-nav-btn">
+            <i class="layui-icon layui-icon-home"></i>
+        </a>
+    </div>
+</div>
+
+<div class="coinwin-record-page">
+    <div class="coinwin-record-tabs">
+        <div class="layui-tab layui-tab-brief coinwin-dark-tab" lay-filter="tabRecordList">
+            <ul class="layui-tab-title">
+                <li class="layui-this">{:lang('coinwin.bottom_tab_a')}</li>
+                <li>{:lang('coinwin.bottom_tab_b')}</li>
+                <li>{:lang('coinwin.bottom_tab_c')}</li>
+            </ul>
+            <div class="layui-tab-content coinwin-record-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <table class="layui-table coinwin-record-table" lay-skin="nob">
+                        <thead>
+                        <tr>
+                            <th>{:lang('coinwin.table_tit_good')}</th>
+                            <th>{:lang('coinwin.table_tit_buy')}/{:lang('coinwin.table_tit_win')}</th>
+                            <th>{:lang('coinwin.record_remaining_days')}</th>
+                            <th>{:lang('coinwin.table_tit_type')}</th>
+                        </tr>
+                        </thead>
+                        <tbody id="record_lista"></tbody>
+                    </table>
+                </div>
+                <div class="layui-tab-item">
+                    <table class="layui-table coinwin-record-table" lay-skin="nob">
+                        <thead>
+                        <tr>
+                            <th>{:lang('coinwin.table_tit_good')}</th>
+                            <th>{:lang('coinwin.table_tit_buy')}/{:lang('coinwin.table_tit_win')}</th>
+                            <th>{:lang('coinwin.record_finished')}</th>
+                            <th>{:lang('coinwin.table_tit_type')}</th>
+                        </tr>
+                        </thead>
+                        <tbody id="record_listb"></tbody>
+                    </table>
+                </div>
+                <div class="layui-tab-item">
+                    <table class="layui-table coinwin-record-table" lay-skin="nob">
+                        <thead>
+                        <tr>
+                            <th>{:lang('coinwin.record_time_product')}</th>
+                            <th>{:lang('coinwin.record_amount')}</th>
+                            <th>{:lang('coinwin.table_tit_types')}</th>
+                        </tr>
+                        </thead>
+                        <tbody id="record_listc"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="./block/foot_script"}
+
+<script>
+    layui.use(['layer','element','jquery', 'flow'], function(){
+        var layer = layui.layer,
+            element = layui.element,
+            $ = layui.jquery,
+            flow = layui.flow;
+
+        element.on('tab(tabRecordList)', function(data){
+            if(data.index === 0){
+                refreshLista();
+            }
+            if(data.index === 1){
+                refreshListb();
+            }
+            if(data.index === 2){
+                refreshListc();
+            }
+        });
+
+        window.refreshLista = function(){
+            $('#record_lista').empty();
+            flow.load({
+                elem: '#record_lista',
+                colSpan: 4,
+                isAuto: true,
+                end:'<td colspan="4" class="text-center coinwin-no-data">{:lang("finance.finance_nodata")}</td>',
+                done: function(page, next){
+                    var lis = [];
+                    $.post("{:url('coinwin/lista')}", {page:page}, function(res){
+                        layui.each(res.data, function(index, item){
+                            var html = '<tr>';
+                            html += '<td>'+ item.title +'</td>';
+                            html += '<td>'+ parseFloat(item.buy_account).toFixed(4) +'<br>'+ parseFloat(item.rate_account).toFixed(4) +'</td>';
+                            html += '<td>'+ item.lock +'</td>';
+                            html += '<td>'+ item.upstatus +'</td>';
+                            html += '</tr>';
+                            lis.push(html);
+                        });
+                        next(lis.join(''), page < res.pages);
+                    });
+                }
+            });
+        };
+
+        window.refreshListb = function(){
+            $('#record_listb').empty();
+            flow.load({
+                elem: '#record_listb',
+                colSpan: 4,
+                isAuto: true,
+                end:'<td colspan="4" class="text-center coinwin-no-data">{:lang("finance.finance_nodata")}</td>',
+                done: function(page, next){
+                    var lis = [];
+                    $.post("{:url('coinwin/listb')}", {page:page}, function(res){
+                        layui.each(res.data, function(index, item){
+                            var html = '<tr>';
+                            html += '<td>'+ item.title +'</td>';
+                            html += '<td>'+ parseFloat(item.buy_account).toFixed(4) +'<br>'+ parseFloat(item.rate_account).toFixed(4) +'</td>';
+                            html += '<td>--</td>';
+                            html += '<td>'+ item.upstatus +'</td>';
+                            html += '</tr>';
+                            lis.push(html);
+                        });
+                        next(lis.join(''), page < res.pages);
+                    });
+                }
+            });
+        };
+
+        window.refreshListc = function(){
+            $('#record_listc').empty();
+            flow.load({
+                elem: '#record_listc',
+                colSpan: 3,
+                isAuto: true,
+                end:'<td colspan="3" class="text-center coinwin-no-data">{:lang("finance.finance_nodata")}</td>',
+                done: function(page, next){
+                    var lis = [];
+                    $.post("{:url('coinwin/listc')}", {page:page}, function(res){
+                        layui.each(res.data, function(index, item){
+                            var html = '<tr>';
+                            html += '<td>'+ item.create_time +'<br>'+ item.remark +'</td>';
+                            html += '<td>'+ item.allacount +'</td>';
+                            html += '<td>'+ item.ordertype +'</td>';
+                            html += '</tr>';
+                            lis.push(html);
+                        });
+                        next(lis.join(''), page < res.pages);
+                    });
+                }
+            });
+        };
+
+        refreshLista();
+    });
+</script>
+
+<style>
+    body,
+    html {
+        background: #242424;
+    }
+
+    .coinwin-dark-header {
+        background: #242424;
+        color: #fff;
+        padding: 14px 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .coinwin-dark-nav-btn {
+        color: #fff;
+        display: inline-block;
+        font-size: 20px;
+        line-height: 24px;
+        padding: 2px 4px;
+    }
+
+    .coinwin-dark-header-title {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .coinwin-record-page {
+        background: #242424;
+        min-height: calc(100vh - 52px);
+        padding: 14px 12px 24px;
+    }
+
+    .coinwin-record-tabs {
+        background: #2d2d2d;
+        border-radius: 14px;
+        padding: 12px 10px;
+        border: 1px solid rgba(255,255,255,0.04);
+        box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    }
+
+    .coinwin-dark-tab .layui-tab-title {
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .coinwin-dark-tab .layui-tab-title li {
+        color: #b8b8b8;
+        font-size: 14px;
+    }
+
+    .coinwin-dark-tab .layui-tab-title .layui-this {
+        color: #ffd37a;
+    }
+
+    .coinwin-dark-tab .layui-tab-brief > .layui-tab-title .layui-this:after {
+        border-bottom: 2px solid #ffd37a;
+    }
+
+    .coinwin-record-tab-content {
+        padding: 10px 0 0 0;
+    }
+
+    .coinwin-record-table {
+        background: transparent;
+        color: #fff;
+        margin: 0;
+    }
+
+    .coinwin-record-table thead tr {
+        background: transparent;
+    }
+
+    .coinwin-record-table th {
+        color: #b8b8b8;
+        font-size: 12px;
+        font-weight: 500;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        padding: 12px 6px;
+        background: transparent;
+    }
+
+    .coinwin-record-table td {
+        color: #fff;
+        font-size: 12px;
+        padding: 12px 6px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        background: transparent;
+        vertical-align: middle;
+        word-break: break-all;
+    }
+
+    .coinwin-record-table .color-green {
+        color: #42d39b !important;
+    }
+
+    .coinwin-record-table .color-red {
+        color: #ff6b6b !important;
+    }
+
+    .coinwin-record-table .color-blue {
+        color: #ffd37a !important;
+    }
+
+    .coinwin-no-data {
+        color: #999 !important;
+        padding: 24px 0 !important;
+    }
+</style>

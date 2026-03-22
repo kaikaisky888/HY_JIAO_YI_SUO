@@ -1,0 +1,142 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-05-31 13:44:29
+ * @LastEditTime: 2021-10-09 20:49:58
+ * @Description: Forward, no stop
+-->
+<link rel="stylesheet" href="__STATIC__/admin/css/welcome.css?v={:time()}" media="all">
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div style="margin-bottom: 20px;">
+            <fieldset class="table-search-fieldset">
+                <legend>搜索</legend>
+                <div class="layui-form layui-form-pane form-search">
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">时间范围</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="times" name="times" data-date="" data-date-type="date" data-date-range="-" class="layui-input" autocomplete="off"  placeholder="请选择时间" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <button class="layui-btn layui-btn-normal layui-btn-sm search-submit">确认</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm search-reset">重置</button>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header"><i class="fa fa-warning icon"></i>数据统计</div>
+                                <div class="layui-card-body">
+                                    <div class="layui-row layui-col-space10">
+                                        {if $admin.is_team == 0}
+                                        <div class="layui-col-xs4">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-blue">全站</span>
+                                                        <h5>股东</h5>
+                                                    </div>
+                                                    <div class="panel-content" id="list_a">
+                                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs4">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-blue">全站</span>
+                                                        <h5>业务员</h5>
+                                                    </div>
+                                                    <div class="panel-content" id="list_b">
+                                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs4">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-blue">全站</span>
+                                                        <h5>会员</h5>
+                                                    </div>
+                                                    <div class="panel-content" id="list_c">
+                                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/if}
+                                        {if $admin.is_team == 1 && $admin.member_id == 0}
+                                        <div class="layui-col-xs4">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-cyan">伞下</span>
+                                                        <h5>团队人员</h5>
+                                                    </div>
+                                                    <div class="panel-content" id="list_a">
+                                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs4">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-cyan">伞下</span>
+                                                        <h5>业务员</h5>
+                                                    </div>
+                                                    <div class="panel-content" id="list_b">
+                                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs4">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-cyan">伞下</span>
+                                                        <h5>会员</h5>
+                                                    </div>
+                                                    <div class="panel-content" id="list_c">
+                                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/if}
+                                        {if $admin.is_team == 1 && $admin.member_id > 0}
+                                        <div class="layui-col-xs12">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-orange">名下</span>
+                                                        <h5>会员</h5>
+                                                    </div>
+                                                    <div class="panel-content" id="list_c">
+                                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/if}
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

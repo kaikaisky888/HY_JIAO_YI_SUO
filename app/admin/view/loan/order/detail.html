@@ -1,0 +1,96 @@
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <table class="layui-table">
+            <colgroup>
+                <col width="180">
+                <col>
+                <col width="180">
+                <col>
+            </colgroup>
+            <tbody>
+            <tr>
+                <td>申请ID</td>
+                <td>{$row.id}</td>
+                <td>用户ID</td>
+                <td>{$row.uid}</td>
+            </tr>
+            <tr>
+                <td>用户名</td>
+                <td>{$row.username|default=''}</td>
+                <td>贷款产品</td>
+                <td>{$row.loan_name|default=''}</td>
+            </tr>
+            <tr>
+                <td>申请金额</td>
+                <td>{$row.amount}</td>
+                <td>年化利率</td>
+                <td>{$row.interest_rate}%</td>
+            </tr>
+            <tr>
+                <td>还款周期</td>
+                <td>{$row.repayment_period} 天</td>
+                <td>状态</td>
+                <td>{$row.status_text}</td>
+            </tr>
+            <tr>
+                <td>总利息</td>
+                <td>{$row.total_interest}</td>
+                <td>总应还金额</td>
+                <td>{$row.total_repayment}</td>
+            </tr>
+            <tr>
+                <td>真实姓名</td>
+                <td>{$row.real_name}</td>
+                <td>手机号</td>
+                <td>{$row.phone}</td>
+            </tr>
+            <tr>
+                <td>证件号</td>
+                <td colspan="3">{$row.id_number}</td>
+            </tr>
+            <tr>
+                <td>证件正面</td>
+                <td>
+                    {if $row.id_card_front}
+                    <img src="{$row.id_card_front}" style="max-width: 240px;max-height: 140px;">
+                    {/if}
+                </td>
+                <td>证件反面</td>
+                <td>
+                    {if $row.id_card_back}
+                    <img src="{$row.id_card_back}" style="max-width: 240px;max-height: 140px;">
+                    {/if}
+                </td>
+            </tr>
+            <tr>
+                <td>审核管理员</td>
+                <td>{$row.review_admin_name|default=''}</td>
+                <td>审核时间</td>
+                <td>{if $row.review_time}{$row.review_time|date='Y-m-d H:i:s'}{/if}</td>
+            </tr>
+            <tr>
+                <td>审核备注</td>
+                <td colspan="3">{$row.review_remark|default=''}</td>
+            </tr>
+            <tr>
+                <td>放款时间</td>
+                <td>{if $row.loan_time}{$row.loan_time|date='Y-m-d H:i:s'}{/if}</td>
+                <td>到期时间</td>
+                <td>{if $row.due_time}{$row.due_time|date='Y-m-d H:i:s'}{/if}</td>
+            </tr>
+            <tr>
+                <td>还款时间</td>
+                <td>{if $row.repayment_time}{$row.repayment_time|date='Y-m-d H:i:s'}{/if}</td>
+                <td>逾期时间</td>
+                <td>{if $row.overdue_time}{$row.overdue_time|date='Y-m-d H:i:s'}{/if}</td>
+            </tr>
+            <tr>
+                <td>创建时间</td>
+                <td colspan="3">{if $row.create_time}{$row.create_time|date='Y-m-d H:i:s'}{/if}</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

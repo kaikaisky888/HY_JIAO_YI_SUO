@@ -1,0 +1,157 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-08 21:39:08
+ * @LastEditTime: 2021-09-09 16:02:05
+ * @Description: Forward, no stop
+-->
+<div class="a-header position-re">
+	<a href="javascript:window.history.go(-1);"><i class="layui-icon layui-icon-left"></i></a>
+	<div class="layui-inline h-span">{:lang('public_memu.member_team')}</div>
+</div>
+<div class="new-bg">
+	<!--主体-->
+	<div class="main mt-30">
+		<div class="layui-container">
+			<div class="layui-row white-box">
+				<div class="layui-col-xs12">
+					<div class="account-main coinwin-bottom" style="padding: 0px;margin-top:0px;">
+						<div class="layui-tab layui-tab-brief">
+							<ul class="layui-tab-title">
+							  <li class="layui-this">{:lang('public_memu.team_user')}</li>
+							  <li>{:lang('public_memu.team_ma')}</li>
+							  <a href="{:url('finance/cmfinance')}" class="float-right font-14 mt-10">{:lang('public_memu.team_log')}</a>
+							</ul>
+							<div class="layui-tab-content">
+								
+								<div class="layui-tab-item layui-show">
+									<div class="layui-row text-left">
+										<span class="layui-col-xs8">{:lang('public_memu.team_users')}:</span>
+										<span class="layui-col-xs4">{$myteam_num}</span>
+									</div>
+									<hr>
+									<div class="layui-row mt-10">
+										{volist name="level_member" id="vo" key="key"}
+										<div class="layui-col-xs12">
+											<div class="myteam-body-btn">
+												<div class="panel layui-bg-number">
+													<div class="panel-body">
+														<div class="panel-title">
+															<span class="pull-right layui-badge-dot layui-bg-orange"></span>
+															<h5><i class="layui-icon layui-icon-diamond"></i> {:fox_abcdefg($key)}</h5>
+														</div>
+														<div class="panel-content">
+															<h1 class="no-margins">{$m_num[$key]['num']}</h1>
+															<p class="small">
+																{if fox_team_on($key,1) > 0}{:lang('public_memu.team_on_seconds')}:{:fox_team_on($key,1)};{/if}
+																{if fox_team_on($key,2) > 0}{:lang('public_memu.team_on_coinwin')}:{:fox_team_on($key,2)};{/if}
+																{if fox_team_on($key,3) > 0}{:lang('public_memu.team_on_recharge')}:{:fox_team_on($key,3)};{/if}
+															</p>
+														</div>
+													</div>
+												</div>
+											</div>        
+										</div>
+										{/volist}
+									</div>
+								</div>
+								<div class="layui-tab-item">
+									<div class="layui-row">
+										<div class="layui-col-xs12" style="text-align: center;margin-top: 20px;"><img src="{$invite_code_img}" width="120"></div>
+										<div class="layui-col-xs12" style="margin-top: 20px;">
+											<div class="layui-row text-center line-36">
+												<span class="layui-col-xs6">{:lang('member.member_invite_code')}</span>
+												<span class="layui-col-xs6">{$member.invite_code}</span>
+												<span class="layui-col-xs6"><i class="fa fa-qrcode" aria-hidden="true"></i> <a href="javascript:void(0);" onclick="copy();" class="color-blue">{:lang('member.member_invite_copy')}</a></span>
+												<span class="layui-col-xs6"><i class="fa fa-file-image-o" aria-hidden="true"></i> <a href="javascript:void(0);" onclick="poster();" class="color-blue">{:lang('member.member_poster')}</a></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="hidebox" id="poster">
+	<img src="{$poster}">
+</div>
+<!--footer-->
+{include file="./block/foot_script"}
+<script src="__STATIC__/mobile/js/clipboard.min.js?v={$version}"></script>
+<script>
+	var codeurl = "{$invite_code_url}";
+	var cando = "{$cando}";
+
+	function clipBoard(text) {
+		const body = document.body;
+		const input = document.createElement("input");
+		body.append(input);
+		input.style.opacity = 0;
+		input.value = text;
+		input.select();
+		input.setSelectionRange(0, input.value.length);
+		document.execCommand("Copy");
+		input.blur();
+		input.remove();
+	}
+	function copy() {
+		$(".hidebox").fadeOut();
+		clipBoard(codeurl);
+		layer.msg("{:lang('public.copyok')}");
+	}
+	
+	layui.use(['layer', 'jquery', 'form'], function(){
+		var layer = layui.layer
+		,$ = layui.jquery
+		,form = layui.form;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+	})
+	$(function(){
+		if(cando == 1){
+			$(".layui-tab-title").find("li").removeClass("layui-this");
+			$(".layui-tab-content").find('.layui-tab-item').removeClass("layui-show");
+			$(".layui-tab-title").find("li").eq(1).addClass("layui-this");
+			$(".layui-tab-content").find('.layui-tab-item').eq(1).addClass("layui-show");
+		}
+	})
+	function poster(){
+		layer.open({
+			type: 1
+			,title: false //不显示标题栏
+			,closeBtn: false
+			,area: ['100%','100%']
+			,shade: 0.8
+			,id: 'LAY_layuiposter' //设定一个id，防止重复弹出
+			,resize: false
+			,btn: ["{:lang('member.member_poster_save')}", "{:lang('member.member_poster_no')}"]
+			,btnAlign: 'c'
+			,moveType: 1 //拖拽模式，0或者1
+			,content: $("#poster")
+			,yes: function(layero){
+				var picurl= $("#poster").find("img").attr("src");
+				// alert(picurl);
+				savePicture(picurl);
+			}
+		});
+	}
+	var triggerEvent = "touchstart";
+	function savePicture(Url){
+		var blob=new Blob([''], {type:'application/octet-stream'});
+		var url = URL.createObjectURL(blob);
+		var a = document.createElement('a');
+		a.href = Url;
+		a.download = Url.replace(/(.*\/)*([^.]+.*)/ig,"$2").split("?")[0];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+		URL.revokeObjectURL(url);
+	}
+</script>

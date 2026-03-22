@@ -1,0 +1,35 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-06 20:50:49
+ * @LastEditTime: 2021-07-06 23:52:21
+ * @Description: Forward, no stop
+-->
+<!-- header -->
+<div class="header">
+    {include file="./block/block_head"}
+</div>
+<div class="info-box">
+    <div class="layui-container">  
+        <div class="layui-row layui-col-space20">
+          <div class="layui-col-xs10">
+            <div class="info-title">{$info.title}</div>
+            <div class="info-con">
+                {$info.content|raw|htmlspecialchars_decode|html_entity_decode}
+            </div>
+          </div>
+          <div class="layui-col-xs2">
+              <div class="info-list-box">
+                <div class="info-ltitle">{:lang('public_memu.relation')}</div>
+                <div class="info-list">
+                    <ul>
+                        {:get_bottom($info.cate_id,$lang)}
+                    </ul>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+<!--footer-->
+{include file="./block/block_bottom"}
+{include file="./block/foot_script"}

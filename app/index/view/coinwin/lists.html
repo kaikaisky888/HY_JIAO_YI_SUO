@@ -1,0 +1,269 @@
+<div class="header">
+	{include file="./block/block_head"}
+</div>
+<div class="new-bg">
+	<div class="main">
+		<div class="layui-container">
+			<div class="layui-row text-center coinwin-header">
+				<span class="flag">{$coin_title}</span>
+				<div class="layui-col-xs3">
+					<span>{:number_format($info.money,4)}</span>
+					<p>{:lang('coinwin.now_wallet')}</p>
+				</div>
+				<div class="layui-col-xs3">
+					<span id="can_win_today"></span>
+					<p>{:lang('coinwin.can_today_win')}</p>
+				</div>
+				<div class="layui-col-xs3">
+					<span>{:number_format($info.rate_account,4)}</span>
+					<p>{:lang('coinwin.all_win')}</p>
+				</div>
+				<div class="layui-col-xs3">
+					<span>{:number_format($info.buy_account,4)}</span>
+					<p>{:lang('coinwin.now_order_in')}</p>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space30 coinwin-body">
+			  {volist name="goods" id="vo"}
+			  <div class="layui-col-xs12">
+				<form class="layui-form" action="">
+			    <div class="layui-panel">
+			     <h3>{$vo.info['title']}</h3>
+					<input type="hidden" name="good_id" value="{$vo.id}">
+					 <input type="" name="buy_account" value="" lay-verify="required|account" lay-verType="tips" placeholder="{:lang('coinwin.min_coin_num')}{$vo.play_price|floatVal}" class="layui-input"/>
+					 <div class="layui-row">
+					 	<div class="layui-col-xs4">
+					 		<span class="font-25">{$vo.play_price|floatVal}</span>
+							<p class="color-grey">{:lang('coinwin.min_coin_num')}</p>
+					 	</div>
+						<div class="layui-col-xs4">
+							<span class="font-25">{:floatVal(bc_mul($vo.play_rate,100))}</span>
+							<p class="color-grey">{:lang('coinwin.all_rate')}</p>
+						</div>
+						<div class="layui-col-xs4 text-right">
+							<span class="font-25">{$vo.play_time|floatVal}</span>
+							<p class="color-grey">{:lang('coinwin.play_time')}</p>
+						</div>
+					 </div>
+					 <div class="mt-30">
+					 	<button class="layui-btn layui-btn-normal" lay-submit lay-filter="formCoin{$vo.id}">{:lang('coinwin.btn_buy')}</button>
+					 </div>
+			    </div> 
+				</form>  
+			  </div>
+			 {/volist}
+			</div> 
+			<div class="layui-clear"></div>
+			<!--收益-->
+			<div class="coinwin-bottom">
+				<div class="layui-tab layui-tab-brief" lay-filter="tabList">
+				  <ul class="layui-tab-title">
+				    <li class="layui-this">{:lang('coinwin.bottom_tab_a')}</li>
+				    <li>{:lang('coinwin.bottom_tab_b')}</li>
+				    <li>{:lang('coinwin.bottom_tab_c')}</li>
+				  </ul>
+				  <div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							<table class="layui-table" lay-skin="nob" lay-even>
+							  <thead>
+							    <tr>
+							      <th>{:lang('coinwin.table_tit_good')}</th>
+							      <th>{:lang('coinwin.table_tit_buy')}</th>
+							      <th>{:lang('coinwin.table_tit_win')}</th>
+							      <th>{:lang('coinwin.table_tit_time')}</th>
+							      <th>{:lang('coinwin.table_tit_type')}</th>
+							    </tr> 
+							  </thead>
+							  <tbody id="lista">
+							    
+							  </tbody>
+							</table>
+						</div>
+						<div class="layui-tab-item">
+							<table class="layui-table" lay-skin="nob" lay-even>
+								<thead>
+									<tr>
+										<th>{:lang('coinwin.table_tit_good')}</th>
+										<th>{:lang('coinwin.table_tit_buy')}</th>
+										<th>{:lang('coinwin.table_tit_win')}</th>
+										<th>{:lang('coinwin.table_tit_time')}</th>
+										<th>{:lang('coinwin.table_tit_type')}</th>
+									</tr> 
+								</thead>
+								<tbody id="listb">
+							    
+								</tbody>
+							</table>
+						</div>
+						<div class="layui-tab-item">
+							<table class="layui-table" lay-skin="nob" lay-even>
+							  <thead>
+							    <tr>
+									<th>{:lang('coinwin.table_tit_good')}</th>
+									<th>{:lang('coinwin.table_tit_wins')}</th>
+									<th>{:lang('coinwin.table_tit_times')}</th>
+									<th>{:lang('coinwin.table_tit_types')}</th>
+							    </tr> 
+							  </thead>
+							  <tbody id="listc">
+							    
+							</tbody>
+							</table>
+						</div>
+					</div>
+				</div>			      
+			</div>
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/block_bottom"}
+{include file="./block/foot_script"}
+<script>
+var product_id ="{$product_id}";
+layui.use(['layer','element','jquery', 'form', 'flow'], function(){
+	var layer = layui.layer
+	,element = layui.element
+	,$ = layui.jquery
+	,form = layui.form
+	var flow = layui.flow;
+
+	form.verify({
+		account: [
+			/^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/
+			,"{:lang('coinwin.check_buy_number')}"
+		] 
+	});
+
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+
+	element.on('tab(tabList)', function(data){
+		if(data.index == 0){
+			refreshLista();
+		}
+		if(data.index == 1){
+			refreshListb();
+		}
+		if(data.index == 2){
+			refreshListc();
+		}
+	});
+
+	window.refreshLista = function(){
+		$('#lista').empty();
+			flow.load({
+			elem: '#lista' //指定列表容器
+			,colSpan: 5 //列数
+			,isAuto: false
+			,end:'<td colspan="5" class="text-center load-box-fox">{:lang("finance.finance_nodata")}</td>'
+			,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+			var lis = [];
+			$.post("{:url('coinwin/lista')}",{product_id:product_id,page:page}, function(res){
+				layui.each(res.data, function(index, item){
+					var html = '<tr>';
+					html = html + '<td>'+item.title+'</td>';	
+					html = html + '<td>'+parseFloat(item.buy_account)+'</td>';
+					html = html + '<td>'+parseFloat(item.rate_account).toFixed(4)+'</td>';	
+					html = html + '<td>'+item.lock+'</td>';
+					html = html + '<td>'+item.upstatus+'</td>';	
+					html = html + '</tr>';
+					lis.push(html);
+				}); 
+				next(lis.join(''), page < res.pages);    
+				if(res.can_win_today){
+					$("#can_win_today").html(res.can_win_today);
+				}
+				});
+			}
+		});
+	}
+
+	window.refreshListb = function(){
+		$('#listb').empty();
+			flow.load({
+			elem: '#listb' //指定列表容器
+			,colSpan: 5 //列数
+			,isAuto: false
+			,end:'<td colspan="5" class="text-center load-box-fox">{:lang("finance.finance_nodata")}</td>'
+			,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+			var lis = [];
+			$.post("{:url('coinwin/listb')}",{product_id:product_id,page:page}, function(res){
+				layui.each(res.data, function(index, item){
+					var html = '<tr>';
+					html = html + '<td>'+item.title+'</td>';	
+					html = html + '<td>'+parseFloat(item.buy_account)+'</td>';
+					html = html + '<td>'+parseFloat(item.rate_account).toFixed(4)+'</td>';	
+					html = html + '<td>------</td>';
+					html = html + '<td>'+item.upstatus+'</td>';	
+					html = html + '</tr>';
+					lis.push(html);
+				}); 
+				next(lis.join(''), page < res.pages);    
+				});
+			}
+		});
+	}
+
+	window.refreshListc = function(){
+		$('#listc').empty();
+			flow.load({
+			elem: '#listc' //指定列表容器
+			,colSpan: 4 //列数
+			,isAuto: false
+			,end:'<td colspan="4" class="text-center load-box-fox">{:lang("finance.finance_nodata")}</td>'
+			,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+			var lis = [];
+			$.post("{:url('coinwin/listc')}",{product_id:product_id,page:page}, function(res){
+				layui.each(res.data, function(index, item){
+					var html = '<tr>';
+					html = html + '<td>'+item.remark+'</td>';	
+					html = html + '<td>'+item.allacount+'</td>';	
+					html = html + '<td>'+item.create_time+'</td>';	
+					html = html + '<td>'+item.ordertype+'</td>';	
+					html = html + '</tr>';
+					lis.push(html);
+				}); 
+				next(lis.join(''), page < res.pages);    
+				});
+			}
+		});
+	}
+	
+	//监听提交
+	{volist name="goods" id="vo"}
+	form.on('submit(formCoin{$vo.id})', function(data){
+		loading =layer.load(1, {shade: [0.1,'#fff']});
+		data.field.product_id=product_id;
+		$.post("{:url('coinwin/dobuy')}", data.field, function (res) {
+			layer.close(loading);
+			if (res.code > 0) {
+				if(res.url){
+					layer.msg(res.msg, {time: 1800}, function () {
+						location.href = res.url;
+					});
+				}else{
+					layer.msg(res.msg, {time: 1800}, function () {
+						window.location.reload();
+					});
+				}
+			} else {
+				if(res.url){
+					layer.msg(res.msg, {time: 1800}, function () {
+						location.href = res.url;
+					});
+				}else{
+					layer.msg(res.msg, {time: 1800});
+				}
+			}
+		});
+		return false;
+	});
+	{/volist}
+
+	refreshLista();
+});
+</script>

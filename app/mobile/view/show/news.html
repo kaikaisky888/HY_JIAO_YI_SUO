@@ -1,0 +1,28 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-06 20:50:49
+ * @LastEditTime: 2021-08-23 15:33:30
+ * @Description: Forward, no stop
+-->
+<div class="a-header position-re layui-rows">
+  <div class="layui-col-xs8">
+      <a href="javascript:window.history.go(-1);"><i class="layui-icon layui-icon-left"></i></a>
+  </div>
+<div class="layui-col-xs4 text-right">
+      <a href="{:url('/mobile')}"><i class="layui-icon layui-icon-home"></i></a>
+  </div>
+</div>
+<div class="info-box">
+    <div class="layui-container">  
+        <div class="layui-row layui-col-space20">
+          <div class="layui-col-xs12">
+            <div class="info-title">{$info.title}</div>
+            <div class="info-con">
+                {$info.content|raw|htmlspecialchars_decode|html_entity_decode}
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+<!--footer-->
+{include file="./block/foot_script"}

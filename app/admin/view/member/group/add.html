@@ -1,0 +1,43 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-05-31 22:23:18
+ * @LastEditTime: 2021-06-22 16:31:11
+ * @Description: Forward, no stop
+-->
+<div class="layuimini-container">
+    <form id="app-form" class="layui-form layuimini-form">
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">组别名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" class="layui-input" lay-verify="required" placeholder="请输入权限名称" value="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">等级序号</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="number" lay-filter="number">
+                    {for start="0" end="10" name="i"}{if isset($vo.number) and $vo.number eq $i}
+                    <option selected value="{$i}">当前 VIP {$vo.number} 等级</option>
+                    {else}
+                    <option value="{$i}">设置 VIP {$i} 等级</option>
+                    {/if}{/for}
+                </select>
+            </div>
+        </div>
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="text" name="sort" class="layui-input"  placeholder="请输入排序" value="0">
+            </div>
+        </div>
+
+        <div class="hr-line"></div>
+        <div class="layui-form-item text-center">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit>确认</button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+        </div>
+
+    </form>
+</div>

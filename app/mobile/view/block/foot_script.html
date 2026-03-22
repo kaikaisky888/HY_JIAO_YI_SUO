@@ -1,0 +1,87 @@
+<script src="__STATIC__/mobile/js/script.js?v={$version}"></script>
+<script src="__STATIC__/mobile/js/clipboard.min.js?v={$version}"></script>
+<script src="__STATIC__/mobile/js/iosapp.js"></script>
+<script>
+    (function () {
+        if (window.__mobileNoScaleInited__) {
+            return;
+        }
+        window.__mobileNoScaleInited__ = true;
+
+        // 只改 JS 的情况下，顺手动态补一个 viewport
+        // 注意：这比直接写在 head 里稍弱一点，但总比没有强
+        try {
+            var meta = document.querySelector('meta[name="viewport"]');
+            var viewportContent = 'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover';
+            if (!meta) {
+                meta = document.createElement('meta');
+                meta.setAttribute('name', 'viewport');
+                meta.setAttribute('content', viewportContent);
+                document.head.appendChild(meta);
+            } else {
+                meta.setAttribute('content', viewportContent);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+
+        function preventDefault(e) {
+            e.preventDefault();
+        }
+
+        // 禁止 iOS 手势缩放
+        document.addEventListener('gesturestart', preventDefault, { passive: false });
+        document.addEventListener('gesturechange', preventDefault, { passive: false });
+        document.addEventListener('gestureend', preventDefault, { passive: false });
+
+        // 禁止双指缩放 / 双指拖动
+        document.addEventListener('touchstart', function (e) {
+            if (e.touches && e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchmove', function (e) {
+            if (e.touches && e.touches.length > 1) {
+                e.preventDefault();
+                return false;
+            }
+        }, { passive: false });
+
+        // 禁止双击放大
+        var lastTouchEnd = 0;
+        document.addEventListener('touchend', function (e) {
+            var now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, { passive: false });
+
+        // 禁止元素拖拽导致页面乱动
+        document.addEventListener('dragstart', function (e) {
+            e.preventDefault();
+            return false;
+        }, false);
+
+        // APP 内再从 WebView 层兜底一次
+        function plusReady() {
+            try {
+                var ws = plus.webview.currentWebview();
+                if (ws && ws.setStyle) {
+                    ws.setStyle({
+                        scalable: false
+                    });
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        if (window.plus) {
+            plusReady();
+        } else {
+            document.addEventListener('plusready', plusReady, false);
+        }
+    })();
+</script>

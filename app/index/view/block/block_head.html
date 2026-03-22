@@ -1,0 +1,70 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-06 21:04:33
+ * @LastEditTime: 2021-10-10 13:39:26
+ * @Description: Forward, no stop
+-->
+
+<ul class="layui-nav layui-row" lay-filter="">
+    <div class="menu-left layui-col-xs8">
+        <a href="{:server_url()}" class="logo"><img src="__STATIC__/index/img/logo.png" ></a>
+        <li class="layui-nav-item {if $topmenu=='index'}layui-this{/if}"><a href="{:server_url()}">{:lang('public_memu.home')}</a></li>
+        <li class="layui-nav-item {if $topmenu=='deal' || $topmenu=='leverdeal'}layui-this{/if}">
+            <a href="javascript:;">{:lang('public_memu.digital_currency')}</a>
+            <dl class="layui-nav-child">
+                <dd><a {if $topmenu=='leverdeal'}class="layui-this"{/if} href="{:url('leverdeal/index')}">{:lang('public_memu.leverdeal')}</a></dd>
+                <dd><a {if $topmenu=='deal'}class="layui-this"{/if} href="{:url('deal/index')}">{:lang('public_memu.deal')}</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item {if $topmenu=='market'}layui-this{/if}"><a href="{:url('leverdeal/index')}?cate_id=10">{:lang('public_memu.market')}</a></li>
+        <li class="layui-nav-item {if $topmenu=='commodity'}layui-this{/if}"><a href="{:url('leverdeal/index')}?cate_id=11">{:lang('public_memu.commodity')}</a></li>
+        <li class="layui-nav-item {if $topmenu=='seconds'}layui-this{/if}"><a href="{:url('seconds/index')}">{:lang('public_memu.seconds')}</a></li>
+        <li class="layui-nav-item">
+            <a href="javascript:;"><i class="fa fa-list-ul" aria-hidden="true"></i></a>
+            <dl class="layui-nav-child">
+                <dd><a {if $topmenu=='winer'}class="layui-this"{/if} href="{:url('winer/index')}">{:lang('public_memu.winer')}</a></dd>
+                <dd><a {if $topmenu=='coinwin'}class="layui-this"{/if} href="{:url('coinwin/index')}">{:lang('public_memu.coinwin')}</a></dd>
+                {if sysconfig('base','site_kefu')}
+                <dd><a href="{:sysconfig('base','site_kefu')}">{:lang('public_memu.kefu')}</a></dd>
+                {/if}
+            </dl>
+        </li>
+        {if session('member')}
+        <li class="layui-nav-item {if $topmenu=='finance'}layui-this{/if}"><a href="{:url('finance/index')}">{:lang('public_memu.finance')}</a></li>
+        {/if}
+    </div>
+    <div class="menu-right layui-col-xs3">
+        {if session('member')}
+        <li class="layui-nav-item">
+            <a href="{:url('member/account')}" style="max-width: 120px;overflow: hidden;"><i class="layui-icon layui-icon-username" style="font-size: 18px;"></i>{:session('member.username')}</a>
+            <dl class="layui-nav-child">
+                <dd><a href="{:url('member/account')}"><i class="layui-icon layui-icon-set-fill"></i>{:lang('public_memu.member_account')}</a></dd>
+                <dd><a href="{:url('member/team')}"><i class="layui-icon layui-icon-diamond"></i>{:lang('public_memu.member_team')}</a></dd>
+                <dd><a href="{:url('member/tradelog')}"><i class="layui-icon layui-icon-menu-fill"></i>{:lang('public_memu.member_tradelog')}</a></dd>
+                <dd><a href="{:url('member/incomeset')}"><i class="layui-icon layui-icon-set-fill"></i>{:lang('public_memu.member_incomeset')}</a></dd>
+                <dd><a href="{:url('member/authset')}"><i class="layui-icon layui-icon-friends"></i>{:lang('public_memu.member_authset')}</a></dd>
+                <dd><a href="{:url('dealings/recharge')}"><i class="fa fa-share"></i>{:lang('public_memu.member_recharge')}</a></dd>
+                <dd><a href="{:url('dealings/withdraw')}"><i class="fa fa-reply"></i>{:lang('public_memu.member_withdraw')}</a></dd>
+                {if sysconfig('member','turn_usdt')=='open'}
+                <dd><a href="{:url('member/turnusdt')}"><i class="fa fa fa-transgender-alt"></i>{:lang('public_memu.member_turn_usdt')}</a></dd>
+                {/if}
+                <dd><a href="{:url('index/loginout')}"><i class="fa fa-sign-out" aria-hidden="true"></i>{:lang('public_memu.loginout')}</a></dd>
+            </dl>
+        </li>
+        {else}
+        <li class="layui-nav-item"><a href="{:url('wicket/login')}" class="layui-btn btn-nobg">{:lang('public_memu.login')}</a></li>
+        <li class="layui-nav-item"><a href="{:url('wicket/register')}" class="layui-btn layui-btn-normal">{:lang('public_memu.register')}</a></li>
+        {/if}
+        <li class="layui-nav-item">
+            <div class="testswitch">
+                <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" title="Theme toggle" {if $theme !== 'Dark'}checked{/if}>
+                <label class="testswitch-label" for="onoffswitch">
+                    <span class="testswitch-inner" data-on="A" data-off="B"></span>
+                    <span class="testswitch-switch"></span>
+                </label>
+            </div>
+        </li>
+        {include file="./block/block_lang"}
+    </div>	  
+</ul>
+<div class="layui-clear"></div>

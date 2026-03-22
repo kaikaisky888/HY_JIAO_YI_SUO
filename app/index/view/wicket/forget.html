@@ -1,0 +1,206 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-06 23:35:42
+ * @LastEditTime: 2021-08-26 17:58:15
+ * @Description: Forward, no stop
+-->
+<div class="header">
+    {include file="./block/block_head"}
+</div>
+<div class="login-bg">
+	<!--主体-->
+	<div class="login-box">
+		<form class="layui-form">
+			<div class="layui-form-item">
+				<div class="wicket-btn-box" id="wicket-btn-box">
+					<div class="layui-row wicket-list">
+						{if sysconfig('base','member_register') == 'phone' ||  sysconfig('base','member_register') == 'all'}
+						<div class="layui-col-xs6 wicket-btn" onclick="select_me(this,'phone');" data-type="phone" data-txt="{:lang('wicket_page.login_phone')}" data-tips="{:fox_all_replace(lang('wicket_page.please_input'),lang('wicket_page.login_phone'))}" data-hoder="{:fox_all_replace(lang('wicket_page.please_input'),lang('wicket_page.login_phone'))}">{:lang('wicket_page.txt_phone')}</div>
+						{/if}
+						{if sysconfig('base','member_register') == 'email' ||  sysconfig('base','member_register') == 'all'}
+						<div class="layui-col-xs6 wicket-btn" onclick="select_me(this,'email');" data-type="email" data-txt="{:lang('wicket_page.login_email')}" data-tips="{:fox_all_replace(lang('wicket_page.please_input'),lang('wicket_page.login_email'))}" data-hoder="{:fox_all_replace(lang('wicket_page.please_input'),lang('wicket_page.login_email'))}">{:lang('wicket_page.txt_email')}</div>
+						{/if}
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<h5 id="username_txt"></h5>
+				<div class="float-left left-input-box hidebox">
+					<select lay-filter="selectPrefix" lay-search="" lay-verType="tips" lay-reqText="{:lang('wicket_page.register_prefix')}">
+					  <option value="">{:lang('wicket_page.register_prefix')}</option>
+					  {volist name="prefix_code" id="vo"}
+					  <option value="{$vo.prefix}">{if strstr($lang, 'cn')}{$vo.cn}{else}{$vo.en}{/if}</option>
+					  {/volist}
+					</select>
+				</div>
+				<div class="float-left right-input-box">
+					<input type="text" id="username" name="username" lay-verify="required" lay-verType="tips" lay-reqText="" placeholder="" value="" class="layui-input" autocomplete="off"/>
+				</div>
+			</div>
+			<input type="hidden" id="prefix" name="prefix" value="">
+			<div class="layui-form-item position-re">
+				<h5>{:lang('wicket_page.login_code')}</h5>
+				<input type="text" name="code" lay-verify="required" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('wicket_page.login_code'))}" placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('wicket_page.login_code'))}" value="" class="layui-input"/>
+				<button class="v-send color-blue" id="btnSendCode">{:fox_all_replace(lang('wicket_page.please_get'),lang('wicket_page.login_code'))}</button>
+			</div>
+			<div class="layui-form-item">
+				<h5>{:lang('wicket_page.login_pass')}</h5>
+				<input type="password" name="password" lay-verify="required|pwd" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('wicket_page.login_pass'))}" placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('wicket_page.login_pass'))}" value="" class="layui-input"/>
+			</div>
+			<div class="layui-form-item">
+				<h5>{:lang('wicket_page.login_compass')}</h5>
+				<input type="password" name="compassword" lay-verify="required|compassword" lay-verType="tips" lay-reqText="{:fox_all_replace(lang('wicket_page.please_input'),lang('wicket_page.login_compass'))}" placeholder="{:fox_all_replace(lang('wicket_page.please_input'),lang('wicket_page.login_compass'))}" value="" class="layui-input"/>
+			</div>
+			
+			<div class="login-btn">
+				<button class="layui-btn layui-btn-normal" lay-submit lay-filter="checkForget">{:lang('wicket_page.forget_btn')}</button>
+			</div>
+		</form>
+		<div class="login-ex">
+			{if sysconfig('base','member_register') !== 'phone'}
+			<p class="cont-email hidebox">{:lang('wicket_page.notice_email')}</p>
+			{/if}			
+		</div>
+		<div class="login-phone">
+			{if sysconfig('base','member_register') !== 'email'}
+			<p class="cont-phone hidebox">{:lang('wicket_page.register_prefix_tip')}</p>
+			{/if}			
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/foot_script"}
+<script src="__STATIC__/index/js/index/wicket.js?v={$version}"></script>
+<script>
+layui.use(['layer', 'form', 'jquery'], function(){
+	var layer = layui.layer
+	,form = layui.form
+	,$ = layui.jquery;
+
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+
+	form.verify({ 
+		pwd: [
+            /^[\S]{6,12}$/
+            , "{:lang('wicket_page.register_password_req')}"
+        ],
+		compassword: function (value) {
+            if ($('input[name=password]').val() !== value)
+                return "{:lang('wicket_page.register_check_pass')}";
+        }
+    })
+
+	form.on('select(selectPrefix)', function(data){
+		$("#prefix").val(data.value);
+	}); 
+
+	form.on('submit(checkForget)', function(data){
+        if(data.field.username && data.field.code && data.field.password && data.field.compassword){
+			loading =layer.load(1, {shade: [0.1,'#fff']});
+			$.post("", data.field, function (res) {
+				layer.close(loading);
+				if (res.code > 0) {
+					layer.msg(res.msg, {time: 1800}, function () {
+						location.href = res.url;
+					});
+				} else {
+					layer.msg(res.msg, {time: 1800});
+				}
+			});
+		}else{
+			layer.msg("{:lang('wicket_page.Validate_require_no')}");
+		}
+        return false;
+    });
+    
+	var InterValObj; //timer变量，控制时间
+	var count = 60; //间隔函数，1秒执行
+	var curCount;//当前剩余秒数
+	var btnsend = $("#btnSendCode");
+	$('#btnSendCode').on('click', function() {
+		var username = $('input[name=username]').val();
+		var prefix = $('input[name=prefix]').val();
+		if(username.length <= 3){
+			var placeholder= $('input[name=username]').attr("placeholder");
+			layer.msg(placeholder, {shade: 0.1,time: 1000});
+			return false;
+		}
+		if(username.length > 3){
+			$.ajax({
+				url: "{:url('wicket/getcodes')}",
+				data: {username: username,prefix:prefix},
+				type: "POST",
+				success: function(res) {
+					if (res.code > 0) {
+						layer.msg(res.msg, {time: 1800}, function () {
+							curCount = count;
+							btnsend.addClass('layui-btn-disabled').attr("disabled","true");//设置按钮为禁用状态
+							btnsend.text(curCount + " {:lang('wicket_page.code_after')}");
+							InterValObj = window.setInterval(SetRemainTime, 1000); // 启动计时器timer处理函数，1秒执行一次
+						});
+					} else {
+						layer.msg(res.msg, {time: 1800});
+					}
+				}
+			});
+		}
+		return false;
+	});
+	window.SetRemainTime = function (){
+		if(curCount == 0){
+			btnsend.text("{:lang('wicket_page.code_resend')}");
+			window.clearInterval(InterValObj);// 停止计时器
+			btnsend.removeClass('layui-btn-disabled').attr("disabled",false);
+		} else{
+			curCount--;
+			btnsend.text(curCount + " {:lang('wicket_page.code_after')}");
+		}
+	}
+})
+function select_me(_this,type)
+{
+	$("#wicket-btn-box").find(".wicket-btn").removeClass("btn-this");
+	$(_this).addClass("btn-this");
+	var txt = $(_this).data("txt")
+	var tips = $(_this).data("tips")
+	var holder = $(_this).data("hoder")
+	$("#username_txt").html(txt);
+	$("#username").attr("lay-reqText",tips);
+	$("#username").attr("placeholder",holder);
+	if(type == "phone"){
+		$(".left-input-box").addClass("float-left layui-input-40").show();
+		$(".right-input-box").addClass("float-left layui-input-60").show();
+		$(".cont-phone").show();
+		$(".cont-email").hide();
+	}else{
+		$(".left-input-box").removeClass("float-left layui-input-40").hide();
+		$(".right-input-box").removeClass("float-left layui-input-60").show();
+		$(".cont-phone").hide();
+		$(".cont-email").show();
+	}
+}
+$(function(){
+	var txt = $("#wicket-btn-box").find(".wicket-btn").eq(0).data("txt")
+	var tips = $("#wicket-btn-box").find(".wicket-btn").eq(0).data("tips")
+	var holder = $("#wicket-btn-box").find(".wicket-btn").eq(0).data("hoder")
+	var type = $("#wicket-btn-box").find(".wicket-btn").eq(0).data("type")
+	$("#wicket-btn-box").find(".wicket-btn").eq(0).addClass("btn-this");
+	$("#username_txt").html(txt);
+	$("#username").attr("lay-reqText",tips);
+	$("#username").attr("placeholder",holder);
+	if(type == "phone"){
+		$(".left-input-box").addClass("layui-input-40").show();
+		$(".right-input-box").addClass("layui-input-60").show();
+		$(".cont-phone").show();
+		$(".cont-email").hide();
+	}
+	if(type == "email"){
+		$(".cont-phone").hide();
+		$(".cont-email").show();
+	}
+})
+</script>

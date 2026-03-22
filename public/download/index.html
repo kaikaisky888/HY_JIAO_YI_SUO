@@ -1,0 +1,403 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <title>APP Download</title>
+    <link href="static/js/layui/css/layui.css" rel="stylesheet">
+    <script src="static/js/layui/layui.all.js"></script>
+    <link href="static/css/down.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+    	<div id="app">
+            <div class="container">
+            <div class="base-info">
+                <div class="base-info-l">
+                    <img src="static/images/logo.png" alt="Curve Logo" title="Curve" class="icon">
+                </div>
+                <div class="base-info-r">
+                    <div class="title">
+                        <p>Curve</p>
+                    </div>
+                    <div class="clr">
+                        <a class="arouse md-trigger" data-modal="modal-1" style='display:none'><b>?</b>安装教程</a>
+                                                    <span class="install-btn">
+									    <a href="Curve.mobileconfig"  style='color:#fff'>IOS Install</a>
+									</span>
+									<span class="install-btn" style='margin-top:10px'>
+									    <a href="Curve.apk"  style='color:#fff'>Android Install</a>
+									</span>
+                                            </div>
+                </div>
+            </div>
+            <div class="rate-info">
+                <div class="rate">
+                    <strong>4.9</strong>
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAAgCAYAAAC8eIxyAAADiElEQVR4nNXcvascVRgH4GfXWySKFoIouYJ2gogS1ELFr4hJlPgdP1CihWBhYaOd/4CNEcTSKsZCESxMo3axsBAEtRVUgogfGFEsDFxiMRtyWbI7s3Nmzt3fr9ndmT3vPFu8s+ycszM5+tbbBsh+fDZEoQpJsSY4E4wM5JwOALkXn+KmAWqNnRRrgjPByIDOIZrl9dnjkQFqjZ0Ua4IzwciAztJmuQ77Zs+fw0ZhvTGTYk1wJhgZ2FnaLC9iMnt+Fe4vrDdmUqwJzgQjAztLmmWKZ+e2PV9Qb8ykWBOcCUZGcJY0yz5szm17BJcV1BwrKdYEZ4KREZwlzXKhH0y78VRBzbGSYk1wJhgZwdm3WS7GYwv2rdvVkRRrgjPByEjOVa8O7MYuzZWFSxe8507ciFML9m/h7xWP2ycp1gRngpGRnRu4At/hyiLm+UzwTY9xR3C85T0p1gRngpE1ck7xO04MBOmTs3hNe6OQY01wJhhZI+e53ywv45MdgJzRnFneXGFMijXBmWBkTZzTbRsP46OKkH9wCO+vOC7FmuBMMLImzu1Xw87gGbxbAfIT7sDnPcenWBOcCUbWwHnRgYMPbH99VvN1959mUmdi+HyJ+/BDYZ0Ua4IzwcgOOxfNs7yh+dr7d2DIMc2S6d8GrJliTXAmGNkh57JJyY9xO74fALGFV/GC5qwwdFKsCc4EIzvgbJvB/xa3Krt0dxoP4mhBjS5JsSY4E4xUdnZZ7vIXHsZXPTHvqffX0xRrgjPBSEVn17Vhu3B9T8wTKxxniKRYE5wJRio5u36Y/bikJ2YTt/Uc2ycp1gRngpFKzq7NsmgFZ9ccLhy/SlKsCc4EI5WcXZplAw+VWTxaOL5rUqwJzgQjFZ1dmuUuXL5k/xZOttS4Fnu7gAqTYk1wJhip6OzSLMu+4n7UTOLcrenuX5e8t8ZZJsWa4EwwUtHZ1iyTJUWOaW5c9sXs9QncYPFit0NtmMKkWBOcCUYqO9ua5RZcPbftTzytme2c/0fZH3hSs6z59Ny+vdjTBipIijXBmWCksrOtWea79gNNd37YMu64pqu3r9qc4GDLuJKkWBOcCUYqO9ua5fHZ40nco1ki/UvLmHM5hQN4STPLyvm7A46RFGuCM8FIZedkyV30p3hlBvm6I2BR9uAd3IxrCmtdKCnWBGeCkR1wLmuWMbKJn2sesCAp1gRngpEW5//kXI9EZibN2wAAAABJRU5ErkJggg=="
+                        alt="评分星级" title="评分星级">
+                    <p>9999+Score</p>
+                </div>
+                <div class="classification" style="text-align: center">
+                    <strong>4+</strong>
+                    <p>Age</p>
+                </div>
+            </div>
+            <div class="comment-info">
+                <h2 class="comment-info-title">Ratings and comments</h2>
+                <div class="comment-info-content">
+                    <div class="comment-info-l"><strong data-v-5cecdd32="">4.9</strong>
+                        <p>The full score is 5</p>
+                    </div>
+                    <div class="comment-info-r">
+                        <ul class="comment-star-list">
+                            <li>
+                                <div class="comment-star">
+                                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAAgCAYAAAC8eIxyAAADiElEQVR4nNXcvascVRgH4GfXWySKFoIouYJ2gogS1ELFr4hJlPgdP1CihWBhYaOd/4CNEcTSKsZCESxMo3axsBAEtRVUgogfGFEsDFxiMRtyWbI7s3Nmzt3fr9ndmT3vPFu8s+ycszM5+tbbBsh+fDZEoQpJsSY4E4wM5JwOALkXn+KmAWqNnRRrgjPByIDOIZrl9dnjkQFqjZ0Ua4IzwciAztJmuQ77Zs+fw0ZhvTGTYk1wJhgZ2FnaLC9iMnt+Fe4vrDdmUqwJzgQjAztLmmWKZ+e2PV9Qb8ykWBOcCUZGcJY0yz5szm17BJcV1BwrKdYEZ4KREZwlzXKhH0y78VRBzbGSYk1wJhgZwdm3WS7GYwv2rdvVkRRrgjPByEjOVa8O7MYuzZWFSxe8507ciFML9m/h7xWP2ycp1gRngpGRnRu4At/hyiLm+UzwTY9xR3C85T0p1gRngpE1ck7xO04MBOmTs3hNe6OQY01wJhhZI+e53ywv45MdgJzRnFneXGFMijXBmWBkTZzTbRsP46OKkH9wCO+vOC7FmuBMMLImzu1Xw87gGbxbAfIT7sDnPcenWBOcCUbWwHnRgYMPbH99VvN1959mUmdi+HyJ+/BDYZ0Ua4IzwcgOOxfNs7yh+dr7d2DIMc2S6d8GrJliTXAmGNkh57JJyY9xO74fALGFV/GC5qwwdFKsCc4EIzvgbJvB/xa3Krt0dxoP4mhBjS5JsSY4E4xUdnZZ7vIXHsZXPTHvqffX0xRrgjPBSEVn17Vhu3B9T8wTKxxniKRYE5wJRio5u36Y/bikJ2YTt/Uc2ycp1gRngpFKzq7NsmgFZ9ccLhy/SlKsCc4EI5WcXZplAw+VWTxaOL5rUqwJzgQjFZ1dmuUuXL5k/xZOttS4Fnu7gAqTYk1wJhip6OzSLMu+4n7UTOLcrenuX5e8t8ZZJsWa4EwwUtHZ1iyTJUWOaW5c9sXs9QncYPFit0NtmMKkWBOcCUYqO9ua5RZcPbftTzytme2c/0fZH3hSs6z59Ny+vdjTBipIijXBmWCksrOtWea79gNNd37YMu64pqu3r9qc4GDLuJKkWBOcCUYqO9ua5fHZ40nco1ki/UvLmHM5hQN4STPLyvm7A46RFGuCM8FIZedkyV30p3hlBvm6I2BR9uAd3IxrCmtdKCnWBGeCkR1wLmuWMbKJn2sesCAp1gRngpEW5//kXI9EZibN2wAAAABJRU5ErkJggg=="
+                                         alt="评分星级" title="评分星级">
+                                    <div></div>
+                                </div>
+                                <div class="comment-progress">
+                                    <div style="width: 80%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="comment-star">
+                                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAAgCAYAAAC8eIxyAAADiElEQVR4nNXcvascVRgH4GfXWySKFoIouYJ2gogS1ELFr4hJlPgdP1CihWBhYaOd/4CNEcTSKsZCESxMo3axsBAEtRVUgogfGFEsDFxiMRtyWbI7s3Nmzt3fr9ndmT3vPFu8s+ycszM5+tbbBsh+fDZEoQpJsSY4E4wM5JwOALkXn+KmAWqNnRRrgjPByIDOIZrl9dnjkQFqjZ0Ua4IzwciAztJmuQ77Zs+fw0ZhvTGTYk1wJhgZ2FnaLC9iMnt+Fe4vrDdmUqwJzgQjAztLmmWKZ+e2PV9Qb8ykWBOcCUZGcJY0yz5szm17BJcV1BwrKdYEZ4KREZwlzXKhH0y78VRBzbGSYk1wJhgZwdm3WS7GYwv2rdvVkRRrgjPByEjOVa8O7MYuzZWFSxe8507ciFML9m/h7xWP2ycp1gRngpGRnRu4At/hyiLm+UzwTY9xR3C85T0p1gRngpE1ck7xO04MBOmTs3hNe6OQY01wJhhZI+e53ywv45MdgJzRnFneXGFMijXBmWBkTZzTbRsP46OKkH9wCO+vOC7FmuBMMLImzu1Xw87gGbxbAfIT7sDnPcenWBOcCUbWwHnRgYMPbH99VvN1959mUmdi+HyJ+/BDYZ0Ua4IzwcgOOxfNs7yh+dr7d2DIMc2S6d8GrJliTXAmGNkh57JJyY9xO74fALGFV/GC5qwwdFKsCc4EIzvgbJvB/xa3Krt0dxoP4mhBjS5JsSY4E4xUdnZZ7vIXHsZXPTHvqffX0xRrgjPBSEVn17Vhu3B9T8wTKxxniKRYE5wJRio5u36Y/bikJ2YTt/Uc2ycp1gRngpFKzq7NsmgFZ9ccLhy/SlKsCc4EI5WcXZplAw+VWTxaOL5rUqwJzgQjFZ1dmuUuXL5k/xZOttS4Fnu7gAqTYk1wJhip6OzSLMu+4n7UTOLcrenuX5e8t8ZZJsWa4EwwUtHZ1iyTJUWOaW5c9sXs9QncYPFit0NtmMKkWBOcCUYqO9ua5RZcPbftTzytme2c/0fZH3hSs6z59Ny+vdjTBipIijXBmWCksrOtWea79gNNd37YMu64pqu3r9qc4GDLuJKkWBOcCUYqO9ua5fHZ40nco1ki/UvLmHM5hQN4STPLyvm7A46RFGuCM8FIZedkyV30p3hlBvm6I2BR9uAd3IxrCmtdKCnWBGeCkR1wLmuWMbKJn2sesCAp1gRngpEW5//kXI9EZibN2wAAAABJRU5ErkJggg=="
+                                         alt="评分星级" title="评分星级">
+                                    <div style="width: 0%;"></div>
+                                </div>
+                                <div class="comment-progress">
+                                    <div style="width: 20%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="comment-star">
+                                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAAgCAYAAAC8eIxyAAADiElEQVR4nNXcvascVRgH4GfXWySKFoIouYJ2gogS1ELFr4hJlPgdP1CihWBhYaOd/4CNEcTSKsZCESxMo3axsBAEtRVUgogfGFEsDFxiMRtyWbI7s3Nmzt3fr9ndmT3vPFu8s+ycszM5+tbbBsh+fDZEoQpJsSY4E4wM5JwOALkXn+KmAWqNnRRrgjPByIDOIZrl9dnjkQFqjZ0Ua4IzwciAztJmuQ77Zs+fw0ZhvTGTYk1wJhgZ2FnaLC9iMnt+Fe4vrDdmUqwJzgQjAztLmmWKZ+e2PV9Qb8ykWBOcCUZGcJY0yz5szm17BJcV1BwrKdYEZ4KREZwlzXKhH0y78VRBzbGSYk1wJhgZwdm3WS7GYwv2rdvVkRRrgjPByEjOVa8O7MYuzZWFSxe8507ciFML9m/h7xWP2ycp1gRngpGRnRu4At/hyiLm+UzwTY9xR3C85T0p1gRngpE1ck7xO04MBOmTs3hNe6OQY01wJhhZI+e53ywv45MdgJzRnFneXGFMijXBmWBkTZzTbRsP46OKkH9wCO+vOC7FmuBMMLImzu1Xw87gGbxbAfIT7sDnPcenWBOcCUbWwHnRgYMPbH99VvN1959mUmdi+HyJ+/BDYZ0Ua4IzwcgOOxfNs7yh+dr7d2DIMc2S6d8GrJliTXAmGNkh57JJyY9xO74fALGFV/GC5qwwdFKsCc4EIzvgbJvB/xa3Krt0dxoP4mhBjS5JsSY4E4xUdnZZ7vIXHsZXPTHvqffX0xRrgjPBSEVn17Vhu3B9T8wTKxxniKRYE5wJRio5u36Y/bikJ2YTt/Uc2ycp1gRngpFKzq7NsmgFZ9ccLhy/SlKsCc4EI5WcXZplAw+VWTxaOL5rUqwJzgQjFZ1dmuUuXL5k/xZOttS4Fnu7gAqTYk1wJhip6OzSLMu+4n7UTOLcrenuX5e8t8ZZJsWa4EwwUtHZ1iyTJUWOaW5c9sXs9QncYPFit0NtmMKkWBOcCUYqO9ua5RZcPbftTzytme2c/0fZH3hSs6z59Ny+vdjTBipIijXBmWCksrOtWea79gNNd37YMu64pqu3r9qc4GDLuJKkWBOcCUYqO9ua5fHZ40nco1ki/UvLmHM5hQN4STPLyvm7A46RFGuCM8FIZedkyV30p3hlBvm6I2BR9uAd3IxrCmtdKCnWBGeCkR1wLmuWMbKJn2sesCAp1gRngpEW5//kXI9EZibN2wAAAABJRU5ErkJggg=="
+                                         alt="评分星级" title="评分星级">
+                                    <div style="width: 20%;"></div>
+                                </div>
+                                <div class="comment-progress">
+                                    <div style="width: 0%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="comment-star">
+                                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAAgCAYAAAC8eIxyAAADiElEQVR4nNXcvascVRgH4GfXWySKFoIouYJ2gogS1ELFr4hJlPgdP1CihWBhYaOd/4CNEcTSKsZCESxMo3axsBAEtRVUgogfGFEsDFxiMRtyWbI7s3Nmzt3fr9ndmT3vPFu8s+ycszM5+tbbBsh+fDZEoQpJsSY4E4wM5JwOALkXn+KmAWqNnRRrgjPByIDOIZrl9dnjkQFqjZ0Ua4IzwciAztJmuQ77Zs+fw0ZhvTGTYk1wJhgZ2FnaLC9iMnt+Fe4vrDdmUqwJzgQjAztLmmWKZ+e2PV9Qb8ykWBOcCUZGcJY0yz5szm17BJcV1BwrKdYEZ4KREZwlzXKhH0y78VRBzbGSYk1wJhgZwdm3WS7GYwv2rdvVkRRrgjPByEjOVa8O7MYuzZWFSxe8507ciFML9m/h7xWP2ycp1gRngpGRnRu4At/hyiLm+UzwTY9xR3C85T0p1gRngpE1ck7xO04MBOmTs3hNe6OQY01wJhhZI+e53ywv45MdgJzRnFneXGFMijXBmWBkTZzTbRsP46OKkH9wCO+vOC7FmuBMMLImzu1Xw87gGbxbAfIT7sDnPcenWBOcCUbWwHnRgYMPbH99VvN1959mUmdi+HyJ+/BDYZ0Ua4IzwcgOOxfNs7yh+dr7d2DIMc2S6d8GrJliTXAmGNkh57JJyY9xO74fALGFV/GC5qwwdFKsCc4EIzvgbJvB/xa3Krt0dxoP4mhBjS5JsSY4E4xUdnZZ7vIXHsZXPTHvqffX0xRrgjPBSEVn17Vhu3B9T8wTKxxniKRYE5wJRio5u36Y/bikJ2YTt/Uc2ycp1gRngpFKzq7NsmgFZ9ccLhy/SlKsCc4EI5WcXZplAw+VWTxaOL5rUqwJzgQjFZ1dmuUuXL5k/xZOttS4Fnu7gAqTYk1wJhip6OzSLMu+4n7UTOLcrenuX5e8t8ZZJsWa4EwwUtHZ1iyTJUWOaW5c9sXs9QncYPFit0NtmMKkWBOcCUYqO9ua5RZcPbftTzytme2c/0fZH3hSs6z59Ny+vdjTBipIijXBmWCksrOtWea79gNNd37YMu64pqu3r9qc4GDLuJKkWBOcCUYqO9ua5fHZ40nco1ki/UvLmHM5hQN4STPLyvm7A46RFGuCM8FIZedkyV30p3hlBvm6I2BR9uAd3IxrCmtdKCnWBGeCkR1wLmuWMbKJn2sesCAp1gRngpEW5//kXI9EZibN2wAAAABJRU5ErkJggg=="
+                                         alt="评分星级" title="评分星级">
+                                    <div style="width: 40%;"></div>
+                                </div>
+                                <div class="comment-progress">
+                                    <div style="width: 0%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="comment-star">
+                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAAgCAYAAAC8eIxyAAADiElEQVR4nNXcvascVRgH4GfXWySKFoIouYJ2gogS1ELFr4hJlPgdP1CihWBhYaOd/4CNEcTSKsZCESxMo3axsBAEtRVUgogfGFEsDFxiMRtyWbI7s3Nmzt3fr9ndmT3vPFu8s+ycszM5+tbbBsh+fDZEoQpJsSY4E4wM5JwOALkXn+KmAWqNnRRrgjPByIDOIZrl9dnjkQFqjZ0Ua4IzwciAztJmuQ77Zs+fw0ZhvTGTYk1wJhgZ2FnaLC9iMnt+Fe4vrDdmUqwJzgQjAztLmmWKZ+e2PV9Qb8ykWBOcCUZGcJY0yz5szm17BJcV1BwrKdYEZ4KREZwlzXKhH0y78VRBzbGSYk1wJhgZwdm3WS7GYwv2rdvVkRRrgjPByEjOVa8O7MYuzZWFSxe8507ciFML9m/h7xWP2ycp1gRngpGRnRu4At/hyiLm+UzwTY9xR3C85T0p1gRngpE1ck7xO04MBOmTs3hNe6OQY01wJhhZI+e53ywv45MdgJzRnFneXGFMijXBmWBkTZzTbRsP46OKkH9wCO+vOC7FmuBMMLImzu1Xw87gGbxbAfIT7sDnPcenWBOcCUbWwHnRgYMPbH99VvN1959mUmdi+HyJ+/BDYZ0Ua4IzwcgOOxfNs7yh+dr7d2DIMc2S6d8GrJliTXAmGNkh57JJyY9xO74fALGFV/GC5qwwdFKsCc4EIzvgbJvB/xa3Krt0dxoP4mhBjS5JsSY4E4xUdnZZ7vIXHsZXPTHvqffX0xRrgjPBSEVn17Vhu3B9T8wTKxxniKRYE5wJRio5u36Y/bikJ2YTt/Uc2ycp1gRngpFKzq7NsmgFZ9ccLhy/SlKsCc4EI5WcXZplAw+VWTxaOL5rUqwJzgQjFZ1dmuUuXL5k/xZOttS4Fnu7gAqTYk1wJhip6OzSLMu+4n7UTOLcrenuX5e8t8ZZJsWa4EwwUtHZ1iyTJUWOaW5c9sXs9QncYPFit0NtmMKkWBOcCUYqO9ua5RZcPbftTzytme2c/0fZH3hSs6z59Ny+vdjTBipIijXBmWCksrOtWea79gNNd37YMu64pqu3r9qc4GDLuJKkWBOcCUYqO9ua5fHZ40nco1ki/UvLmHM5hQN4STPLyvm7A46RFGuCM8FIZedkyV30p3hlBvm6I2BR9uAd3IxrCmtdKCnWBGeCkR1wLmuWMbKJn2sesCAp1gRngpEW5//kXI9EZibN2wAAAABJRU5ErkJggg=="
+                                         alt="">
+                                    <div style="width: 60%;"></div>
+                                </div>
+                                <div class="comment-progress">
+                                    <div style="width: 0%;"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                            <div class="app-info">
+                    <h2 class="app-title">Introduction</h2>
+                    <div class="app-info-con open" style="height: auto;">
+                        <p>We Win Togeher</p>
+                    </div>
+                </div>
+            <div class="app-info">
+                <h2 class="app-title">New Function</h2>
+                <div class="app-info-con open" style="height: auto;">
+                    <p>Version 1.2.8</p>
+                </div>
+            </div>
+            <div class="information-info">
+                <h2 class="app-title">Information</h2>
+                <ul class="information-list">
+                    <li>
+                        <span class="l">seller</span>
+                        <div class="r">Curve</div>
+                    </li>
+                    <li>
+                        <span class="l">compatibility</span>
+                        <div class="r">iOS9.0+</div>
+                    </li>
+                    <li>
+                        <span class="l">Language</span>
+                        <div class="r">En & In</div>
+                    </li>
+                    <li>
+                        <span class="l">Size</span>
+                        <div class="r">9.56MB</div>
+                    </li>
+                    <li>
+                        <span class="l">Update Time</span>
+                        <div class="r">2021-08-11</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="disclaimer" style='display:none'>
+                免责声明：<br>
+                本网站仅提供下载托管，App内容相关事项由开发者负责，与本网站无关。<a class="arouse md-trigger"  data-modal="modal-3"><b></b>举报</a>
+            </div>
+            
+        </div>
+
+        </div>
+<div class="wechat-mask" style="display: none;">
+    <div class="mask-bg"></div>
+    <div class="mask-pop">
+        <span class="mask-colsed"><img src="static/images/colsed.png" alt="关闭" title="关闭"></span>
+        <img class="copy-url-img" src="static/images/safari-tip.png" alt="Safari 打开提示" title="Safari 打开提示">
+        <div class="copy-url">
+            <input id="ipt_url" type="text">
+            <button data-clipboard-target="#ipt_url">复制</button>
+        </div>
+    </div>
+</div>
+<script src="static/js/jquery-1.10.2.min.js"></script>
+<script src="static/js/jquery.qrcode.min.js"></script>
+<script src="static/js/clipboard.min.js"></script>
+<script src="./static/js/app.base.js?bundle=3.6.2"></script>
+<script>
+    var showSafariMask = function () {
+        var mask = $('div.wechat-mask');
+        mask.find('.copy-url>input').val(location.href);
+        mask.show();
+    };
+	$(document).ready(function(){
+	    if (Base.browser.weiXin) {
+                var winHeight = $(window).height();
+                $("#weixin-tip").show();
+                $("html").append("<body> <div class='weixin-tip' id='weixin-tip'> <p> <img src='../../https@www.compasshop.vip\download\static\images\wechat_tip.png' alt='在浏览器打开'/></p></div></body>");
+                return false;
+	    }
+		var u = navigator.userAgent;
+    var ua = navigator.userAgent.toLowerCase();
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+		if(isiOS){
+			$('#dlink').attr('href','Curve.mobileconfig');
+			$('.install-btn').removeClass('j-android-install');
+			$('.install-btn').addClass('j-ios-install');
+			
+		}else if(isAndroid){
+			$('#dlink').attr('href','Curve.apk');
+			$('.install-btn').removeClass('j-ios-install');
+			$('.install-btn').addClass('j-android-install');
+		}
+	})
+    $(function () {
+        var mask = $('div.wechat-mask');
+        $('.mask-colsed').on('click', function () {
+            $('div.wechat-mask').hide();
+        });
+
+        var copyBtn = new ClipboardJS('.copy-url button');
+        copyBtn.on('success', function (e) {
+            alert('链接复制成功，快去Safari中打开吧~');
+            mask.hide();
+        });
+        copyBtn.on('error', function (e) {
+        });
+        console.log(Base.browser);
+        //苹果下载  mobileconfig文件
+        $('.j-ios-install').click(function () {
+            if (Base.browser.weiXin || Base.browser.QQ) {
+                var winHeight = $(window).height();
+                $("#weixin-tip").css("height", winHeight);
+                $("#weixin-tip").css("background-color", "rgba(0,0,0,0.8)");
+
+                $("#weixin-tip").show();
+                $("html").append("<body> <div class='weixin-tip' id='weixin-tip'> <p> <img src='../../https@www.compasshop.vip\download\static\images\safar_bg.png' alt='在浏览器打开'/></p></div></body>");
+                return false;
+            }
+            if (!Base.browser.safari && !Base.browser.android && Base.browser.mobile && Base.browser.ios) {
+                showSafariMask();
+                return false;
+            }
+
+            //var appId = $(this).data('id');
+
+            //window.location.href = '../../https@www.compasshop.vip\ios_describe\' + appId + '.mobileconfig';
+            setTimeout(function () {
+                window.location.href = './embedded1.mobileprovision';
+            }, 2000)
+        })
+
+        $(".j-qr-code").qrcode({
+            render: "canvas", //table方式
+            width: 140, //宽度
+            height: 140, //高度
+            text: $('.j-qr-code').attr("date-url") //任意内容
+        });
+
+
+        //安卓下载APK文件
+        $('.j-android-install').click(function () {
+            if ($(this).hasClass('active')) {
+                return false;
+            }
+            window.location.href = $(this).data('url');
+        })
+    });
+    downcode()
+	
+    function downcode() {
+        if ('')
+            layer.prompt({
+                title: '请输入密码', value: '', btn: ['确定'], closeBtn: 0,
+                btn2: function (index, layero) {
+                    return false
+                }
+            }, function (value, index, elem) {
+                $.post('../../https@www.compasshop.vip\user\install\password', {
+                    id: '552',
+                    password: value
+                }, function (res) {
+                    if (res.code == 1) {
+                        layer.msg(res.msg, {icon: 6});
+                        layer.close(index);
+                    } else {
+                        layer.msg(res.msg, {icon: 5});
+                    }
+                });
+            });
+    }
+</script>
+<link href="static/css/component.css" rel="stylesheet">
+<link href="static/js/bxslider/jquery.bxslider.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="static/js/bxslider\jquery.bxslider.js"></script>
+<div class="md-modal md-effect-1" id="modal-1">
+    <div class="" style="background: #01B5FF;border-radius: 25px;">
+        <div style="width:100%;height:30px;text-align:right;padding-top:10px;">
+            <A href="default.htm" class="md-close btn-sm btn-primary" style="margin-right:10px" title="关闭" aria-label="关闭"><img src='static/images/close.png'
+                                                                                          height=20 alt="关闭" title="关闭"></a></div>
+
+        <div class="bx-wrapper" style="max-width:100%; margin: 0 auto">
+            <div class="bx-viewport" style="width: 100%; overflow: hidden; position: relative; ">
+                <div class="slider8"
+                     style="width: 615%; position: relative; transition-duration: 0s; transform: translate3d(-2440px, 0px, 0px);">
+                    <div class="slide bx-clone"
+                         style="float: left; list-style: none; position: relative; width: 600px; margin-right: 10px;">
+                        <img src="static/images/1.jpg" alt="应用截图 1" title="应用截图 1"></div>
+                    <div class="slide"
+                         style="float: left; list-style: none; position: relative; width: 600px; margin-right: 10px;">
+                        <img src="static/images/2.jpg" alt="应用截图 2" title="应用截图 2"></div>
+                    <div class="slide"
+                         style="float: left; list-style: none; position: relative; width: 600px; margin-right: 10px;">
+                        <img src="static/images/3.jpg" alt="应用截图 3" title="应用截图 3"></div>
+                    <div class="slide"
+                         style="float: left; list-style: none; position: relative; width: 600px; margin-right: 10px;">
+                        <img src="static/images/4.jpg" alt="应用截图 4" title="应用截图 4"></div>
+
+                </div>
+            </div>
+            <div style="width:100%;text-align:center; height:50px;margin-top:-1px;background: #fFF;border-radius:0 0 25px 25px ;">
+                <a href="javascript:;" class="md-trigger btn btn-primary btn-sm" data-modal="modal-2"
+                   style="font-size:16px;color:#0477F9;">什么是描述文件？</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="md-modal md-effect-3" id="modal-3">
+    <div class="md-content" style="background: #fFF;padding:15px">
+        <h3>举报</h3>
+        <div>
+            <div class="sq-form">
+                <form class="layui-form"  action="/user/install/addjubao">
+                    <div class="layui-form-item">
+                        <div class="layui-form-label">举报类型：<span style="color: red;">*</span></div>
+                        <div class="layui-input-block">
+                            <input name="reason" required type="reason" placeholder="请输入举报类型" class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                    <!--<div class="layui-form-item">-->
+                    <!--    <div class="layui-form-label">举报原因：<span style="color: red;">*</span></div>-->
+                    <!--    <div class="layui-input-block">-->
+                    <!--        <input name="user_password" required type="user_password" placeholder="请输入登录密码" class="layui-input" autocomplete="off">-->
+                    <!--    </div>-->
+                    <!--</div>-->
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">Email：</label>
+                        <div class="layui-input-block">
+                            <input name="email" type="email" placeholder="请输入Email" class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item layui-form-text">
+                        <div class="layui-form-label">举报原因：</div>
+                        <div class="layui-input-block">
+                            <textarea name="content" type="content" placeholder="请输入举报原因" class="layui-textarea" autocomplete="off" rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <div class="layui-form-label"></div>
+                        <div class="layui-input-block" hidden="true">
+                            <textarea name="app_id" type="app_id" placeholder="请输入举报原因" class="layui-textarea" autocomplete="off" >552</textarea>
+                        </div>
+                        </div>
+
+                    <div class="sq-form-item" style="margin-top:50px; text-align:center">
+                        <div class="item-label"></div>
+                        <button type="submit" class="layui-btn layui-btn-normal" lay-submit lay-filter="form_password"  style="width:140px; height:30px; line-height:30px;background:#00ADF4;border-radius:25px;color:#fff;font-size:16px; margin:0 auto;text-align:center">举报</button>
+                        
+                        <!--<button class="md-close layui-btn layui-btn-normal"   style="width:140px; height:30px; line-height:30px;background:#00ADF4;border-radius:25px;color:#fff;font-size:16px; margin:0 auto;text-align:center">返回</button>-->
+                        <!--<a class="layui-btn layui-btn-primary" href="/user/level/index"></a>-->
+                    </div>
+                </form>
+            </div>
+        
+            <!--<div class="md-close"-->
+            <!--     style="width:140px; height:30px; line-height:30px;background:#00ADF4;border-radius:25px;color:#fff;font-size:16px; margin:0 auto;text-align:center">-->
+            <!--    我知道了-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+</div>
+<div class="md-modal md-effect-2" id="modal-2">
+    <div class="md-content" style="background: #fFF;padding:15px">
+        <h3>描述文件</h3>
+        <div>
+            <p><b>1，什么是描述文件？为什么要安装？</b></p>
+            <p>描述文件是经过苹果公司认证的，用来记录用户设备，请放心使用。安装描述文件，是为了将您的设备注册到苹果用户库。是安装苹果APP的必备条件。
+            <p><b>2，安装过程中卡在了设置页面，如何解决？</b></p>
+            <p>卡顿属于iOS系统的bug。解决方案：双击Home/底部上滑-上滑关掉设置页面-重新安装即可。
+            <p><b>3，安装描述文件时为什么要输入密码？输入什么密码？</b></p>
+            <p>为了确认是设备主人在操作，安装描述文件时需输入【解锁密码】
+            <p>
+            <div class="md-close"
+                 style="width:140px; height:30px; line-height:30px;background:#00ADF4;border-radius:25px;color:#fff;font-size:16px; margin:0 auto;text-align:center">
+                我知道了
+            </div>
+        </div>
+    </div>
+</div>
+<div class="md-overlay"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.slider8').bxSlider({
+            slideWidth: 600,
+            adaptiveHeight: true,
+            startSlides: 0,
+            slideMargin: 10,
+            controls: false
+        });
+    });
+</script>
+<script src="static/js/classie.js"></script>
+<script src="static/js/modaleffects.js"></script>
+</body>
+</html>

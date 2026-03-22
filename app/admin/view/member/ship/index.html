@@ -1,0 +1,21 @@
+<style>
+    .layui-table thead{display: none;}
+    .layui-table tbody tr td{text-align: left;overflow: hidden;}
+    .fox-table{margin:15px 0 0 30px !important;border: 0px solid #e6e6e6;width: 100% !important;border-width: 0 0 0 0 !important;}
+    .fox-table td, .fox-table th,.layui-table-cell{
+        padding: 15px !important;
+    }
+    .layui-flow-more{display: none !important;}
+    .fox-table tr:hover{background: unset !important;}
+    .span-margin{margin-left: 5px;color: #999;}
+</style>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <table id="currentTable" class="layui-table fox-table layui-hide"
+               data-auth-add="{:auth('member.user/add')}"
+               data-auth-edit="{:auth('member.user/edit')}"
+               data-auth-delete="{:auth('member.user/delete')}"
+               lay-filter="currentTable">
+        </table>
+    </div>
+</div>

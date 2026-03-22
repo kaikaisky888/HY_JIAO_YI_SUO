@@ -1,0 +1,43 @@
+# Runtime
+runtime/*
+!runtime/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+
+# Logs
+*.log
+
+# Dependencies (vendor is needed for deployment)
+# vendor/
+
+# Upload files
+public/upload/*
+!public/upload/.gitkeep
+
+# SSL
+ssl/
+
+# Large SQL dumps (import separately)
+curve_2.sql
+
+# Backup
+backup/
+bak/
+
+# Node
+node_modules/
+
+# Docker local volumes
+mysql_data/
+redis_data/

@@ -1,0 +1,34 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-06-13 16:44:58
+ * @LastEditTime: 2021-08-04 17:14:18
+ * @Description: Forward, no stop
+-->
+<div class="header">
+	{include file="./block/block_head"}
+</div>
+<div class="new-bg">
+	<!--主体-->
+	<div class="main">
+		<div class="layui-container">
+			<div class="layui-row layui-col-space20 ieo-body">
+				{volist name="product" id="vo"}
+				<div class="layui-col-xs3">
+					<div class="layui-panel">
+						<a href="{:url('ieorg/show',['id'=>$vo.id])}">
+						<div class="ieo-img"><img src="{$vo.info['logo']}" style="width:100%"></div>
+						<h3 class="mt-10">{$vo.info['title']}</h3>
+						<div class="font-14 mt-30"><span class="color-grey">{:lang('ieorg.list_num_title')}</span><span class="float-right">{$vo.ieo_num} {$vo.coin_title}</span></div>
+						<div class="font-14"><span class="color-grey">{:lang('ieorg.list_time_title')}</span><span class="float-right">{$vo.end_time|date='Y-m-d'}</span></div>
+						<div class="mt-10"><span class="layui-btn layui-btn-warm layui-btn-sm">{:lang('ieorg.list_btn_on')}</span></div>
+						</a>
+					</div>
+				</div>
+				{/volist}
+			</div>
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/block_bottom"}
+{include file="./block/foot_script"}

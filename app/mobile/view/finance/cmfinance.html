@@ -1,0 +1,153 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-22 14:17:12
+ * @LastEditTime: 2021-10-08 17:54:16
+ * @Description: Forward, no stop
+-->
+<div class="a-header position-re finance-bg">
+	<div class="layui-row">
+		<div class="layui-col-xs3">
+			<!--<a href="javascript:window.history.go(-1);"><i class="layui-icon layui-icon-left"></i></a>-->
+		</div>
+		<div class="layui-col-xs6 text-center all_finance_header">
+			{:lang('public_memu.finance')}
+		</div>
+	</div>
+</div>
+<div class="new-bg">
+	<!--主体-->
+	<div class="main">
+		<div class="finance-box finance-bg padding-l-r">
+			<div class="finance-nav">
+				{include file="./finance/mobile_menu"}
+			</div>
+			<div class="mt-10 mt-10-all">
+				{:lang('finance.all_sum_usd')}： <span>$ {$all_sum_usd}</span>
+			</div>
+			<div class="mt-10">
+				<!--{:lang('tradelog.tab_list_f')}-->{:lang('finance.cm_title')}： <span>$ {$sum_usd}</span>
+			</div>
+			<div class="mt-10">
+				<span style="font-size:17px;">UID：</span> <span class="mt-10-uid" style="font-size:17px;">{$UID}</span>
+			</div>
+		</div>
+
+		<div class="layui-row mt-10 user-box-imgn">
+			<div class="layui-col-xs4 text-center">
+				<a class="link-b" href="{:url('dealings/recharge')}">
+					<i class="fa fa-download"></i>
+					<p>{:lang('mobile_home.user_recharge')}</p>
+				</a>
+			</div>
+			<div class="layui-col-xs4 text-center">
+				<a class="link-b" href="{:url('dealings/withdraw')}">
+					<i class="fa fa-upload"></i>
+					<p>{:lang('mobile_home.user_withdraw')}</p>
+				</a>
+			</div>
+			<div class="layui-col-xs4 text-center">
+				<a class="link-b" href="{:url('finance/transfer')}">
+					<i class="fa fa-exchange"></i>
+					<p>{:lang('mobile_finance.tf_title')}</p>
+				</a>
+			</div>
+		</div>
+
+		<div class="assets-bottom padding-l-r">
+			<table class="layui-table" lay-skin="nob">
+				<tbody>
+				{volist name="walletlist" id="vo"}
+				<tr id="list_{$vo.title|strtolower}">
+					<td><span class="color-blue font-18">{$vo.title}</span>
+						<p class="color-l-blue mt-10">{:lang('finance.top_can')}</p>
+						<p class="mt-10">{$vo.cm_money}</p>
+					</td>
+					<td><span>&nbsp;</span>
+						<p class="color-l-blue mt-10">{:lang('finance.top_lock')}</p>
+						<p class="mt-10">{$vo.lock_cm_money}</p>
+					</td>
+					<td class="text-right">
+						<a href="javascript:void(0);" onclick='show_memu(this,"{$vo.title|strtolower}");' class="color-l-blue"><i class="layui-box layui-icon layui-icon-right"></i></a>
+						<p class="color-l-blue mt-10">{:lang('finance.top_usd')}</p>
+						<p class="mt-10">{$vo.cm_usd}</p>
+					</td>
+				</tr>
+				<tr class='memu_{$vo.title|strtolower} hidebox memu_box' style="border-top:0;">
+					<td colspan="3" class="text-center">
+						<a href="javascript:void(0) ;" onclick='recharge_show("{$vo.title|strtolower}","log","{$vo.id}");' class="layui-btn layui-btn-normal">{:lang('finance.right_log')}</a>
+						<a href="{:url('finance/transfer',['type'=>5])}" class="layui-btn layui-btn-normal">{:lang('finance.right_transfer')}</a>
+					</td>
+				</tr>
+				<tr class='{$vo.title|strtolower} hidebox'>
+					<td colspan="3">
+						<div class="log hidebox">
+							<table class="layui-table flow-table" lay-skin="nob">
+								<thead>
+								<tr>
+									<th>{:lang('finance.flow_time')}<br>{:lang('finance.flow_title')}</th>
+									<th>{:lang('finance.flow_all')}<br>{:lang('finance.flow_rate')}</th>
+									<th>{:lang('finance.flow_type')}<br>{:lang('finance.flow_resault')}</th>
+								</tr>
+								</thead>
+								<tbody id="{$vo.title|strtolower}_log">
+								</tbody>
+							</table>
+						</div>
+					</td>
+				</tr>
+				{/volist}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!--footer-->
+{include file="./block/mobile_footmenu"}
+{include file="./block/foot_script"}
+
+<script>
+	layui.use(['layer', 'jquery', 'form', 'element', 'flow'], function(){
+		var layer = layui.layer
+				,$ = layui.jquery
+				,form = layui.form;
+		var element = layui.element;
+		var flow = layui.flow;
+
+		window.findlog = function(a,b,id){
+			$('#'+a+'_'+b).empty();
+			flow.load({
+				elem: '#'+a+'_'+b //指定列表容器
+				,colSpan:3 //列数
+				,end:'<td colspan="3" class="text-center">{:lang("finance.finance_nodata")}</td>'
+				,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+					var lis = [];
+					$.post("{:url('finance/findlog')}",{id:id,page:page,type:3,from:5,to:5,cm:1}, function(res){
+						layui.each(res.data, function(index, item){
+							lis.push('<tr><td>'+ item.create_time +'<br>'+ item.title +'</td><td>'+ item.all_account +'<br>'+ item.remark +'</td><td>'+ item.type +'<br>'+ item.status +'</td></tr>');
+						});
+						next(lis.join(''), page < res.pages);
+					});
+				}
+			});
+		}
+	})
+
+	function show_memu(_this,a){
+		$("body").find(".hidebox").hide();
+		$(".memu_"+a).fadeIn();
+		$("body").find(".layui-box").removeClass("layui-icon-down").addClass("layui-icon-right");
+		$(_this).find("i").removeClass("layui-icon-right").addClass("layui-icon-down");
+	}
+
+	function recharge_show(a,b,c){
+		$("."+a).fadeIn().siblings(".hidebox").hide();
+		$("."+b).fadeIn().siblings(".hidebox").hide();
+		if(b==='log'){
+			findlog(a,b,c);
+		}
+	}
+	$(".close-hide").click(function() {
+		$(".hidebox").hide()
+	});
+</script>

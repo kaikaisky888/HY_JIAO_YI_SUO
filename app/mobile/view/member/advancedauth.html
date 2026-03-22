@@ -1,0 +1,137 @@
+<div class="a-header position-re">
+	<a href="javascript:window.history.go(-1);"><i class="layui-icon layui-icon-left"></i></a>
+	<div class="layui-inline h-span">高级认证</div>
+</div>
+<div class="new-bg">
+	<div class="main-no padding-l-r mt-10">
+		<div class="a-form">
+			{if $card.advanced_status == 1}
+			<div class="layui-form-item text-center" style="padding-top:30px;">
+				<p class="color-blue" style="font-size:16px;">高级认证审核中</p>
+				<p style="color:#999;font-size:12px;margin-top:10px;">预计7个工作日内完成审核</p>
+			</div>
+			<div class="layui-form-item full-btn" style="padding-top: 30px;">
+				<a href="javascript:window.history.go(-1);" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-lg">返回</a>
+			</div>
+
+			{elseif $card.advanced_status == 2}
+			<div class="layui-form-item text-center" style="padding-top:30px;">
+				<p style="color:green;font-size:16px;">高级认证已通过</p>
+			</div>
+			<div class="layui-form-item full-btn" style="padding-top: 30px;">
+				<a href="javascript:window.history.go(-1);" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-lg">返回</a>
+			</div>
+
+			{else}
+			{if $card.advanced_status == 3 && $card.advanced_remark}
+			<div class="layui-form-item text-center">
+				<p class="color-red">审核被拒绝：{$card.advanced_remark|raw|nl2br|htmlspecialchars_decode|html_entity_decode}</p>
+			</div>
+			{/if}
+			<form class="layui-form" action="" enctype="multipart/form-data">
+				<div class="layui-form-item" style="padding:15px 0;">
+					<div style="background:#f8f8f8;border-radius:8px;padding:15px;">
+						<p style="font-size:14px;font-weight:bold;color:#333;">视频认证说明</p>
+						<p style="font-size:12px;color:#666;line-height:1.8;margin-top:8px;">
+							请录制一段清晰的本人上半身人脸视频，要求如下：<br>
+							1. 面部正对镜头，光线充足，露出上半身<br>
+							2. 视频格式：MP4，大小不超过10MB<br>
+							3. 视频时长：5-30秒
+						</p>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="text-center" style="padding:20px 0;">
+						<div id="video_upload_btn" style="display:inline-block;cursor:pointer;">
+							<div id="video_preview" style="width:200px;height:150px;border:2px dashed #ccc;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fafafa;">
+								<div style="text-align:center;color:#999;">
+									<i class="layui-icon layui-icon-video" style="font-size:40px;"></i>
+									<p style="font-size:12px;margin-top:5px;">点击上传视频</p>
+								</div>
+							</div>
+						</div>
+						<input type="hidden" id="advanced_video" name="advanced_video" value="">
+						<p id="video_name" style="font-size:12px;color:#999;margin-top:5px;"></p>
+					</div>
+				</div>
+				<div class="layui-form-item" style="padding:10px 0;">
+					<p style="font-size:12px;color:#999;line-height:1.6;text-align:center;">
+						7个工作日内完成审核，完成高级认证，获得最高提币额度，<br>并获取参与Bithumb各类福利与活动的资质
+					</p>
+				</div>
+				<div class="layui-form-item full-btn" style="padding-top: 15px;">
+					<button class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-lg" lay-submit lay-filter="advancedAuth">提交高级认证</button>
+				</div>
+			</form>
+			{/if}
+		</div>
+	</div>
+</div>
+{include file="./block/foot_script"}
+
+<script>
+	layui.use(['layer', 'jquery', 'form', 'upload'], function(){
+		var layer = layui.layer
+		,$ = layui.jquery
+		,form = layui.form;
+		var upload = layui.upload;
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		upload.render({
+			elem: '#video_upload_btn'
+			,url: "{:url('member/upload_video')}"
+			,accept: 'video'
+			,exts: 'mp4'
+			,size: 10240
+			,before: function(obj){
+				layer.load(1, {shade: [0.1,'#fff']});
+			}
+			,done: function(res){
+				layer.closeAll('loading');
+				if(res.code !== 0){
+                    return layer.msg(res.msg);
+                }
+                if(res.data.url){
+                    $('#advanced_video').val(res.data.src);
+                    $('#video_preview').html('<video src="'+res.data.url+'" style="width:200px;height:150px;border-radius:8px;object-fit:cover;" controls></video>');
+                    $('#video_name').text('视频已上传');
+                    layer.msg(res.msg);
+                }
+			}
+			,error: function(){
+				layer.closeAll('loading');
+				layer.msg('上传失败，请重试');
+			}
+		});
+
+		form.on('submit(advancedAuth)', function(data){
+			if(!data.field.advanced_video){
+				layer.msg('请上传认证视频', {time: 1500});
+				return false;
+			}
+			var loading = layer.load(1, {shade: [0.1,'#fff']});
+			$.post("", data.field, function (res) {
+				layer.close(loading);
+				if (res.code > 0) {
+					layer.msg(res.msg, {time: 1800}, function () {
+						location.href = res.url;
+					});
+				} else {
+					if(res.url){
+						layer.msg(res.msg, {time: 1800}, function () {
+							location.href = res.url;
+						});
+					}else{
+						layer.msg(res.msg, {time: 1800});
+					}
+				}
+			});
+			return false;
+		});
+	})
+</script>

@@ -1,0 +1,65 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-08-02 01:33:14
+ * @LastEditTime: 2021-08-02 16:03:27
+ * @Description: Forward, no stop
+-->
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <table id="currentTable" class="layui-table layui-hide"
+               data-auth-add="{:auth('member.wallet/add')}"
+               data-auth-edit="{:auth('member.wallet/edit')}"
+               data-auth-delete="{:auth('member.wallet/delete')}"
+               lay-filter="currentTable">
+        </table>
+    </div>
+</div>
+<script>
+	layui.use(['table', 'jquery', 'form'], function () {
+        var table = layui.table,
+            $ = layui.jquery,
+            form = layui.form;
+
+        //监听单控
+        form.on('select(selectKongType)', function (data) {
+            var id = $(data.elem).attr('lay-id');
+            //选择的select对象值；
+            var value=data.value;
+            $.post("{:url('kongone')}", {id:id,value:value}, function (res) {
+                if (res.code == 0) {
+                    layer.msg(res.msg, {time: 1800, icon: 2});
+                    return false;
+                }
+            });
+            return false;
+        });
+    });
+</script>
+<script type="text/html" id="checkOid">
+    {{#  if (d.op_status === 0 && d.kong_type === 0 && d.end_price === '0.00000000'){  }}
+    <input type="checkbox" name="layTableCheckbox" lay-skin="primary" data-table = "{{ d.id }}" data-id = "{{ d.id }}">
+    {{#  } }}
+</script>
+<script language="JavaScript">
+    var order_refresh = "{:sysconfig('base','seconds_refresh')}";
+    var t =0;
+    if(parseInt(order_refresh) > 0){
+        var time = 1000*parseInt(order_refresh); //指定1秒刷新一次
+        function myrefresh(){
+            //    window.location.reload();
+            var e = document.createEvent("MouseEvents");
+            e.initEvent("click", true, true);
+            var revise = document.getElementsByClassName("layui-laypage-btn");
+            // console.log(revise);
+            if(revise){
+                revise[0].dispatchEvent(e);
+            }
+            t++;
+            // console.log(t);
+            setTimeout('myrefresh()',time);
+        }
+        setTimeout('myrefresh()',time);
+    }
+     
+    // $(".layui-laypage-btn").click(); 当前页刷新
+</script>

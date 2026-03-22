@@ -1,0 +1,15 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-07-08 21:51:47
+ * @LastEditTime: 2021-08-10 20:57:21
+ * @Description: Forward, no stop
+-->
+<div class="left-nav">
+    <ul>
+        <li {if $leftmenu == 'account'}class="layui-this"{/if}><a href="{:url('member/account')}"><i class="layui-icon layui-icon-set-fill"></i>{:lang('public_memu.member_account')}</a></li>
+        <li {if $leftmenu == 'team'}class="layui-this"{/if}><a href="{:url('member/team')}"><i class="layui-icon layui-icon-diamond"></i>{:lang('public_memu.member_team')}</a></li>
+        <li {if $leftmenu == 'tradelog'}class="layui-this"{/if}><a href="{:url('member/tradelog')}"><i class="layui-icon layui-icon-menu-fill"></i>{:lang('public_memu.member_tradelog')}</a></li>
+        <li {if $leftmenu == 'incomeset'}class="layui-this"{/if}><a href="{:url('member/incomeset')}"><i class="layui-icon layui-icon-set-fill"></i>{:lang('public_memu.member_incomeset')}</a></li>
+        <li {if $leftmenu == 'authset'}class="layui-this"{/if}><a href="{:url('member/authset')}"><i class="layui-icon layui-icon-friends"></i>{:lang('public_memu.member_authset')}</a></li>
+    </ul>
+</div>

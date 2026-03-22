@@ -1,0 +1,46 @@
+<!--
+ * @Author: Fox Blue
+ * @Date: 2021-08-03 14:34:37
+ * @LastEditTime: 2021-09-01 22:39:41
+ * @Description: Forward, no stop
+-->
+<div class="header">
+	{include file="./block/block_head"}
+</div>
+<div class="new-bg">
+	<!--主体-->
+	<div class="up-top">
+		<span class="ex-span">{:lang('coinwin.ad_a')}</span>
+		<h2>{:lang('coinwin.ad_b')}</h2>
+		<a href="{:url('show/news',['id'=>15])}" class="layui-btn layui-btn-warm layui-btn-lg">{:lang('coinwin.ad_c')}</a>
+	</div>
+	<div class="main">
+		<div class="layui-container">
+			<div class="layui-row layui-col-space30 coinwin-list">
+			  {volist name="products" id="vo"}
+			  <div class="layui-col-xs6">
+			    <div class="layui-panel">
+				<div class="flag">{if $vo['counts']}{:lang('coinwin.is_go')}{else}{:lang('coinwin.is_ready')}{/if}</div>
+			     <h3 class="text-center">{$vo['title']}</h3>
+				 <hr >
+				 <div class="layui-row layui-col-space30">
+					<div class="layui-col-xs6">
+						<p class="font-25 text-center">{:lang('coinwin.count_goods',['num'=>$vo['counts']])}</p>
+					</div>
+					<div class="layui-col-xs6">
+						<p class="font-25 text-center"><a href="{:url('coinwin/lists',['id'=>$vo.id])}" class="layui-btn layui-btn-normal btn-sm">{:lang('coinwin.go_buy')}</a></p>
+					</div>
+				 </div>
+			    </div> 
+			  </div>
+			 {/volist}
+			</div> 
+			<div class="layui-clear"></div>
+			
+		</div>
+	</div>
+</div>
+<!--footer-->
+{include file="./block/block_bottom"}
+{include file="./block/foot_script"}
+

@@ -1,0 +1,114 @@
+<!--
+ * @Description: 资金总览页面
+-->
+<div class="a-header position-re finance-bg">
+	<div class="layui-row">
+		<div class="layui-col-xs3">
+		</div>
+		<div class="layui-col-xs6 text-center all_finance_header">
+			{:lang('public_memu.finance')}
+		</div>
+	</div>
+</div>
+	<!--主体-->
+	<div class="main">
+		<div class="finance-box finance-bg padding-l-r">
+			<div class="finance-nav">
+				{include file="./finance/mobile_menu"}
+			</div>
+			<div class="mt-10 mt-10-all">
+				{:lang('finance.all_sum_usd')}：<span>$ {$all_sum_usd}</span>
+			</div>
+			<div class="mt-10">
+				{:lang('mobile_finance.fund_title')}：<span>$ {$sum_usd}</span>
+			</div>
+			<div class="mt-10">
+				<span class="uid-label">UID：</span> <span class="mt-10-uid">{$UID}</span>
+			</div>
+		</div>
+
+		<div class="layui-row mt-10 user-box-imgn">
+			<div class="layui-col-xs4 text-center">
+				<a class="link-b" href="{:url('dealings/recharge')}">
+					<i class="fa fa-download"></i>
+					<p>{:lang('mobile_home.user_recharge')}</p>
+				</a>
+			</div>
+			<div class="layui-col-xs4 text-center">
+				<a class="link-b" href="{:url('dealings/withdraw')}">
+					<i class="fa fa-upload"></i>
+					<p>{:lang('mobile_home.user_withdraw')}</p>
+				</a>
+			</div>
+			<div class="layui-col-xs4 text-center">
+				<a class="link-b" href="{:url('finance/transfer')}">
+					<i class="fa fa-exchange"></i>
+					<p>{:lang('mobile_finance.tf_title')}</p>    
+				</a>
+			</div>
+		</div>
+
+		<div class="assets-bottom padding-l-r">
+			<table class="layui-table" lay-skin="nob">
+				<thead>
+					<tr>
+						<th>{:lang('finance.top_coin')}</th>
+						<th>{:lang('mobile_finance.fund_total')}</th>
+						<th class="text-right">{:lang('finance.top_usd')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="walletlist" id="vo"}
+					<tr id="list_{$vo.title|strtolower}">
+						<td>
+							<span class="color-blue font-18">{$vo.title}</span>
+						</td>
+						<td>
+							<p>{$vo.total_money}</p>
+							<p class="color-l-blue wallet-detail">
+								<span class="wallet-detail-item">{:lang('mobile_finance.ex_title')}: {$vo.ex_money}</span>
+								{if $vo.le_money > 0}
+									<span class="wallet-detail-item">{:lang('mobile_finance.le_title')}: {$vo.le_money}</span>
+								{/if}
+								{if $vo.op_money > 0}
+									<span class="wallet-detail-item">{:lang('mobile_finance.op_title')}: {$vo.op_money}</span>
+								{/if}
+								{if $vo.up_money > 0}
+									<span class="wallet-detail-item">{:lang('mobile_finance.up_title')}: {$vo.up_money}</span>
+								{/if}
+								{if $vo.cm_money > 0}
+									<span class="wallet-detail-item">{:lang('mobile_finance.cm_title')}: {$vo.cm_money}</span>
+								{/if}
+							</p>
+						</td>
+						<td class="text-right">
+							<p>$ {$vo.total_usd}</p>
+							<a href="{:url('finance/transfer')}" class="layui-btn layui-btn-xs layui-btn-normal">{:lang('finance.right_transfer')}</a>
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+		</div>
+		
+	</div>
+</div>
+
+<!--footer-->
+{include file="./block/mobile_footmenu"}
+{include file="./block/foot_script"}
+
+<style>
+.uid-label, .mt-10-uid {
+	font-size: 17px;
+}
+
+.wallet-detail {
+	font-size: 12px;
+	line-height: 1.6;
+}
+
+.wallet-detail-item {
+	display: block;
+}
+</style>
