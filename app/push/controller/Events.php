@@ -184,7 +184,7 @@ class Events extends PushController
                 throw new \Exception('消息处理回调不存在。[' + $evevtName + ']');
             }
         } catch (\Exception $e) {
-            var_dump(['file' => $e->getFile(), 'code' => $e->getCode(), 'msg' => $e->getMessage()]);
+            // 静默处理，避免日志洪水
         }
     }
     /**
