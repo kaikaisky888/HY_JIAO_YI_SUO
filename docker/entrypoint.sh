@@ -25,6 +25,8 @@ fi
 # Parse REDIS_URL if provided by Railway (format: redis://default:pass@host:port)
 if [ -n "$REDIS_URL" ]; then
     REDIS_HOST=$(echo $REDIS_URL | sed -E 's|redis://[^@]+@([^:]+):.*|\1|')
+    REDIS_PORT=$(echo $REDIS_URL | sed -E 's|redis://[^@]+@[^:]+:([0-9]+).*|\1|')
+    REDIS_PASSWORD=$(echo $REDIS_URL | sed -E 's|redis://[^:]+:([^@]+)@.*|\1|')
 fi
 
 # Generate .env file for ThinkPHP from environment variables
@@ -47,6 +49,8 @@ KLINE_DB_USER = ${KLINE_DB_USER:-curve_2}
 KLINE_DB_PASS = ${KLINE_DB_PASS}
 
 REDIS_HOST = ${REDIS_HOST:-127.0.0.1}
+REDIS_PORT = ${REDIS_PORT:-6379}
+REDIS_PASSWORD = ${REDIS_PASSWORD:-}
 EOF
 
 chown www-data:www-data /var/www/html/.env

@@ -35,8 +35,8 @@ return [
         'redis'    =>    [
             'type'     => 'redis',
             'host'     => Env::get('redis.host', '127.0.0.1'),
-            'port'     => '6379',
-            'password' => '',
+            'port'     => Env::get('redis.port', '6379'),
+            'password' => Env::get('redis.password', ''),
             'select'   => '0',
             // 全局缓存有效期（0为永久有效）
             'expire'   => 0,
