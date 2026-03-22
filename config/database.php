@@ -39,7 +39,7 @@ return [
             // 用户名
             'username'          => Env::get('database.username', 'curve_1'),
             // 密码
-            'password'          => Env::get('database.password', 'cHchca3cHAZ2CELX'),
+            'password'          => Env::get('database.password', 'xff7EBH3RhDFskfb'),
             // 端口
             'hostport'          => Env::get('database.hostport', '3306'),
             // 数据库连接参数
@@ -84,7 +84,7 @@ return [
             // 用户名
             'username'          => Env::get('kline_db.user', 'curve_2'),
             // 密码
-            'password'          => Env::get('kline_db.pass', '2AMzBsa52WGwPkhG'),
+            'password'          => Env::get('kline_db.pass', '6Xnm633r84zP8paX'),
             // 端口
             'hostport'          => '3306',
             // 数据库连接参数
