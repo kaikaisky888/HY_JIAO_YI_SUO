@@ -26,11 +26,15 @@ class HuobiRedis
         //连接redis
         if (class_exists('Redis')) {
             $this->redis = new \Redis();
-            if ($this->redis->pconnect($this->host, $this->port, 5)) {
-                if ($this->pass) {
-                    $this->redis->auth($this->pass);
+            try {
+                if ($this->redis->pconnect($this->host, $this->port, 5)) {
+                    if ($this->pass) {
+                        $this->redis->auth($this->pass);
+                    }
+                    $this->connect = true;
                 }
-                $this->connect = true;
+            } catch (\Throwable $e) {
+                $this->connect = false;
             }
         } else {
             exit('redis扩展不存在');
