@@ -24,6 +24,7 @@ services:
       - KLINE_DB_PASS=2AMzBsa52WGwPkhG
       - CACHE_DRIVER=redis
       - REDIS_HOST=redis
+      - GATE_SECRET=mFf44StGLBt7vkL2HZ0EKPNpHRzNhQ8yI-elmW-4-NE
     depends_on:
       mysql:
         condition: service_healthy
